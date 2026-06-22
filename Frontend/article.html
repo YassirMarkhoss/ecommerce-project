@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Article — WE//DONE</title>
+  <meta id="page-description" name="description" content="">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#090D16',
+              card: '#0e1424',
+              accent: '#E63E17',
+              accentHover: '#C5310F',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Poppins', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #090D16; }
+    h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+
+    .cat-pill {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid rgba(230,62,23,0.4);
+      color: #E63E17;
+      background: rgba(230,62,23,0.08);
+    }
+
+    .section-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #E63E17;
+    }
+
+    .blog-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.12;
+      pointer-events: none;
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .anim-in  { animation: fadeSlideUp 0.7s cubic-bezier(0.25,1,0.5,1) both; }
+    .anim-in-2 { animation: fadeSlideUp 0.7s 0.12s cubic-bezier(0.25,1,0.5,1) both; }
+
+    /* ── Article body typography ── */
+    .article-body {
+      color: rgba(255,255,255,0.78);
+      font-size: 1.0625rem;
+      line-height: 1.85;
+    }
+    .article-body h2 {
+      color: #ffffff;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      font-size: 1.5rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      padding-left: 1rem;
+      border-left: 3px solid #E63E17;
+    }
+    .article-body p {
+      margin-bottom: 1.5rem;
+    }
+    .article-body h2:first-child { margin-top: 0; }
+
+    /* ── Related card (reuse blog-card styling) ── */
+    .blog-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 1.75rem;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .blog-card:hover {
+      border-color: rgba(230, 62, 23, 0.25);
+      transform: translateY(-5px);
+      box-shadow: 0 24px 48px rgba(0,0,0,0.5);
+    }
+    .blog-card .card-img { overflow: hidden; }
+    .blog-card:hover .card-img img { transform: scale(1.05); }
+    .blog-card .card-img img { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+  </style>
+</head>
+
+<body class="text-gray-100 min-h-screen relative overflow-x-hidden">
+
+<!-- Toast container -->
+<div id="toast-container" class="z-50"></div>
+
+<!-- ══════════════════════════════════════════════
+     GLOBAL HEADER
+══════════════════════════════════════════════ -->
+<header id="site-header" class="fixed top-0 left-0 w-full z-50 header-top-dark transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href="index.html" class="flex items-center self-stretch shrink-0 ml-4" aria-label="Fitness Premium Home">
+  <img
+    src="images/pok1.png"
+    alt="Fitness Premium"
+    class="h-[72px] w-auto object-contain mt-auto mb-2"
+    style="max-width: 260px;"
+  >
+</a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden md:flex items-center gap-8 text-[13px] font-bold tracking-widest text-white/90">
+      <a href="index.html" class="group relative py-1.5 transition-colors hover:text-white">
+        HOME<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+      </a>
+
+      <!-- SHOP dropdown -->
+      <div class="relative group py-1.5">
+        <a href="shop.html" class="transition-colors cursor-pointer block">SHOP</a>
+        <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+        <div class="absolute top-[100%] left-0 w-60 bg-[#222222] text-white shadow-2xl p-5 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-50 mt-2 flex flex-col gap-5">
+          <a href="shop.html?category=supplements" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Supplements<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          <a href="shop.html?category=gymwear" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Gym Wear<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          <a href="shop.html?category=accessories" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Accessories<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- PAGES dropdown -->
+      <div class="relative group py-1.5">
+        <a href="#" class="transition-colors cursor-pointer block">PAGES</a>
+        <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+        <div class="absolute top-[100%] left-0 w-60 bg-[#222222] text-white shadow-2xl p-5 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-50 mt-2 flex flex-col gap-5">
+          <a href="blog.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Blog Articles<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          <a href="wishlist.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            My Wishlist<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          
+          <a href="cart.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Shopping Cart<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+
+          <a href="contact-us.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            About us<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+        </div>
+      </div>
+
+      <a href="blog.html" class="group relative py-1.5 transition-colors hover:text-white">
+        BLOG<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+      </a>
+      <a href="contact-us.html" class="group relative py-1.5 transition-colors hover:text-white">
+        CONTACT US<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+      </a>
+    </nav>
+
+    <!-- Right Icons -->
+    <div class="hidden md:flex items-center gap-7">
+      <button id="search-btn" class="text-white hover:scale-105 transform transition-all duration-300 ease-out focus:outline-none" aria-label="Search">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </button>
+      <div class="h-6 w-[1px] bg-white/20 mx-1"></div>
+
+      <a href="Auth.html" class="text-white hover:scale-105 transform transition-all duration-300 ease-out" aria-label="Account/Login">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0ZM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+        </svg>
+      </a>
+      <a href="wishlist.html" class="text-white hover:scale-105 transform transition-all duration-300 ease-out" aria-label="Wishlist">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+        </svg>
+      </a>
+
+      <!-- CART BUTTON — opens the slide-in drawer (same as shop.html) -->
+      <button id="cart-icon-btn" onclick="toggleCartDrawer(true)" class="relative text-white hover:scale-105 transform transition-all duration-300 ease-out focus:outline-none" aria-label="Cart">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+        </svg>
+        <span id="cart-count" class="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center rounded-full bg-[#E63E17] text-[9px] font-black text-white leading-none">0</span>
+      </button>
+    </div>
+
+    <!-- Mobile Hamburger -->
+    <button id="mobile-menu-btn" class="md:hidden text-white hover:text-[#E63E17] focus:outline-none" aria-label="Toggle Menu">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-[#090D16]/95 border-b border-white/10 px-6 py-4 flex flex-col gap-4 text-white font-bold tracking-widest text-xs shadow-lg">
+    <a href="index.html"      class="hover:text-[#E63E17] transition-colors py-1">HOME</a>
+    <a href="shop.html"       class="hover:text-[#E63E17] transition-colors py-1">SHOP</a>
+    <a href="blog.html"       class="hover:text-[#E63E17] transition-colors py-1">BLOG</a>
+    <a href="contact-us.html" class="hover:text-[#E63E17] transition-colors py-1">CONTACT US</a>
+    <a href="Auth.html"       class="hover:text-[#E63E17] transition-colors py-1">MY ACCOUNT</a>
+    <button id="mobile-search-btn" class="text-left hover:text-[#E63E17] transition-colors py-1 focus:outline-none">SEARCH</button>
+    <button onclick="toggleCartDrawer(true)" class="text-left hover:text-[#E63E17] transition-colors py-1 focus:outline-none">CART</button>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════
+     SEARCH OVERLAY
+══════════════════════════════════════════════ -->
+
+<!-- الـ Search Overlay المصلح (خلفية عاتمة مغطية كلشي وسطر متموضع صح) -->
+   
+<div id="search-panel" class="fixed inset-x-0 top-0 bg-[#090d16] border-b border-white/10 z-[999] transform -translate-y-full transition-all duration-500 ease-out pointer-events-none opacity-0 flex flex-col pt-6 pb-8">
+  
+  <div class="max-w-7xl mx-auto w-full px-6 flex items-center justify-between">
+    <a href="index.html" class="flex items-center self-stretch shrink-0 ml-4" aria-label="Fitness Premium Home">
+      <img
+        src="images/pok1.png"
+        alt="Fitness Premium"
+        class="h-[83px] w-auto object-contain mt-auto mb-2"
+        style="max-width: 260px;"
+      >
+    </a>
+    <button id="close-search" class="text-white/70 hover:text-[#E63E17] hover:scale-110 transform transition-all duration-300 focus:outline-none">
+      <svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="max-w-4xl mx-auto w-full px-6 mt-6">
+    <div class="relative flex items-center border-b border-white/20 focus-within:border-[#E63E17] transition-colors duration-300 pb-3">
+      <input 
+        id="search-input"
+        type="text" 
+        autocomplete="off"
+        placeholder="Search for your potential..." 
+        class="bg-transparent text-xl md:text-lg text-white placeholder-white/20 focus:outline-none w-full font-light tracking-wide pr-10"
+      />
+      <svg class="w-5 h-5 text-white/30 absolute right-0 bottom-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+    </div>
+    <div id="suggestions-box" class="hidden mt-3 max-h-[40vh] overflow-y-auto"></div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════
+     CART DRAWER
+══════════════════════════════════════════════ -->
+<div id="cart-drawer-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 opacity-0 pointer-events-none invisible transition-opacity duration-300" onclick="toggleCartDrawer(false)"></div>
+
+<div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white z-50 shadow-2xl translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+  <!-- Drawer header -->
+  <div class="p-6 border-b border-gray-100 flex items-center justify-between shrink-0">
+    <h3 class="text-base font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+      Shopping Cart
+      <span id="drawer-cart-count" class="text-[11px] bg-[#E63E17] text-white px-2 py-0.5 rounded-full font-mono leading-none">0</span>
+    </h3>
+    <button onclick="toggleCartDrawer(false)" class="text-gray-400 hover:text-gray-900 transition-colors p-1 hover:rotate-90 transition-transform duration-200">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <!-- Items list -->
+  <div id="drawer-items-list" class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar"></div>
+
+  <!-- Drawer footer -->
+  <div class="p-6 border-t border-gray-100 bg-gray-50/60 space-y-4 shrink-0">
+    <div class="space-y-2 text-sm text-gray-600">
+      <div class="flex justify-between">
+        <span>Subtotal</span>
+        <span id="drawer-subtotal" class="font-bold text-gray-900 font-mono">0.00 MAD</span>
+      </div>
+      <div class="flex justify-between">
+        <span>Shipping</span>
+        <span id="drawer-shipping" class="font-bold text-gray-900 font-mono">40.00 MAD</span>
+      </div>
+      <div class="border-t border-gray-200 pt-2 flex justify-between text-base font-black text-gray-900">
+        <span>Total</span>
+        <span id="drawer-total" class="text-[#E63E17] font-mono">0.00 MAD</span>
+      </div>
+    </div>
+    <a href="cart.html" class="block w-full text-center border-2 border-gray-200 hover:border-gray-900 text-gray-700 hover:text-gray-900 font-bold py-3 rounded-xl text-sm transition-all duration-200">
+      View Full Cart
+    </a>
+    <button onclick="goToCheckout()" class="w-full bg-[#E63E17] hover:bg-[#C5310F] text-white font-black py-3.5 rounded-xl text-sm transition-all duration-200 shadow-lg shadow-orange-500/15 btn-lift uppercase tracking-widest">
+      Checkout
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     ARTICLE HERO
+══════════════════════════════════════════════ -->
+<section class="relative pt-36 pb-12 overflow-hidden">
+  <div class="blog-orb bg-[#E63E17] w-[500px] h-[500px] -top-24 -right-40"></div>
+  <div class="blog-orb bg-blue-700 w-[400px] h-[400px] top-40 -left-32"></div>
+
+  <div class="max-w-4xl mx-auto px-6 relative z-10">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-gray-500 mb-8">
+      <a href="index.html" class="hover:text-[#E63E17] transition-colors">Home</a>
+      <span>/</span>
+      <a href="blog.html" class="hover:text-[#E63E17] transition-colors">Blog</a>
+      <span>/</span>
+      <span id="breadcrumb-title" class="text-[#E63E17] truncate max-w-[200px]"></span>
+    </nav>
+
+    <div class="anim-in">
+      <div id="article-cat-pill" class="flex items-center gap-3 mb-5"></div>
+      <h1 id="article-title" class="text-3xl md:text-5xl font-black uppercase leading-tight tracking-tight text-white mb-6"></h1>
+
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-[#E63E17]/20 border border-[#E63E17]/30 flex items-center justify-center">
+          <span class="text-xs font-black text-[#E63E17]">WD</span>
+        </div>
+        <div>
+          <span id="article-author" class="block text-xs font-bold text-white"></span>
+          <span class="block text-[10px] text-gray-500">
+            <span id="article-date"></span> · <span id="article-readtime"></span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     FEATURED IMAGE
+══════════════════════════════════════════════ -->
+<section class="max-w-5xl mx-auto px-6 pb-12 anim-in-2">
+  <div class="rounded-[1.75rem] overflow-hidden border border-white/7">
+    <img id="article-image" src="" alt="" class="w-full h-[280px] md:h-[460px] object-cover">
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     ARTICLE BODY
+══════════════════════════════════════════════ -->
+<section class="max-w-3xl mx-auto px-6 pb-20">
+  <div id="article-body" class="article-body"></div>
+
+  <!-- Share / back -->
+  <div class="flex items-center justify-between flex-wrap gap-4 mt-12 pt-8 border-t border-white/7">
+    <a href="blog.html" class="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-gray-400 hover:text-[#E63E17] transition-colors">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+      Back to Blog
+    </a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     RELATED ARTICLES
+══════════════════════════════════════════════ -->
+<section class="max-w-7xl mx-auto px-6 pb-28">
+  <h2 class="text-2xl font-black text-white uppercase tracking-tight mb-10">You Might Also Like</h2>
+  <div id="related-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     NEWSLETTER (matches blog.html)
+══════════════════════════════════════════════ -->
+<section class="max-w-7xl mx-auto px-6 pb-28">
+  <div class="p-10 md:p-14 text-center relative overflow-hidden rounded-[2rem]" style="background: linear-gradient(135deg, rgba(230,62,23,0.12) 0%, rgba(59,130,246,0.06) 100%); border:1px solid rgba(230,62,23,0.2);">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-32 bg-[#E63E17] opacity-10 blur-[60px] pointer-events-none"></div>
+    <span class="section-eyebrow block mb-4 relative z-10">Stay Updated</span>
+    <h2 class="text-3xl md:text-4xl font-black text-white uppercase tracking-tight mb-4 relative z-10">Get Weekly Fitness Insights</h2>
+    <p class="text-gray-400 text-sm max-w-md mx-auto mb-8 relative z-10">Join 12,000+ athletes who receive our weekly digest of evidence-based training and nutrition tips.</p>
+    <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto relative z-10" onsubmit="event.preventDefault(); this.querySelector('button').textContent='✓ Subscribed!';">
+      <input type="email" required placeholder="Enter your email address" class="flex-1 rounded-full px-6 py-3 text-sm bg-white/5 border border-white/10 text-white placeholder-white/30 outline-none focus:border-[#E63E17]">
+      <button type="submit" class="flex-shrink-0 bg-[#E63E17] hover:bg-[#C5310F] text-white font-black text-xs uppercase tracking-widest px-7 py-3 rounded-full transition-all duration-300 shadow-lg shadow-orange-500/20">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════════ -->
+<script src="articles-data.js"></script>
+<script>
+  /* ── Mobile menu ── */
+  document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+  });
+
+
+  /* ── Header scroll ── */
+const header = document.getElementById('site-header');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 60) {
+    header.classList.remove('header-top-dark');
+    header.classList.add('header-sticky-active');
+  } else {
+    header.classList.remove('header-sticky-active');
+    header.classList.add('header-top-dark');
+  }
+
+  // Keep drawer offset synced if it's currently open
+  const drawer = document.getElementById('cart-drawer');
+  if (drawer && !drawer.classList.contains('translate-x-full')) {
+    drawer.style.top = '96px';
+    drawer.style.height = 'calc(100% - 96px)';
+  }
+});
+
+  /* ── Category filter ── */
+  function filterPosts(category, btn) {
+    // Update active tab
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Show/hide cards with smooth animation
+    document.querySelectorAll('#blog-grid .blog-card').forEach(card => {
+      const match = category === 'all' || card.dataset.category === category;
+      if (match) {
+        card.style.display = '';
+        card.style.animation = 'fadeSlideUp 0.4s ease both';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  /* ── Render featured article + grid from articles-data.js ──
+     Adding a new article? Just add one object to ARTICLES in
+     articles-data.js — no new HTML file needed. ── */
+  function renderRelatedCard(article) {
+  return `
+    <a href="article.html?id=${article.id}" class="blog-card group" data-category="${article.category}">
+      <div class="card-img aspect-[4/3] w-full">
+        <img src="${article.image}" alt="${article.title}" class="w-full h-full object-cover">
+      </div>
+      <div class="p-6">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="cat-pill">${article.categoryLabel}</span>
+          <span class="text-[10px] text-gray-500 font-medium">${article.readTime}</span>
+        </div>
+        <h3 class="text-lg font-black text-white uppercase tracking-tight line-clamp-2 leading-tight mb-2 group-hover:text-[#E63E17] transition-colors duration-300">
+          ${article.title}
+        </h3>
+        <p class="text-xs text-gray-400 leading-relaxed line-clamp-2 mb-4">
+          ${article.excerpt}
+        </p>
+        <div class="flex items-center justify-between pt-4 border-t border-white/5">
+          <span class="text-[10px] text-gray-500 font-medium">${article.date}</span>
+          <span class="text-[10px] font-black text-[#E63E17] uppercase tracking-wider">Read More →</span>
+        </div>
+      </div>
+    </a>
+  `;
+}
+
+function loadArticle() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  const article = id ? getArticleById(id) : null;
+
+  if (!article) {
+    window.location.href = 'blog.html';
+    return;
+  }
+
+  document.getElementById('page-title').textContent = `${article.title} — WE//DONE`;
+  document.getElementById('page-description').setAttribute('content', article.excerpt);
+  document.getElementById('breadcrumb-title').textContent = article.title;
+  document.getElementById('article-title').textContent = article.title;
+  document.getElementById('article-author').textContent = article.author;
+  document.getElementById('article-date').textContent = article.date;
+  document.getElementById('article-readtime').textContent = article.readTime;
+  document.getElementById('article-image').src = article.image;
+  document.getElementById('article-image').alt = article.title;
+  document.getElementById('article-body').innerHTML = article.body;
+
+  document.getElementById('article-cat-pill').innerHTML = `
+    ${article.featured ? '<span class="cat-pill">Featured</span>' : ''}
+    <span class="cat-pill">${article.categoryLabel}</span>
+  `;
+
+  const related = getRelatedArticles(article.id, 3);
+  document.getElementById('related-grid').innerHTML = related.map(renderRelatedCard).join('');
+}
+
+loadArticle();
+
+  function renderBlogGrid() {
+    const grid = document.getElementById('blog-grid');
+    const nonFeatured = ARTICLES.filter(a => !a.featured);
+
+    grid.innerHTML = nonFeatured.map(article => `
+      <a href="article.html?id=${article.id}" class="blog-card group" data-category="${article.category}">
+        <div class="card-img aspect-[4/3] w-full">
+          <img src="${article.image}" alt="${article.title}" class="w-full h-full object-cover">
+        </div>
+        <div class="p-6">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="cat-pill">${article.categoryLabel}</span>
+            <span class="text-[10px] text-gray-500 font-medium">${article.readTime}</span>
+          </div>
+          <h3 class="text-lg font-black text-white uppercase tracking-tight line-clamp-2 leading-tight mb-2 group-hover:text-[#E63E17] transition-colors duration-300">
+            ${article.title}
+          </h3>
+          <p class="text-xs text-gray-400 leading-relaxed line-clamp-2 mb-4">
+            ${article.excerpt}
+          </p>
+          <div class="flex items-center justify-between pt-4 border-t border-white/5">
+            <span class="text-[10px] text-gray-500 font-medium">${article.date}</span>
+            <span class="text-[10px] font-black text-[#E63E17] uppercase tracking-wider">Read More →</span>
+          </div>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  renderFeaturedArticle();
+  renderBlogGrid();
+
+  /* ── Newsletter ── */
+  function handleNewsletter(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.textContent = '✓ Subscribed!';
+    btn.classList.add('opacity-75');
+    btn.disabled = true;
+    e.target.reset();
+    setTimeout(() => {
+      btn.textContent = 'Subscribe';
+      btn.classList.remove('opacity-75');
+      btn.disabled = false;
+    }, 3000);
+  }
+</script>
+
+<!-- Global scripts (cart, auth, search — shared across site) -->
+<script src="index.js"></script>
+<script src="auth-modal.js"></script>
+<script src="cartDrawer.js"></script>
+</body>
+</html>

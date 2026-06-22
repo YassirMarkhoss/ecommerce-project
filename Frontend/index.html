@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <title>Fitness Premium | Elevate Your Athletic Potential</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Poppins', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              dark: '#090D16',
+              accent: '#10B981',
+              accentHover: '#34D399',
+              slate: '#1E293B',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    #cart-drawer {
+      transition: top 0.3s ease, height 0.3s ease, transform 0.3s ease-in-out;
+    }
+
+    #site-header.above-drawer-overlay {
+      z-index: 1001 !important;
+    }
+  </style>
+
+</head>
+<body class="bg-brand-dark text-gray-100 min-h-screen relative selection:bg-emerald-500 selection:text-white">
+
+  <!-- Toast container -->
+  <div id="toast-container"></div>
+
+  <!-- Background Decorative Glows -->
+  <div class="absolute top-0 left-0 w-full overflow-hidden pointer-events-none min-h-screen -z-10">
+    <div class="glow-orb bg-emerald-500 w-[500px] h-[500px] -top-40 -left-40 animate-pulse-glow"></div>
+    <div class="glow-orb bg-blue-600 w-[600px] h-[600px] top-[30%] -right-40 animate-pulse-glow" style="animation-delay: -3s;"></div>
+    <div class="glow-orb bg-emerald-600 w-[400px] h-[400px] bottom-10 left-[20%] animate-pulse-glow" style="animation-delay: -6s;"></div>
+  </div>
+
+  <!-- Header / Navigation -->
+<header id="site-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="index.html" class="flex items-center self-stretch shrink-0 ml-4" aria-label="Fitness Premium Home">
+  <img
+    src="images/pok1.png"
+    alt="Fitness Premium"
+    class="h-[72px] w-auto object-contain mt-auto mb-2"
+    style="max-width: 260px;"
+  >
+</a>
+
+    <!-- Navigation Menu -->
+    <nav class="hidden md:flex items-center gap-8 text-[13px] font-bold tracking-widest text-white/90">
+      <a href="index.html" class="group relative py-1.5 transition-colors">
+        HOME
+        <span class="absolute bottom-0 left-0 w-full h-[2px] bg-white transition-all duration-300"></span>
+      </a>
+      
+      <!-- 🛒 الـ Dropdown ديال SHOP -->
+      <div class="relative group py-1.5">
+        <a href="shop.html" class="transition-colors cursor-pointer block">
+          SHOP
+        </a>
+        <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+        
+        <div class="absolute top-[100%] left-0 w-60 bg-[#222222] text-white shadow-2xl p-5 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-50 mt-2 flex flex-col gap-5">
+          <a href="shop.html?category=supplements" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Supplements
+            <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          <a href="shop.html?category=gymwear" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Gym Wear
+            <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          <a href="shop.html?category=accessories" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Accessories
+            <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 📄 الـ Dropdown الجديد ديال PAGES بنفس الديزاين الناضي -->
+      <div class="relative group py-1.5">
+        <a href="#" class="transition-colors cursor-pointer block">
+          PAGES
+        </a>
+        <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+        
+        <!-- صندوق القائمة المنسدلة لصفحات الموقع -->
+        <div class="absolute top-[100%] left-0 w-60 bg-[#222222] text-white shadow-2xl p-5 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-50 mt-2 flex flex-col gap-5">
+          
+          <!-- صفحة المقالات -->
+          <a href="blog.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Blog Articles
+            <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          
+          <!-- صفحة المفضلة -->
+          <a href="wishlist.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            My Wishlist
+            <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          
+      
+          <a href="cart.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Shopping Cart
+            <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+
+          <a href="contact-us.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            About us
+            <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+        </div>
+      </div>
+
+      <a href="blog.html" class="group relative py-1.5 transition-colors">
+        BLOG
+        <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+      </a>
+
+      <a href="contact-us.html" class="group relative py-1.5 transition-colors">
+        CONTACT US
+        <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+      </a>
+    </nav>
+
+    <!-- Right Icons -->
+    <div class="hidden md:flex items-center gap-7">
+      <!-- Search -->
+      <button id="search-btn" class="text-white hover:scale-105 transform transition-all duration-300 ease-out focus:outline-none" aria-label="Search">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </button>
+
+      <div class="h-6 w-[1px] bg-white/20 mx-1"></div>
+
+      <!-- Account -->
+      <a href="Auth.html" class="text-white hover:scale-105 transform transition-all duration-300 ease-out focus:outline-none" aria-label="Account/Login">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632Z"></path>
+        </svg>
+      </a>
+
+      <!-- Wishlist -->
+      <a href="wishlist.html" class="text-white hover:scale-105 transform transition-all duration-300 ease-out focus:outline-none" aria-label="Wishlist">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"></path>
+        </svg>
+      </a>
+
+      <!-- CART BUTTON — opens the slide-in drawer (same as shop.html) -->
+      <button id="cart-icon-btn" onclick="toggleCartDrawer(true)" class="relative text-white hover:scale-105 transform transition-all duration-300 ease-out focus:outline-none" aria-label="Cart">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+        </svg>
+        <span id="cart-count" class="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center rounded-full bg-[#E63E17] text-[9px] font-black text-white leading-none">0</span>
+      </button>
+    </div>
+
+    <!-- Mobile Hamburger -->
+    <button id="mobile-menu-btn" class="md:hidden text-white hover:text-[#E63E17] focus:outline-none" aria-label="Toggle Menu">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+    
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-[#090D16]/95 border-b border-white/10 px-6 py-4 flex flex-col gap-4 text-white font-bold tracking-widest text-xs shadow-lg">
+    <a href="index.html" class="hover:text-[#E63E17] transition-colors py-1">HOME</a>
+    <a href="shop.html" class="hover:text-[#E63E17] transition-colors py-1">SHOP</a>
+    <a href="#pages" class="hover:text-[#E63E17] transition-colors py-1">PAGES</a>
+    <a href="blog.html" class="hover:text-[#E63E17] transition-colors py-1">BLOG</a>
+    <a href="contact-us.html" class="hover:text-[#E63E17] transition-colors py-1">CONTACT US</a>
+  </div>
+</header>
+
+
+  <!-- الـ Search Overlay المصلح (خلفية عاتمة مغطية كلشي وسطر متموضع صح) -->
+   
+<div id="search-panel" class="fixed inset-x-0 top-0 bg-[#090d16] border-b border-white/10 z-[999] transform -translate-y-full transition-all duration-500 ease-out pointer-events-none opacity-0 flex flex-col pt-6 pb-8">
+  
+  <div class="max-w-7xl mx-auto w-full px-6 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="#" class="flex items-center self-stretch shrink-0 ml-4" aria-label="Fitness Premium Home">
+      <img
+        src="images/pok1.png"
+        alt="Fitness Premium"
+        class="h-[83px] w-auto object-contain mt-auto mb-2"
+        style="max-width: 260px;"
+      >
+    </a>
+    <button id="close-search" class="text-white/70 hover:text-[#E63E17] hover:scale-110 transform transition-all duration-300 focus:outline-none">
+      <svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="max-w-4xl mx-auto w-full px-6 mt-6">
+    <div class="relative flex items-center border-b border-white/20 focus-within:border-[#E63E17] transition-colors duration-300 pb-3">
+      <input 
+        id="search-input"
+        type="text" 
+        autocomplete="off"
+        placeholder="Search for your potential..." 
+        class="bg-transparent text-xl md:text-lg text-white placeholder-white/20 focus:outline-none w-full font-light tracking-wide pr-10"
+      />
+      <svg class="w-5 h-5 text-white/30 absolute right-0 bottom-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+    </div>
+    <div id="suggestions-box" class="hidden mt-3 max-h-[40vh] overflow-y-auto"></div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════
+     CART DRAWER
+══════════════════════════════════════════════ -->
+<div id="cart-drawer-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[1000] opacity-0 pointer-events-none invisible transition-opacity duration-300" onclick="toggleCartDrawer(false)"></div>
+
+<div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white z-[1002] shadow-2xl translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+  <!-- Drawer header -->
+  <div class="p-6 border-b border-gray-100 flex items-center justify-between shrink-0">
+    <h3 class="text-base font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+      Shopping Cart
+      <span id="drawer-cart-count" class="text-[11px] bg-[#E63E17] text-white px-2 py-0.5 rounded-full font-mono leading-none">0</span>
+    </h3>
+    <button onclick="toggleCartDrawer(false)" class="text-gray-400 hover:text-gray-900 transition-colors p-1 hover:rotate-90 transition-transform duration-200">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <!-- Items list -->
+  <div id="drawer-items-list" class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar"></div>
+
+  <!-- Drawer footer -->
+  <div class="p-6 border-t border-gray-100 bg-gray-50/60 space-y-4 shrink-0">
+    <div class="space-y-2 text-sm text-gray-600">
+      <div class="flex justify-between">
+        <span>Subtotal</span>
+        <span id="drawer-subtotal" class="font-bold text-gray-900 font-mono">0.00 MAD</span>
+      </div>
+      <div class="flex justify-between">
+        <span>Shipping</span>
+        <span id="drawer-shipping" class="font-bold text-gray-900 font-mono">40.00 MAD</span>
+      </div>
+      <div class="border-t border-gray-200 pt-2 flex justify-between text-base font-black text-gray-900">
+        <span>Total</span>
+        <span id="drawer-total" class="text-[#E63E17] font-mono">0.00 MAD</span>
+      </div>
+    </div>
+    <a href="cart.html" class="block w-full text-center border-2 border-gray-200 hover:border-gray-900 text-gray-700 hover:text-gray-900 font-bold py-3 rounded-xl text-sm transition-all duration-200">
+      View Full Cart
+    </a>
+    <button onclick="goToCheckout()" class="w-full bg-[#E63E17] hover:bg-[#C5310F] text-white font-black py-3.5 rounded-xl text-sm transition-all duration-200 shadow-lg shadow-orange-500/15 btn-lift uppercase tracking-widest">
+      Checkout
+    </button>
+  </div>
+</div>
+
+
+  <!-- Floating Sidebar Icons -->
+<div class="fixed right-0 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-0 shadow-xl bg-transparent">
+  
+  <a href="shop.html" class="group relative w-12 h-12 flex items-center justify-center bg-[#E63E17] text-white hover:bg-[#D53512] transition-all duration-300 border-b border-white/10" aria-label="Shop Now">
+    <span class="absolute right-full top-0 h-full px-4 flex items-center bg-[#E63E17] text-white text-[11px] font-black uppercase tracking-wider opacity-0 translate-x-4 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out whitespace-nowrap">
+      SHOP NOW
+    </span>
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+    </svg>
+  </a>
+
+  <a href="#products-section" class="group relative w-12 h-12 flex items-center justify-center bg-[#E63E17] text-white hover:bg-[#D53512] transition-all duration-300 border-b border-white/10" aria-label="Our Bestsellers">
+    <span class="absolute right-full top-0 h-full px-4 flex items-center bg-[#E63E17] text-white text-[11px] font-black uppercase tracking-wider opacity-0 translate-x-4 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out whitespace-nowrap">
+      Our Bestsellers
+    </span>
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.907c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.907a1 1 0 00.95-.69l1.519-4.674z"></path>
+    </svg>
+  </a>
+
+  <a href="contact-us.html" class="group relative w-12 h-12 flex items-center justify-center bg-[#E63E17] text-white hover:bg-[#D53512] transition-all duration-300" aria-label="Contact Support">
+    <span class="absolute right-full top-0 h-full px-4 flex items-center bg-[#E63E17] text-white text-[11px] font-black uppercase tracking-wider opacity-0 translate-x-4 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out whitespace-nowrap">
+      Get In Touch
+    </span>
+    <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+    </svg>
+  </a>
+</div>
+
+  <main>
+    
+<!-- Hero Section -->
+<section class="relative w-full h-screen overflow-hidden bg-[#0a0a0a] flex items-center">
+  
+  <div class="absolute inset-0 w-full h-full z-0">
+    <img src="images/background.jpeg" alt="Hero Background" class="w-full h-full object-cover object-center opacity-80 animate-hero-zoom">
+    
+    <div class="absolute inset-0 bg-gradient-to-r from-black/95 via-black/70 to-transparent md:from-black/90 md:via-black/50"></div>
+  </div>
+
+  <div class="relative z-10 max-w-[1440px] w-full mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center h-full pt-20">
+    
+    <div class="lg:col-span-7 flex flex-col justify-center text-left text-white">
+      
+      <div class="overflow-hidden mb-3">
+        <p class="text-sm sm:text-lg font-medium tracking-wide text-white animate-slide-up-fade [animation-delay:300ms]" style="font-family: 'Poppins', sans-serif;">
+          Maximize your strength, fuel your body
+        </p>
+      </div>
+
+      <div class="overflow-hidden mb-8">
+        <h1 class="text-5xl sm:text-7xl md:text-7xl font-black uppercase tracking-tight leading-[0.9] animate-slide-up-fade [animation-delay:100ms]">
+          Vital Nutrition &<br>
+          Supplements
+        </h1>
+      </div>
+
+      <div class="flex flex-row gap-4 items-center">
+        <div class="overflow-hidden">
+          <a href="shop.html" class="inline-block bg-[#E63E17] hover:bg-[#B82E0F] text-white font-bold text-xs uppercase tracking-widest px-12 py-4 min-w-[180px] text-center transition-colors duration-300 animate-slide-up-fade [animation-delay:600ms]" style="font-family: 'Poppins', sans-serif;">
+            Shop Now
+          </a>
+        </div>
+        <div class="overflow-hidden">
+          <a href="about.html" class="inline-block bg-transparent border border-white/40 hover:border-white text-white hover:bg-white hover:text-[#111111] font-bold text-xs uppercase tracking-widest px-12 py-4 min-w-[180px] text-center transition-colors duration-300 animate-slide-up-fade [animation-delay:750ms]" style="font-family: 'Poppins', sans-serif;">
+            Learn More
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="lg:col-span-5 flex flex-col justify-end lg:items-end h-full pb-16 lg:pb-24">
+      
+      <div class="w-full max-w-[290px] opacity-0 pointer-events-none animate-fade-in-only [animation-delay:1300ms] text-left">
+        
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="block relative aspect-[1.5/1] w-full bg-[#222222] overflow-hidden cursor-pointer group">
+          <img src="images/video.jpeg" alt="Video Thumbnail" class="w-full h-full object-cover opacity-80 transition-transform duration-550 group-hover:scale-105">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-12 h-12 rounded-full border border-white/60 bg-black/20 flex items-center justify-center backdrop-blur-sm group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-3.5 h-3.5 text-white fill-current ml-0.5" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </div>
+          </div>
+        </a>
+
+        <p class="mt-3 text-[11px] font-bold uppercase tracking-wider text-white leading-tight max-w-[240px]" style="font-family: 'Poppins', sans-serif;">
+          Maximize your potential, achieve new heights
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+    <!-- For Athletes Section -->
+    <section id="for-athletes" class="py-24 bg-[#f5f5f5]">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="text-center mb-16">
+      <span class="text-xs font-bold tracking-[0.3em] text-[#E63E17] uppercase">For Athletes</span>
+      <h2 class="text-4xl md:text-5xl font-extrabold text-[#111111] mt-4 leading-tight uppercase tracking-tight">
+        Effective And Affordable<br>Way To Achieve A Result
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+
+      <div class="reveal-card opacity-0 athletes-card group bg-white border border-gray-200 p-10 flex flex-col items-center text-center cursor-pointer transition-all duration-300 hover:shadow-2xl hover:z-10 relative [animation-delay:50ms]">
+        <div class="w-24 h-24 mb-8 flex items-center justify-center">
+          <img src="images/heart.png" alt="Essential Vitamins" class="w-full h-full object-contain transition-all duration-300 group-hover:brightness-0 group-hover:opacity-80">
+        </div>
+        <h3 class="text-sm font-extrabold tracking-[0.15em] text-[#111111] uppercase mb-3">Essential Vitamins</h3>
+        <p class="text-gray-400 text-[15px] leading-relaxed">Sed do eiusm od tempor</p>
+        <div class="mt-8 flex gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-gray-300 inline-block transition-colors duration-300 group-hover:bg-[#E63E17]"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-gray-300 inline-block transition-colors duration-300 group-hover:bg-[#E63E17]"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-gray-300 inline-block transition-colors duration-300 group-hover:bg-[#E63E17]"></span>
+        </div>
+      </div>
+
+      <div class="reveal-card opacity-0 athletes-card group bg-white border border-gray-200 p-10 flex flex-col items-center text-center cursor-pointer transition-all duration-300 hover:shadow-2xl hover:z-10 relative [animation-delay:120ms]">
+        <div class="w-24 h-24 mb-8 flex items-center justify-center">
+          <img src="images/netrion.png" alt="Nutrient Support" class="w-full h-full object-contain transition-all duration-300 group-hover:brightness-0 group-hover:opacity-80">
+        </div>
+        <h3 class="text-sm font-extrabold tracking-[0.15em] text-[#111111] uppercase mb-3">Nutrient Support</h3>
+        <p class="text-gray-400 text-[15px] leading-relaxed">Sed do eiusm od tempor</p>
+        <div class="mt-8 flex gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-gray-300 inline-block transition-colors duration-300 group-hover:bg-[#E63E17]"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-gray-300 inline-block transition-colors duration-300 group-hover:bg-[#E63E17]"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-gray-300 inline-block transition-colors duration-300 group-hover:bg-[#E63E17]"></span>
+        </div>
+      </div>
+
+      <div class="reveal-card opacity-0 athletes-card group bg-white border border-gray-200 p-10 flex flex-col items-center text-center cursor-pointer transition-all duration-300 hover:shadow-2xl hover:z-10 relative [animation-delay:190ms]">
+        <div class="w-24 h-24 mb-8 flex items-center justify-center">
+          <img src="images/energy.png" alt="Energy Boosting" class="w-full h-full object-contain transition-all duration-300 group-hover:brightness-0 group-hover:opacity-80">
+        </div>
+        <h3 class="text-sm font-extrabold tracking-[0.15em] text-[#111111] uppercase mb-3">Energy Boosting</h3>
+        <p class="text-gray-400 text-[15px] leading-relaxed">Sed do eiusm od tempor</p>
+        <div class="mt-8 flex gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-gray-300 inline-block transition-colors duration-300 group-hover:bg-[#E63E17]"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-gray-300 inline-block transition-colors duration-300 group-hover:bg-[#E63E17]"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-gray-300 inline-block transition-colors duration-300 group-hover:bg-[#E63E17]"></span>
+        </div>
+      </div>
+
+      <div class="reveal-card opacity-0 athletes-card group bg-white border border-gray-200 p-10 flex flex-col items-center text-center cursor-pointer transition-all duration-300 hover:shadow-2xl hover:z-10 relative [animation-delay:260ms]">
+        <div class="w-24 h-24 mb-8 flex items-center justify-center">
+          <img src="images/muscle.png" alt="Muscle Recovery" class="w-full h-full object-contain transition-all duration-300 group-hover:brightness-0 group-hover:opacity-80">
+        </div>
+        <h3 class="text-sm font-extrabold tracking-[0.15em] text-[#111111] uppercase mb-3">Muscle Recovery</h3>
+        <p class="text-gray-400 text-[15px] leading-relaxed">Sed do eiusm od tempor</p>
+        <div class="mt-8 flex gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-gray-300 inline-block transition-colors duration-300 group-hover:bg-[#E63E17]"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-gray-300 inline-block transition-colors duration-300 group-hover:bg-[#E63E17]"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-gray-300 inline-block transition-colors duration-300 group-hover:bg-[#E63E17]"></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- Products section -->
+
+<section id="products-section" class="bg-white w-full py-20 md:py-28 text-black select-none">
+  <div class="max-w-7xl mx-auto px-6">
+    
+    <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-black/5 pb-6 mb-12 gap-6 w-full">
+      <div>
+        <h2 class="text-3xl md:text-5xl font-black text-black uppercase tracking-tight">
+          Explore <span class="text-black/40">The Range</span>
+        </h2>
+      </div>
+      
+      <div id="home-category-tabs" class="flex flex-wrap gap-3 bg-gray-100 p-1.5 rounded-full w-fit shrink-0">
+  
+      <button onclick="switchHomeCategory('supplements', this)" class="home-tab-btn bg-[#E63E17] text-white font-bold text-xs uppercase px-6 py-3 rounded-full transition-all duration-300 shadow-sm cursor-pointer">
+        Supplements
+      </button>
+      
+      <button onclick="switchHomeCategory('gymwear', this)" class="home-tab-btn text-gray-500 hover:text-black font-bold text-xs uppercase px-6 py-3 rounded-full transition-all duration-300 cursor-pointer">
+        Gym Wear
+      </button>
+      
+      <button onclick="switchHomeCategory('accessories', this)" class="home-tab-btn text-gray-500 hover:text-black font-bold text-xs uppercase px-6 py-3 rounded-full transition-all duration-300 cursor-pointer">
+        Accessories
+      </button>
+
+    </div>
+    </div>
+
+    <div id="home-products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-10 gap-x-6 w-full min-h-[400px]">
+      </div>
+
+  </div>
+</section>
+
+
+    <!-- The Benifits Section -->
+    <section id="benefits" class="py-24 bg-white scroll-mt-20 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
+    
+    <div class="benefits-images-reveal lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6 opacity-0 transition-all duration-[1000ms] ease-out">
+      <div class="w-full h-full min-h-[450px] overflow-hidden shadow-sm">
+        <img src="images/img-9-copyright.jpeg" alt="Sports Nutrition Bottle" class="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-500">
+      </div>
+      <div class="w-full h-full min-h-[450px] overflow-hidden shadow-sm">
+        <img src="images/img-8-copyright.jpeg" alt="Athlete Physique" class="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-500">
+      </div>
+    </div>
+
+    <div class="lg:col-span-5 flex flex-col justify-between text-left md:pl-4 py-1">
+      
+      <div class="benefits-header-reveal flex flex-col gap-4 w-full opacity-0 transition-all duration-[800ms] ease-out">
+        <span class="text-xs font-black tracking-[0.3em] text-[#E63E17] uppercase block">
+          THE BENEFITS
+        </span>
+        
+        <h2 class="text-3xl md:text-[43px] font-bold text-[#111111] leading-[1.2] tracking-tight w-full block" style="font-family: 'Poppins', sans-serif;">
+          IMPROVE YOUR HEALTH WITH THE RIGHT SPORTS NUTRITION
+        </h2>
+        
+        <p class="text-gray-500 text-[18px] leading-relaxed max-w-xl mt-1">
+          Dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia.
+        </p>
+      </div>
+      
+      <ul class="flex flex-col gap-4 my-6 text-[17px] font-semibold text-[#111111]">
+        
+        <div class="benefit-row opacity-0 transition-all duration-[600ms] ease-out">
+          <li class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-[#FBBF24] shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Adipiscing elit, sed do eiusmod</span>
+          </li>
+        </div>
+
+        <div class="benefit-row opacity-0 transition-all duration-[600ms] ease-out">
+          <li class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-[#FBBF24] shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Tempor incididunt</span>
+          </li>
+        </div>
+
+        <div class="benefit-row opacity-0 transition-all duration-[600ms] ease-out">
+          <li class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-[#FBBF24] shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Labore et dolore magna</span>
+          </li>
+        </div>
+
+      </ul>
+
+      <div class="benefits-btn-reveal opacity-0 transition-all duration-[600ms] ease-out">
+        <a href="about.html" class="inline-block px-12 py-5 bg-[#E63E17] hover:bg-[#E21010] text-white font-black text-sm uppercase tracking-[0.2em] transition-all duration-300 shadow-sm">
+          ABOUT US
+        </a>
+      </div>
+      
+    </div>
+
+  </div>
+</section>
+
+
+<section id="products-quote" class="py-32 bg-[#f5f5f5] text-center border-t border-gray-200/50">
+  <div class="max-w-5xl mx-auto px-6 flex flex-col items-center flex-nowrap">
+    
+    <span class="text-xs font-black tracking-[0.3em] text-[#E63E17] uppercase block mb-6">
+      OUR PRODUCTS
+    </span>
+    
+    <h2 class="text-3xl md:text-[44px] font-bold text-[#111111] leading-[1.2] uppercase tracking-tight max-w-4xl block" style="font-family: 'Poppins', sans-serif;">
+      POWER YOUR WORKOUTS WITH NATURAL, FOOD-BASED SUPPLEMENTS AND PROTEIN POWDER FOR PEAK WELLNESS.
+    </h2>
+    
+    <h4 class="text-xl font-bold font-black text-[#111111] uppercase tracking-wider mt-8 mb-1" style="font-family: 'Poppins', sans-serif;">
+      PETER BOWMAN
+    </h4>
+    
+    <span class="text-base font-medium text-[#3C3E40] capitalize block">
+      Creative director
+    </span>
+
+  </div>
+</section>
+
+
+
+<!-- Infinite Scrolling Text Section -->
+<section class="relative w-full overflow-hidden bg-white pt-2 pb-24 select-none pointer-events-none">
+  
+  <!-- الحاوية المتحركة -->
+  <div class="flex whitespace-nowrap animate-custom-marquee">
+    
+    <!-- المجموعة الأولى: جملة واحدة طويلة ومستمرة -->
+    <div class="flex-shrink-0 text-[8.5vw] font-medium uppercase tracking-tight text-[#ECECEC] leading-none pr-12" style="font-family: 'ClashGroteskCustom', sans-serif;">
+      <span>Order Now Unleash Your Potential • Order Now Unleash Your Potential • Order Now Unleash Your Potential • Order Now Unleash Your Potential • </span>
+    </div>
+
+    <!-- المجموعة الثانية: نسخة طبق الأصل تلتحم مع الأولى مباشرة -->
+    <div class="flex-shrink-0 text-[8.5vw] font-medium uppercase tracking-tight text-[#ECECEC] leading-none pr-12" style="font-family: 'ClashGroteskCustom', sans-serif;" aria-hidden="true">
+      <span>Order Now Unleash Your Potential • Order Now Unleash Your Potential • Order Now Unleash Your Potential • Order Now Unleash Your Potential • </span>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden bg-black">
+  
+  <div class="absolute inset-0 z-0">
+    <img 
+      src="images/img-10.jpeg" 
+      alt="Nutrition Background" 
+      class="w-full h-full object-cover object-center opacity-95"
+    />
+    
+    <div class="absolute inset-0 bg-black/40"></div>
+    
+    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/50"></div>
+  </div>
+
+  <div class="relative z-10 max-w-4xl mx-auto w-full px-6 flex flex-col items-center justify-center text-center space-y-4">
+    
+    <span class="health  text-[17px] font-bold tracking-[0.3em] text-[#FF4C11] uppercase">
+      Health & Performance
+    </span>
+
+    <h2 class="text-2xl sm:text-3xl md:text-5xl font-black text-white uppercase tracking-tight leading-[1.2] max-w-3xl">
+      Build Strength And Stamina With Proper 
+      <span class="inline-block text-[#FF4C11] whitespace-nowrap">
+        <span id="welldone-word-only"></span><span id="welldone-clavier-cursor" class="font-light ml-0.5">|</span>
+      </span>
+    </h2>
+
+  </div>
+</section>
+
+
+<style>
+  .articles-responsive-container {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    width: 100%;
+    cursor: grab;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* تحديد الحجم الدقيق د الكروت وتأمين عدم انضغاطها */
+  .article-card-group {
+    width: calc((100% - 48px) / 3) !important;
+    min-width: calc((100% - 48px) / 3) !important;
+    flex-shrink: 0 !important; 
+  }
+
+  /* حماية الصور من الـ Drag التلقائي د المتصفح */
+  .article-card-group img {
+    -webkit-user-drag: none;
+    user-drag: none;
+  }
+
+  /* الـ الزوايا الدائرية القوية (حسب طلبك) */
+  .image-box {
+    overflow: visible !important; /* ضرورية جداً باش الـ Badge المعلقة تبان كاملة للخارج */
+  }
+
+  /* التابلت: كارتين ف السطر */
+  @media (max-width: 1024px) {
+    .article-card-group {
+      width: calc((100% - 24px) / 2) !important;
+      min-width: calc((100% - 24px) / 2) !important;
+    }
+  }
+
+  /* الموبايل: كارت وربع (80%) لبيان امتداد السلايدر */
+  @media (max-width: 640px) {
+    .article-card-group {
+      width: 80% !important;
+      min-width: 80% !important;
+    }
+  }
+
+  /* إخفاء السكرول بار تماماً */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
+
+
+
+<!-- Articles & Advice Section -->
+<section class="bg-white w-full py-20 text-black select-none overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 relative">
+    
+    <!-- الهيدر: العنوان وزر المشاهدة -->
+    <div class="flex items-center justify-between border-b border-black/5 pb-6 mb-12 w-full">
+      <h2 class="text-3xl md:text-5xl font-black text-black uppercase tracking-tight">
+        Articles <span class="text-black/40">& Advice</span>
+      </h2>
+      <a href="/blog" class="group flex items-center gap-2 border border-gray-200 hover:border-black bg-white text-black font-bold text-xs uppercase px-5 py-3 rounded-full transition-all duration-300 shadow-sm cursor-pointer shrink-0">
+        View All Posts
+        <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- حاوية السلايدر النسبية -->
+    <div class="relative w-full px-1">
+      
+      <!-- كود الـ Slider (Swiper) -->
+      <div class="swiper blog-swiper w-full overflow-hidden">
+        <div class="swiper-wrapper">
+          
+          <!-- الكرت 1: Guide -->
+          <div class="swiper-slide h-auto">
+            <div class="group flex flex-col h-full cursor-pointer relative">
+              <div class="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden bg-gray-100 shrink-0 z-0">
+                <img src="images/protein-gym_23-2151980072.avif" alt="Protein Power" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" draggable="false">
+              </div>
+              <div class="pl-7 relative z-10 -mt-4">
+                <span class="inline-block bg-white text-gray-800 text-[11px] font-bold px-4 py-1.5 rounded-full shadow-md border border-gray-100 transition-colors duration-300 group-hover:bg-[#E63E17] group-hover:text-white group-hover:border-[#E63E17]">
+                  Guide
+                </span>
+              </div>
+              <div class="pt-4 px-5 flex flex-col justify-between flex-1">
+                <h3 class="text-xl font-black text-gray-900 uppercase tracking-tight line-clamp-2 leading-tight group-hover:text-[#E63E17] transition-colors duration-300">
+                  UNVEILING THE POWER OF PROTEIN: 15 HIGH-PROTEIN...
+                </h3>
+                <p class="text-xs text-gray-400 mt-2.5 line-clamp-2 leading-relaxed">
+                  Tactical backpacks have multiple uses. They are used in the military, to carry weapons and supplies. They are used in...
+                </p>
+                <span class="text-xs font-bold uppercase tracking-wider text-black underline underline-offset-4 mt-4 inline-block transition-colors duration-300 hover:text-[#E63E17]">Read More</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- الكرت 2: Fitness -->
+          <div class="swiper-slide h-auto">
+            <div class="group flex flex-col h-full cursor-pointer relative">
+              <div class="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden bg-gray-100 shrink-0 z-0">
+                <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=600" alt="Denzour Nutrition" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" draggable="false">
+              </div>
+              <div class="pl-7 relative z-10 -mt-4">
+                <span class="inline-block bg-white text-gray-800 text-[11px] font-bold px-4 py-1.5 rounded-full shadow-md border border-gray-100 transition-colors duration-300 group-hover:bg-[#E63E17] group-hover:text-white group-hover:border-[#E63E17]">
+                  Fitness
+                </span>
+              </div>
+              <div class="pt-4 px-5 flex flex-col justify-between flex-1">
+                <h3 class="text-xl font-black text-gray-900 uppercase tracking-tight line-clamp-2 leading-tight group-hover:text-[#E63E17] transition-colors duration-300">
+                  DENZOUR NUTRITION TOP-5 PRODUCTS AND THERE BENE...
+                </h3>
+                <p class="text-xs text-gray-400 mt-2.5 line-clamp-2 leading-relaxed">
+                  Tactical backpacks have multiple uses. They are used in the military, to carry weapons and supplies. They are used in...
+                </p>
+                <span class="text-xs font-bold uppercase tracking-wider text-black underline underline-offset-4 mt-4 inline-block transition-colors duration-300 hover:text-[#E63E17]">Read More</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- الكرت 3: Nutrition -->
+          <div class="swiper-slide h-auto">
+            <div class="group flex flex-col h-full cursor-pointer relative">
+              <div class="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden bg-gray-100 shrink-0 z-0">
+                <img src="images/istockphoto-1493959975-612x612.jpg" alt="Weight Management" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" draggable="false">
+              </div>
+              <div class="pl-7 relative z-10 -mt-4">
+                <span class="inline-block bg-white text-gray-800 text-[11px] font-bold px-4 py-1.5 rounded-full shadow-md border border-gray-100 transition-colors duration-300 group-hover:bg-[#E63E17] group-hover:text-white group-hover:border-[#E63E17]">
+                  Nutrition
+                </span>
+              </div>
+              <div class="pt-4 px-5 flex flex-col justify-between flex-1">
+                <h3 class="text-xl font-black text-gray-900 uppercase tracking-tight line-clamp-2 leading-tight group-hover:text-[#E63E17] transition-colors duration-300">
+                  STRATEGIES THAT MAY SUPPORT WEIGHT MANAGEMENT
+                </h3>
+                <p class="text-xs text-gray-400 mt-2.5 line-clamp-2 leading-relaxed">
+                  Tactical backpacks have multiple uses. They are used in the military, to carry weapons and supplies. They are used in...
+                </p>
+                <span class="text-xs font-bold uppercase tracking-wider text-black underline underline-offset-4 mt-4 inline-block transition-colors duration-300 hover:text-[#E63E17]">Read More</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- الكرت 4: Training -->
+          <div class="swiper-slide h-auto">
+            <div class="group flex flex-col h-full cursor-pointer relative">
+              <div class="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden bg-gray-100 shrink-0 z-0">
+                <img src="images/3-day-gym-workout-plan-for-male-6-1024x683.webp" alt="Gym Workout" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" draggable="false">
+              </div>
+              <div class="pl-7 relative z-10 -mt-4">
+                <span class="inline-block bg-white text-gray-800 text-[11px] font-bold px-4 py-1.5 rounded-full shadow-md border border-gray-100 transition-colors duration-300 group-hover:bg-[#E63E17] group-hover:text-white group-hover:border-[#E63E17]">
+                  Training
+                </span>
+              </div>
+              <div class="pt-4 px-5 flex flex-col justify-between flex-1">
+                <h3 class="text-xl font-black text-gray-900 uppercase tracking-tight line-clamp-2 leading-tight group-hover:text-[#E63E17] transition-colors duration-300">
+                  HOW TO BUILD MUSCLE EFFECTIVELY IN 4 WEEKS
+                </h3>
+                <p class="text-xs text-gray-400 mt-2.5 line-clamp-2 leading-relaxed">
+                  Discover the best training splits and nutritional schedules designed by professional trainers to enhance muscle growth...
+                </p>
+                <span class="text-xs font-bold uppercase tracking-wider text-black underline underline-offset-4 mt-4 inline-block transition-colors duration-300 hover:text-[#E63E17]">Read More</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- الكرت 5: Supplements (جديد) -->
+          <div class="swiper-slide h-auto">
+            <div class="group flex flex-col h-full cursor-pointer relative">
+              <div class="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden bg-gray-100 shrink-0 z-0">
+                <img src="https://images.unsplash.com/photo-1579758629938-03607ccdbaba?q=80&w=600" alt="Supplements Guide" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" draggable="false">
+              </div>
+              <div class="pl-7 relative z-10 -mt-4">
+                <span class="inline-block bg-white text-gray-800 text-[11px] font-bold px-4 py-1.5 rounded-full shadow-md border border-gray-100 transition-colors duration-300 group-hover:bg-[#E63E17] group-hover:text-white group-hover:border-[#E63E17]">
+                  Supplements
+                </span>
+              </div>
+              <div class="pt-4 px-5 flex flex-col justify-between flex-1">
+                <h3 class="text-xl font-black text-gray-900 uppercase tracking-tight line-clamp-2 leading-tight group-hover:text-[#E63E17] transition-colors duration-300">
+                  CREATINE MONOHYDRATE: MYTHS VS REALITY
+                </h3>
+                <p class="text-xs text-gray-400 mt-2.5 line-clamp-2 leading-relaxed">
+                  Everything you need to know about the most researched supplement in the world. Dosage, timing, and benefits...
+                </p>
+                <span class="text-xs font-bold uppercase tracking-wider text-black underline underline-offset-4 mt-4 inline-block transition-colors duration-300 hover:text-[#E63E17]">Read More</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- الكرت 6: Lifestyle (جديد) -->
+          <div class="swiper-slide h-auto">
+            <div class="group flex flex-col h-full cursor-pointer relative">
+              <div class="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden bg-gray-100 shrink-0 z-0">
+                <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=600" alt="Mindset Lifestyle" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" draggable="false">
+              </div>
+              <div class="pl-7 relative z-10 -mt-4">
+                <span class="inline-block bg-white text-gray-800 text-[11px] font-bold px-4 py-1.5 rounded-full shadow-md border border-gray-100 transition-colors duration-300 group-hover:bg-[#E63E17] group-hover:text-white group-hover:border-[#E63E17]">
+                  Lifestyle
+                </span>
+              </div>
+              <div class="pt-4 px-5 flex flex-col justify-between flex-1">
+                <h3 class="text-xl font-black text-gray-900 uppercase tracking-tight line-clamp-2 leading-tight group-hover:text-[#E63E17] transition-colors duration-300">
+                  THE IMPORTANCE OF REST AND SLEEP IN FITNESS
+                </h3>
+                <p class="text-xs text-gray-400 mt-2.5 line-clamp-2 leading-relaxed">
+                  Optimizing your recovery is just as important as your training. Learn how deep sleep impacts muscle tissue repair...
+                </p>
+                <span class="text-xs font-bold uppercase tracking-wider text-black underline underline-offset-4 mt-4 inline-block transition-colors duration-300 hover:text-[#E63E17]">Read More</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ➡️ سهم اليمين -->
+      <div class="swiper-button-next-blog absolute top-[38%] -right-4 -translate-y-1/2 z-20 w-11 h-11 bg-white hover:bg-[#E63E17] hover:text-white hover:border-[#E63E17] text-black border border-gray-200 rounded-full flex items-center justify-center shadow-md transition-all duration-300 cursor-pointer select-none">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </div>
+
+      <!-- ⬅️ سهم اليسار -->
+      <div class="swiper-button-prev-blog absolute top-[38%] -left-4 -translate-y-1/2 z-20 w-11 h-11 bg-white hover:bg-[#E63E17] hover:text-white hover:border-[#E63E17] text-black border border-gray-200 rounded-full flex items-center justify-center shadow-md transition-all duration-300 cursor-pointer select-none">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- الـ Style المطور لإخفاء الأسهم بسلاسة تامة -->
+<style>
+  .swiper-button-next-blog,
+  .swiper-button-prev-blog {
+    transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease, color 0.3s ease !important;
+  }
+  /* كلاس مخصصة للـ JavaScript باش يخفي السهم نهائياً */
+  .arrow-hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: scale(0.8) translateY(-50%) !important;
+  }
+</style>
+
+
+  </main>
+
+  <!-- Footer -->
+    <footer class="bg-[#090D16] text-white pt-20 pb-8 border-t border-white/5 font-sans overflow-hidden select-none">
+  <div class="max-w-7xl mx-auto px-6">
+    
+    <!-- القسم العلوي: تقسيم ذكي بـ 4 أعمدة متناسقة -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 border-b border-white/5">
+      
+      <!-- العمود 1: براند اللوغو والاشتراك ف النيوزليتر -->
+      <div class="lg:col-span-4 flex flex-col space-y-6">
+  <a href="#" class="flex items-center shrink-0 -mt-3 ml-24" aria-label="Fitness Premium Home">
+    <img
+      src="images/pok1.png"
+      alt="Fitness Premium"
+      class="h-[98px] w-auto object-contain"
+      style="max-width: 270px;"
+    >
+  </a>
+        <p class="text-gray-400 text-sm max-w-sm leading-relaxed font-light -mt-4">
+          Ignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.
+        </p>
+        
+        <!-- حقل الاشتراك -->
+        <div class="max-w-md w-full pt-2">
+          <form class="relative flex items-center border-b border-white/20 pb-2 focus-within:border-[#FF4C11] transition-colors duration-300">
+            <span class="absolute left-0 text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+              </svg>
+            </span>
+            <input type="email" placeholder="Enter Your Email Address" class="bg-transparent pl-8 pr-12 py-2 w-full text-sm text-white placeholder-gray-500 outline-none focus:ring-0" required />
+            <button type="submit" class="absolute right-0 group flex items-center justify-center w-8 h-8 rounded-full bg-transparent hover:bg-[#FF4C11] text-white transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5l6 6m0 0l-6 6m6-6H3" />
+              </svg>
+            </button>
+          </form>
+          
+          <!-- خانة الموافقة والخصوصية الاحترافية المخصصة (Custom Checkbox) -->
+          <label class="flex items-center gap-3 mt-5 cursor-pointer group select-none">
+  <div class="relative flex items-center justify-center">
+    <input type="checkbox" class="sr-only peer" required />
+    <!-- المربع المخصص مع تأثيرات الانتقال الناعمة -->
+    <div class="w-4 h-4 rounded border border-white/30 bg-[#121212] flex items-center justify-center transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] peer-checked:scale-105 peer-checked:bg-[#FF4C11] peer-checked:border-[#FF4C11] peer-checked:shadow-[0_0_10px_rgba(255,76,17,0.5)] group-hover:border-white/50 active:scale-90">
+      <!-- علامة الصح المتحركة (تترسم عند التحديد) -->
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-2.5 h-2.5 text-white opacity-0 scale-50 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] peer-checked:opacity-100 peer-checked:scale-100 custom-check-svg">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>
+    </div>
+  </div>
+  <span class="text-xs text-gray-400 font-light group-hover:text-gray-300 transition-colors">
+    I agree to the <a href="#privacy" class="underline hover:text-[#FF4C11] transition-colors">Privacy Policy</a>.
+  </span>
+</label>
+        </div>
+      </div>
+
+      <!-- العمود 2: الدعم والمساعدة (عناوين أكبر text-sm) -->
+      <div class="lg:col-span-3 flex flex-col space-y-6 lg:pl-8">
+        <h4 class="text-sm font-black uppercase tracking-wider text-white border-l-2 border-[#FF4C11] pl-3">
+          Support
+        </h4>
+        <ul class="flex flex-col space-y-3 text-sm text-gray-400 font-light">
+          <li><a href="#shipping" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Shipping Policy</a></li>
+          <li><a href="#returns" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Returns & Exchanges</a></li>
+          <li><a href="#faq" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">FAQs</a></li>
+          <li><a href="#privacy" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Privacy Policy</a></li>
+        </ul>
+      </div>
+
+      <!-- العمود 3: الروابط السريعة (عناوين أكبر text-sm) -->
+      <div class="lg:col-span-2 flex flex-col space-y-6">
+        <h4 class="text-sm font-black uppercase tracking-wider text-white border-l-2 border-[#FF4C11] pl-3">
+          Links
+        </h4>
+        <ul class="flex flex-col space-y-3 text-sm text-gray-400 font-light">
+          <li><a href="index.html" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Home</a></li>
+          <li><a href="about.html" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Services</a></li>
+          <li><a href="about.html" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">About Us</a></li>
+          <li><a href="shop.html" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Shop</a></li>
+        </ul>
+      </div>
+
+      <!-- العمود 4: مواقع التواصل (عناوين أكبر text-sm) -->
+      <div class="lg:col-span-3 flex flex-col space-y-6">
+        <h4 class="text-sm font-black uppercase tracking-wider text-white border-l-2 border-[#FF4C11] pl-3">
+          Follow Us
+        </h4>
+        <p class="text-gray-500 text-xs font-light max-w-xs">Join our fitness community on social media platforms.</p>
+        
+        <div class="flex flex-row items-center gap-3 pt-1">
+          <a href="#facebook" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#FF4C11] hover:border-[#FF4C11] hover:shadow-[0_0_15px_rgba(255,76,17,0.3)] transition-all duration-300">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+          </a>
+          <a href="#x" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#FF4C11] hover:border-[#FF4C11] hover:shadow-[0_0_15px_rgba(255,76,17,0.3)] transition-all duration-300">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#dribbble" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#FF4C11] hover:border-[#FF4C11] hover:shadow-[0_0_15px_rgba(255,76,17,0.3)] transition-all duration-300">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm6.65 4.81c.44.43.82.92 1.13 1.45-1.11-.29-2.55-.42-4.14-.36-.12-.39-.25-.78-.4-1.16 1.44-.06 2.66.02 3.41.07zm-4.74-.21c.14.36.27.73.38 1.11-1.57.04-3.23-.1-4.79-.43.51-.83 1.18-1.54 1.96-2.08.88.5 1.7 1.01 2.45 1.4zm-6.13.9c1.51.31 3.11.45 4.63.41-.09.28-.2.57-.31.85-1.63-.07-3.41-.33-5.06-.82.21-.29.46-.57.74-.84zm-1.39 2.51c1.68.51 3.5.78 5.16.86-.33.95-.75 1.9-1.26 2.79-1.95-.59-3.95-1.54-5.59-2.81.42-.31.87-.59 1.69-.84zm-.31 4.79c1.55 1.19 3.44 2.08 5.28 2.64-.17.43-.37.84-.58 1.23-1.96-.65-3.66-1.74-4.94-3.14.07-.25.15-.49.24-.73zm6.66 3.65c.19-.36.37-.73.53-1.12 1.49-.39 2.91-.97 4.14-1.71.39.73.66 1.54.78 2.4-1.36.68-2.88 1.05-4.45 1.05-.34 0-.67-.02-1-.04zm5.06-4c-1.15.68-2.48 1.21-3.87 1.57.46-.81.84-1.67 1.13-2.54 1.43-.1 2.64-.26 3.56-.49.03.49-.13.98-.82 1.46z" clip-rule="evenodd"/></svg>
+          </a>
+          <a href="#instagram" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#FF4C11] hover:border-[#FF4C11] hover:shadow-[0_0_15px_rgba(255,76,17,0.3)] transition-all duration-300">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- القسم السفلي: حقوق الملكية + زر الصعود -->
+    <div class="flex flex-col sm:flex-row items-center justify-between pt-8 text-xs text-gray-500 font-light gap-4">
+      <div>
+        AxiomThemes © 2026. All rights reserved.
+      </div>
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="group flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#121212] hover:bg-[#FF4C11] hover:border-[#FF4C11] text-white shadow-md transition-all duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 group-hover:-translate-y-0.5 transition-transform">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+        </svg>
+      </button>
+    </div>
+
+  </div>
+</footer>
+
+
+<style>
+  .footer-link {
+    position: relative;
+    display: inline-block;
+  }
+  .footer-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: #FF4C11;
+    transition: width 0.3s ease;
+  }
+  .footer-link:hover::after {
+    width: 100%;
+  }
+
+  /* تأثير رسم علامة الـ Check وتكبيرها الذكي بالـ CSS */
+  .peer:checked + div .custom-check-svg {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+  }
+  
+  /* تأثير النبضة الخفيفة عند الضغط */
+  .peer:active + div {
+    transform: scale(0.85);
+  }
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+
+<script>
+  // Dynamically update cart badge count on index.html
+  document.addEventListener('auth-state-changed', (e) => {
+    const t = e.detail.token;
+    const badge = document.getElementById('cart-count');
+    if (!badge) return;
+    if (t) {
+      fetch('http://127.0.0.1:8000/api/cart/', { headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${t}` } })
+        .then(r => r.json())
+        .then(d => {
+          badge.textContent = (d.items || []).length;
+        })
+        .catch(() => {});
+    } else {
+      badge.textContent = 0;
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const t = localStorage.getItem('bearer_token');
+    const badge = document.getElementById('cart-count');
+    if (t && badge) {
+      fetch('http://127.0.0.1:8000/api/cart/', { headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${t}` } })
+        .then(r => r.json())
+        .then(d => {
+          badge.textContent = (d.items || []).length;
+        })
+        .catch(() => {});
+    }
+  });
+</script>
+
+<script src="index.js"></script>
+<script src="auth-modal.js"></script>
+<script src="cartDrawer.js"></script>
+</body>
+</html>

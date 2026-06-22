@@ -1,0 +1,614 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+@font-face {
+  font-family: 'ClashGroteskCustom';
+  src: url('Fonts/ClashGrotesk-Variable.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* ============================================================
+   ROOT DESIGN TOKENS
+   ============================================================ */
+:root {
+  --color-bg-base:      #090D16;
+  --color-accent:       #E63E17;
+  --color-accent-dark:  #C5310F;
+  --color-accent-glow:  rgba(230, 62, 23, 0.25);
+  --color-slate:        #1E293B;
+  --radius-card:        2rem;
+  --transition-base:    0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-bg-base);
+  color: #F3F4F6;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', 'Outfit', sans-serif;
+}
+
+button:focus,
+a:focus,
+button:active,
+a:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* ============================================================
+   CUSTOM SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: #090D16; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+.custom-scrollbar::-webkit-scrollbar        { width: 5px; }
+.custom-scrollbar::-webkit-scrollbar-track  { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb  { background: rgba(255,255,255,0.15); border-radius: 99px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+
+/* ============================================================
+   SITE HEADER — single consolidated rule set
+   ============================================================ */
+#site-header {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  z-index: 999;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.3s ease,
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
+  transform: translateY(-100%);
+  background-color: transparent;
+  border-bottom: none;
+}
+
+#site-header.header-at-top {
+  transform: translateY(0);
+  background-color: transparent !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+#site-header.header-sticky-active {
+  transform: translateY(0);
+  background-color: #090d16 !important;
+  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+#site-header.header-top-dark {
+  transform: translateY(0);
+  background-color: #0b111e;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+#site-header.header-hidden {
+  transform: translateY(-100%);
+}
+
+.no-transition { transition: none !important; }
+
+/* ============================================================
+   HEADER TEXT OVERRIDE (keep white in both states)
+   ============================================================ */
+.header-on-hero nav a, .header-on-hero button, .header-on-hero svg,
+.header-sticky-active nav a, .header-sticky-active button, .header-sticky-active svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* ============================================================
+   ANIMATIONS — HERO & ENTRANCE
+   ============================================================ */
+@keyframes slideUpFade {
+  0%   { transform: translateY(100%); opacity: 0; }
+  100% { transform: translateY(0);    opacity: 1; }
+}
+.animate-slide-up-fade {
+  animation: slideUpFade 0.8s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+@keyframes heroZoom {
+  0%   { transform: scale(1); }
+  100% { transform: scale(1.08); }
+}
+.animate-hero-zoom {
+  animation: heroZoom 6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes fadeInOnly {
+  0%   { opacity: 0; pointer-events: none; }
+  100% { opacity: 1; pointer-events: auto; }
+}
+.animate-fade-in-only {
+  animation: fadeInOnly 1s ease-out forwards;
+}
+
+@keyframes cardFadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+.product-card-animate {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: cardFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.product-card-animate:nth-child(1)  { animation-delay: 0.05s; }
+.product-card-animate:nth-child(2)  { animation-delay: 0.15s; }
+.product-card-animate:nth-child(3)  { animation-delay: 0.25s; }
+.product-card-animate:nth-child(4)  { animation-delay: 0.35s; }
+.product-card-animate:nth-child(5)  { animation-delay: 0.45s; }
+.product-card-animate:nth-child(6)  { animation-delay: 0.55s; }
+.product-card-animate:nth-child(7)  { animation-delay: 0.65s; }
+.product-card-animate:nth-child(8)  { animation-delay: 0.75s; }
+.product-card-animate:nth-child(9)  { animation-delay: 0.85s; }
+.product-card-animate:nth-child(10) { animation-delay: 0.95s; }
+.product-card-animate:nth-child(11) { animation-delay: 1.05s; }
+.product-card-animate:nth-child(12) { animation-delay: 1.15s; }
+
+/* Hidden base state for reveal-on-scroll cards */
+.product-card {
+  opacity: 0;
+  transform: translateY(60px);
+  will-change: transform, opacity;
+}
+
+/* ============================================================
+   SHIMMER SKELETON LOADING
+   ============================================================ */
+@keyframes shimmer {
+  0%   { background-position: -800px 0; }
+  100% { background-position:  800px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #1e293b 25%,
+    #2d3f55 50%,
+    #1e293b 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.6s infinite linear;
+  border-radius: 8px;
+}
+
+/* Shimmer on light backgrounds (shop page) */
+.skeleton-light {
+  background: linear-gradient(
+    90deg,
+    #e5e7eb 25%,
+    #f3f4f6 50%,
+    #e5e7eb 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.6s infinite linear;
+  border-radius: 8px;
+}
+
+/* Pre-built skeleton card for the shop grid */
+.skeleton-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 2.5rem;
+  overflow: hidden;
+  height: 410px;
+  display: flex;
+  flex-direction: column;
+}
+.skeleton-card .sk-img {
+  height: 240px;
+  margin: 24px 24px 0;
+  border-radius: 1rem;
+}
+.skeleton-card .sk-tag  { height: 12px; width: 60%;  margin: 20px 24px 8px; }
+.skeleton-card .sk-name { height: 16px; width: 85%;  margin: 0   24px 8px; }
+.skeleton-card .sk-price{ height: 14px; width: 40%;  margin: 0   24px;     }
+
+/* Pre-built skeleton cart row */
+.skeleton-cart-row {
+  background: #fff;
+  border: 1px solid #f1f5f9;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.skeleton-cart-row .sk-avatar { width: 90px; height: 90px; border-radius: 1rem; flex-shrink: 0; }
+.skeleton-cart-row .sk-lines  { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.skeleton-cart-row .sk-l1     { height: 14px; width: 70%; }
+.skeleton-cart-row .sk-l2     { height: 12px; width: 40%; }
+.skeleton-cart-row .sk-l3     { height: 12px; width: 30%; }
+
+/* ============================================================
+   TOAST NOTIFICATION SYSTEM
+   ============================================================ */
+#toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-radius: 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+  min-width: 260px;
+  max-width: 340px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  pointer-events: auto;
+  transform: translateY(12px);
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1),
+              opacity   0.35s cubic-bezier(0.16,1,0.3,1);
+}
+
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.hide { transform: translateY(12px); opacity: 0; }
+
+.toast-success { background: linear-gradient(135deg, #059669, #10b981); }
+.toast-error   { background: linear-gradient(135deg, #dc2626, #ef4444); }
+.toast-cart    { background: linear-gradient(135deg, var(--color-accent-dark), var(--color-accent)); }
+.toast-info    { background: linear-gradient(135deg, #1d4ed8, #3b82f6); }
+
+.toast-icon { width: 20px; height: 20px; flex-shrink: 0; fill: currentColor; }
+.toast-body { flex: 1; }
+.toast-body strong { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.toast-body span   { display: block; font-size: 0.72rem; opacity: 0.85; margin-top: 2px; font-weight: 400; }
+
+/* ============================================================
+   GLASSMORPHISM UTILITIES
+   ============================================================ */
+.glass-panel {
+  background: rgba(17,24,39,0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.glass-card-glow {
+  position: relative;
+  transition: all var(--transition-base);
+}
+.glass-card-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(230,62,23,0.25), rgba(59,130,246,0.2));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.glass-card-glow:hover::before { opacity: 1; }
+.glass-card-glow:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  border-color: rgba(255,255,255,0.15);
+}
+
+/* ============================================================
+   GLOW ORB BACKGROUND DECO
+   ============================================================ */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 0;
+  opacity: 0.18;
+  pointer-events: none;
+}
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.12; transform: scale(1);    }
+  50%       { opacity: 0.22; transform: scale(1.15); }
+}
+.animate-pulse-glow {
+  animation: pulseGlow 10s infinite alternate ease-in-out;
+}
+
+/* ============================================================
+   SIDEBAR FLOATING BUTTONS
+   ============================================================ */
+.sidebar-btn-container {
+  position: fixed;
+  right: 0; top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  width: 48px;
+}
+.sidebar-btn {
+  display: flex; align-items: center; justify-content: center;
+  background-color: var(--color-accent);
+  color: #fff;
+  width: 48px; height: 48px;
+  text-decoration: none;
+  position: relative;
+  overflow: visible;
+}
+.sidebar-tooltip {
+  position: absolute;
+  right: 48px; top: 0;
+  height: 100%;
+  display: flex; align-items: center;
+  max-width: 0; overflow: hidden;
+  white-space: nowrap;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  transition: max-width 0.35s ease, padding 0.35s ease;
+  padding: 0; color: #fff;
+  background-color: var(--color-accent);
+}
+.sidebar-btn:hover .sidebar-tooltip { max-width: 160px; padding: 0 14px; }
+
+/* ============================================================
+   MARQUEE SCROLL
+   ============================================================ */
+@keyframes marquee {
+  0%   { transform: translateX(0%);  }
+  100% { transform: translateX(-50%); }
+}
+.animate-custom-marquee { animation: marquee 12s linear infinite; }
+
+/* ============================================================
+   STROKE TEXT UTILITY
+   ============================================================ */
+.stroke-text { -webkit-text-stroke: 1px white; }
+
+/* ============================================================
+   ARTICLES SLIDER / DRAG CONTAINER
+   ============================================================ */
+.articles-responsive-container {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  width: 100%;
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-overflow-scrolling: touch;
+}
+.article-card-group {
+  width: calc((100% - 48px) / 3) !important;
+  min-width: calc((100% - 48px) / 3) !important;
+  flex-shrink: 0 !important;
+}
+.article-card-group img { -webkit-user-drag: none; user-drag: none; }
+.image-box { overflow: visible !important; }
+@media (max-width: 1024px) {
+  .article-card-group {
+    width: calc((100% - 24px) / 2) !important;
+    min-width: calc((100% - 24px) / 2) !important;
+  }
+}
+@media (max-width: 640px) {
+  .article-card-group { width: 80% !important; min-width: 80% !important; }
+}
+
+#articles-slider-container { cursor: grab; display: flex; position: relative; width: 100%; user-select: none; -webkit-user-select: none; }
+#articles-slider-container:active { cursor: grabbing; }
+
+/* ============================================================
+   IMAGE / CARD HOVER UTILITIES
+   ============================================================ */
+.image-box:hover .zoom-img    { transform: scale(1.05); }
+.image-box:hover .badge-word  { background-color: #FF4C11 !important; color: #fff !important; }
+.title-link:hover              { color: #FF4C11 !important; }
+.custom-icon-link:hover svg    { stroke: var(--color-accent) !important; }
+
+/* ============================================================
+   CATEGORY TABS
+   ============================================================ */
+#home-category-tabs {
+  border: 1px solid rgba(229,231,235,0.8) !important;
+}
+.tab-btn:not(.bg-\[\#E63E17\]):hover,
+.home-tab-btn:not(.bg-\[\#E63E17\]):hover {
+  color: var(--color-accent) !important;
+}
+.tab-btn.bg-\[\#E63E17\]:hover,
+.home-tab-btn.bg-\[\#E63E17\]:hover {
+  color: #fff !important;
+  background-color: #000818;
+}
+
+/* ============================================================
+   CURSOR / TYPEWRITER EFFECTS (HOME PAGE)
+   ============================================================ */
+@keyframes clavierBlink {
+  from, to { opacity: 1; }
+  50%       { opacity: 0; }
+}
+#welldone-clavier-cursor {
+  animation: clavierBlink 0.8s step-end infinite;
+}
+#welldone-word-only { text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+.health             { text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+
+@keyframes cursorBlink { 50% { opacity: 0; } }
+#welldone-cursor { animation: cursorBlink 0.75s infinite; }
+
+.css-dynamic-text::before {
+  content: "Nutrition";
+  animation: changeWords 12s infinite;
+}
+@keyframes changeWords {
+  0%,20%  { content: "Nutrition";   }
+  25%,45% { content: "Recipes";     }
+  50%,70% { content: "Supplements"; }
+  75%,95% { content: "Training";    }
+}
+
+/* ============================================================
+   BENEFITS SECTION REVEAL ANIMATIONS
+   ============================================================ */
+.benefits-images-reveal.revealed,
+.benefits-header-reveal.revealed,
+.benefit-row.revealed,
+.benefits-btn-reveal.revealed {
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+}
+
+/* ============================================================
+   FOOTER LINK UNDERLINE EFFECT
+   ============================================================ */
+.footer-link {
+  position: relative;
+  display: inline-block;
+}
+.footer-link::after {
+  content: '';
+  position: absolute;
+  width: 0; height: 1px;
+  bottom: -2px; left: 0;
+  background-color: var(--color-accent);
+  transition: width 0.3s ease;
+}
+.footer-link:hover::after { width: 100%; }
+
+/* ============================================================
+   SUBMENU (SHOP SIDEBAR)
+   ============================================================ */
+.submenu {
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  max-height: 0; overflow: hidden;
+}
+.submenu.open { max-height: 300px; }
+
+/* ============================================================
+   PREMIUM BUTTON LIFT EFFECT
+   ============================================================ */
+.btn-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--color-accent-glow);
+}
+.btn-lift:active { transform: translateY(0); }
+
+/* ============================================================
+   AUTH PAGE PREMIUM STYLES
+   ============================================================ */
+.auth-input-focus:focus {
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 0 0 3px rgba(230,62,23,0.15);
+}
+
+.tab-indicator {
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ============================================================
+   CHECKOUT INPUT — Global (used by auth modal & checkout page)
+   ============================================================ */
+.checkout-input {
+  display: block;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.85rem;
+  color: #f3f4f6;
+  padding: 0.85rem 1rem;
+  font-size: 0.875rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  transition: border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.checkout-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 400;
+}
+.checkout-input:focus {
+  border-color: #E63E17;
+  box-shadow: 0 0 0 3px rgba(230, 62, 23, 0.18);
+  background: rgba(255, 255, 255, 0.09);
+}
+.checkout-input.error-field {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+/* Auto-fill override to keep dark background */
+.checkout-input:-webkit-autofill,
+.checkout-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #0e1424 inset, 0 0 0 3px rgba(230, 62, 23, 0.18) !important;
+  -webkit-text-fill-color: #f3f4f6 !important;
+  caret-color: #f3f4f6;
+}
+
+/* ============================================================
+   CART ITEM QTY STEPPER
+   ============================================================ */
+.qty-stepper {
+  display: flex; align-items: center;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.qty-btn {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent; border: none; cursor: pointer;
+  font-size: 1rem; font-weight: 700;
+  color: #374151;
+  transition: background 0.2s, color 0.2s;
+}
+.qty-btn:hover { background: #E63E17; color: #fff; }
+.qty-val {
+  min-width: 32px; text-align: center;
+  font-size: 0.8rem; font-weight: 700;
+  color: #111827; font-family: 'Inter', monospace;
+}
+
+/* ============================================================
+   HIDE DEFAULT BROWSER PASSWORD REVEAL (EDGE/IE)
+   ============================================================ */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none !important;
+}
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Poppins:wght@400;600;700;800;900&display=swap');
+
+/* كلاس لخط Space Grotesk */
+.font-space {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; /* يمكنك تغيير الوزن حسب الرغبة (300 إلى 700) */
+}

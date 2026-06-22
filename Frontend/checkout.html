@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Checkout — WE//DONE</title>
+  <meta name="description" content="Complete your Gym Supplies order securely. Fast shipping and premium checkout experience.">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Space Grotesk & Poppins Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Tailwind Config for Dark Nike/Gymshark Theme -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#090D16',
+              card: '#0e1424',
+              accent: '#E63E17',
+              accentHover: '#C5310F',
+              slate: '#1E293B',
+            }
+          },
+          fontFamily: {
+            sans: ['Space Grotesk', 'sans-serif'],
+            display: ['Poppins', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Canvas Confetti CDN for Order Success Burst -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; }
+    h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; }
+
+    /* Custom input outline animation */
+    .checkout-input {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: 0.85rem;
+      color: #fff;
+      padding: 0.85rem 1rem;
+      font-size: 0.875rem;
+      width: 100%;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      outline: none;
+    }
+    .checkout-input::placeholder { color: rgba(255, 255, 255, 0.25); }
+    .checkout-input:focus {
+      border-color: #E63E17;
+      box-shadow: 0 0 0 3px rgba(230, 62, 23, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .checkout-input.error-field {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+    }
+
+    /* Radio button custom states */
+    .payment-option-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .payment-option-card.active {
+      border-color: #E63E17;
+      background: rgba(230, 62, 23, 0.03);
+      box-shadow: 0 0 25px rgba(230, 62, 23, 0.1);
+    }
+    .payment-option-card.active .radio-dot {
+      background-color: #E63E17;
+      border-color: #E63E17;
+    }
+
+    /* Confetti canvas fix */
+    #confetti-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    /* Checkmark Animation */
+    .success-checkmark {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto;
+    }
+    .success-checkmark .check-icon {
+      width: 80px;
+      height: 80px;
+      position: relative;
+      border-radius: 50%;
+      box-sizing: content-box;
+      border: 4px solid #E63E17;
+    }
+    .success-checkmark .check-icon::before {
+      top: 3px; left: -2px;
+      width: 30px; height: 80px;
+      background: #0e1424;
+      position: absolute;
+      content: '';
+      transform-origin: 100% 50%;
+      transform: rotate(-45deg);
+    }
+    .success-checkmark .check-icon::after {
+      top: 0; left: 30px;
+      width: 60px; height: 80px;
+      background: #0e1424;
+      position: absolute;
+      content: '';
+      transform-origin: 0% 50%;
+      transform: rotate(-45deg);
+    }
+    .success-checkmark .check-icon .icon-line {
+      height: 5px;
+      background-color: #E63E17;
+      display: block;
+      border-radius: 2px;
+      position: absolute;
+      z-index: 10;
+    }
+    .success-checkmark .check-icon .icon-line.line-tip {
+      top: 46px; left: 14px;
+      width: 25px;
+      transform: rotate(45deg);
+      animation: icon-line-tip 0.75s;
+    }
+    .success-checkmark .check-icon .icon-line.line-long {
+      top: 38px; right: 8px;
+      width: 47px;
+      transform: rotate(-45deg);
+      animation: icon-line-long 0.75s;
+    }
+    .success-checkmark .check-icon .icon-circle {
+      top: -4px; left: -4px;
+      box-sizing: content-box;
+      border: 4px solid rgba(230, 62, 23, 0.2);
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      position: absolute;
+      z-index: 1;
+    }
+    .success-checkmark .check-icon .icon-fix {
+      top: 8px; left: 26px;
+      width: 5px; height: 54px;
+      background: #0e1424;
+      position: absolute;
+      z-index: 1;
+      transform: rotate(-45deg);
+    }
+    @keyframes icon-line-tip {
+      0% { width: 0; left: 1px; top: 19px; }
+      54% { width: 0; left: 1px; top: 19px; }
+      70% { width: 50px; left: -8px; top: 37px; }
+      84% { width: 17px; left: 21px; top: 48px; }
+      100% { width: 25px; left: 14px; top: 46px; }
+    }
+    @keyframes icon-line-long {
+      0% { width: 0; right: 46px; top: 54px; }
+      65% { width: 0; right: 46px; top: 54px; }
+      84% { width: 55px; right: 0px; top: 35px; }
+      100% { width: 47px; right: 8px; top: 38px; }
+    }
+  </style>
+</head>
+<body class="bg-brand-dark text-gray-100 min-h-screen flex flex-col justify-between selection:bg-brand-accent selection:text-white">
+
+<!-- Canvas for Confetti -->
+<canvas id="confetti-canvas"></canvas>
+
+<!-- Toast container -->
+<div id="toast-container" class="z-50"></div>
+
+<!-- ══════════════════════════════════════════════
+     GLOBAL HEADER
+══════════════════════════════════════════════ -->
+<header id="site-header" class="fixed top-0 left-0 w-full z-50 header-top-dark transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href="index.html" class="flex items-center self-stretch shrink-0 ml-4" aria-label="Fitness Premium Home">
+  <img
+    src="images/pok1.png"
+    alt="Fitness Premium"
+    class="h-[72px] w-auto object-contain mt-auto mb-2"
+    style="max-width: 260px;"
+  >
+</a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden md:flex items-center gap-8 text-[13px] font-bold tracking-widest text-white/90">
+      <a href="index.html" class="group relative py-1.5 transition-colors hover:text-white">
+        HOME<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+      </a>
+
+      <!-- SHOP dropdown -->
+      <div class="relative group py-1.5">
+        <a href="shop.html" class="transition-colors cursor-pointer block">SHOP</a>
+        <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+        <div class="absolute top-[100%] left-0 w-60 bg-[#222222] text-white shadow-2xl p-5 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-50 mt-2 flex flex-col gap-5">
+          <a href="shop.html?category=supplements" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Supplements<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          <a href="shop.html?category=gymwear" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Gym Wear<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          <a href="shop.html?category=accessories" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Accessories<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- PAGES dropdown -->
+      <div class="relative group py-1.5">
+        <a href="#" class="transition-colors cursor-pointer block">PAGES</a>
+        <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+        <div class="absolute top-[100%] left-0 w-60 bg-[#222222] text-white shadow-2xl p-5 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-50 mt-2 flex flex-col gap-5">
+          <a href="blog.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Blog Articles<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          <a href="wishlist.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            My Wishlist<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          
+          <a href="cart.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Shopping Cart<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+
+          <a href="contact-us.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            About us<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+        </div>
+      </div>
+
+      <a href="blog.html" class="group relative py-1.5 transition-colors hover:text-white">
+        BLOG<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+      </a>
+      <a href="contact-us.html" class="group relative py-1.5 transition-colors hover:text-white">
+        CONTACT US<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+      </a>
+    </nav>
+
+    <!-- Right Icons -->
+    <div class="hidden md:flex items-center gap-7">
+      <button id="search-btn" class="text-white hover:scale-105 transform transition-all duration-300 ease-out focus:outline-none" aria-label="Search">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </button>
+      <div class="h-6 w-[1px] bg-white/20 mx-1"></div>
+
+      <a href="Auth.html" class="text-white hover:scale-105 transform transition-all duration-300 ease-out" aria-label="Account/Login">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0ZM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+        </svg>
+      </a>
+      <a href="wishlist.html" class="text-white hover:scale-105 transform transition-all duration-300 ease-out" aria-label="Wishlist">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+        </svg>
+      </a>
+
+      <!-- CART BUTTON — opens the slide-in drawer (same as shop.html) -->
+      <button id="cart-icon-btn" onclick="toggleCartDrawer(true)" class="relative text-white hover:scale-105 transform transition-all duration-300 ease-out focus:outline-none" aria-label="Cart">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+        </svg>
+        <span id="cart-count" class="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center rounded-full bg-[#E63E17] text-[9px] font-black text-white leading-none">0</span>
+      </button>
+    </div>
+
+    <!-- Mobile Hamburger -->
+    <button id="mobile-menu-btn" class="md:hidden text-white hover:text-[#E63E17] focus:outline-none" aria-label="Toggle Menu">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-[#090D16]/95 border-b border-white/10 px-6 py-4 flex flex-col gap-4 text-white font-bold tracking-widest text-xs shadow-lg">
+    <a href="index.html"      class="hover:text-[#E63E17] transition-colors py-1">HOME</a>
+    <a href="shop.html"       class="hover:text-[#E63E17] transition-colors py-1">SHOP</a>
+    <a href="blog.html"       class="hover:text-[#E63E17] transition-colors py-1">BLOG</a>
+    <a href="contact-us.html" class="hover:text-[#E63E17] transition-colors py-1">CONTACT US</a>
+    <a href="Auth.html"       class="hover:text-[#E63E17] transition-colors py-1">MY ACCOUNT</a>
+    <button id="mobile-search-btn" class="text-left hover:text-[#E63E17] transition-colors py-1 focus:outline-none">SEARCH</button>
+    <button onclick="toggleCartDrawer(true)" class="text-left hover:text-[#E63E17] transition-colors py-1 focus:outline-none">CART</button>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════
+     SEARCH OVERLAY
+══════════════════════════════════════════════ -->
+
+<!-- الـ Search Overlay المصلح (خلفية عاتمة مغطية كلشي وسطر متموضع صح) -->
+   
+<div id="search-panel" class="fixed inset-x-0 top-0 bg-[#090d16] border-b border-white/10 z-[999] transform -translate-y-full transition-all duration-500 ease-out pointer-events-none opacity-0 flex flex-col pt-6 pb-8">
+  
+  <div class="max-w-7xl mx-auto w-full px-6 flex items-center justify-between">
+    <a href="#" class="flex items-center self-stretch shrink-0 ml-4" aria-label="Fitness Premium Home">
+      <img
+        src="images/pok1.png"
+        alt="Fitness Premium"
+        class="h-[83px] w-auto object-contain mt-auto mb-2"
+        style="max-width: 260px;"
+      >
+    </a>
+    <button id="close-search" class="text-white/70 hover:text-[#E63E17] hover:scale-110 transform transition-all duration-300 focus:outline-none">
+      <svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="max-w-4xl mx-auto w-full px-6 mt-6">
+    <div class="relative flex items-center border-b border-white/20 focus-within:border-[#E63E17] transition-colors duration-300 pb-3">
+      <input 
+        id="search-input"
+        type="text" 
+        autocomplete="off"
+        placeholder="Search for your potential..." 
+        class="bg-transparent text-xl md:text-lg text-white placeholder-white/20 focus:outline-none w-full font-light tracking-wide pr-10"
+      />
+      <svg class="w-5 h-5 text-white/30 absolute right-0 bottom-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+    </div>
+    <div id="suggestions-box" class="hidden mt-3 max-h-[40vh] overflow-y-auto"></div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════
+     CART DRAWER
+══════════════════════════════════════════════ -->
+<div id="cart-drawer-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 opacity-0 pointer-events-none invisible transition-opacity duration-300" onclick="toggleCartDrawer(false)"></div>
+
+<div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white z-50 shadow-2xl translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+  <!-- Drawer header -->
+  <div class="p-6 border-b border-gray-100 flex items-center justify-between shrink-0">
+    <h3 class="text-base font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+      Shopping Cart
+      <span id="drawer-cart-count" class="text-[11px] bg-[#E63E17] text-white px-2 py-0.5 rounded-full font-mono leading-none">0</span>
+    </h3>
+    <button onclick="toggleCartDrawer(false)" class="text-gray-400 hover:text-gray-900 transition-colors p-1 hover:rotate-90 transition-transform duration-200">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <!-- Items list -->
+  <div id="drawer-items-list" class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar"></div>
+
+  <!-- Drawer footer -->
+  <div class="p-6 border-t border-gray-100 bg-gray-50/60 space-y-4 shrink-0">
+    <div class="space-y-2 text-sm text-gray-600">
+      <div class="flex justify-between">
+        <span>Subtotal</span>
+        <span id="drawer-subtotal" class="font-bold text-gray-900 font-mono">0.00 MAD</span>
+      </div>
+      <div class="flex justify-between">
+        <span>Shipping</span>
+        <span id="drawer-shipping" class="font-bold text-gray-900 font-mono">40.00 MAD</span>
+      </div>
+      <div class="border-t border-gray-200 pt-2 flex justify-between text-base font-black text-gray-900">
+        <span>Total</span>
+        <span id="drawer-total" class="text-[#E63E17] font-mono">0.00 MAD</span>
+      </div>
+    </div>
+    <a href="cart.html" class="block w-full text-center border-2 border-gray-200 hover:border-gray-900 text-gray-700 hover:text-gray-900 font-bold py-3 rounded-xl text-sm transition-all duration-200">
+      View Full Cart
+    </a>
+    <button onclick="goToCheckout()" class="w-full bg-[#E63E17] hover:bg-[#C5310F] text-white font-black py-3.5 rounded-xl text-sm transition-all duration-200 shadow-lg shadow-orange-500/15 btn-lift uppercase tracking-widest">
+      Checkout
+    </button>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════
+     PAGE HERO / BREADCRUMBS
+════════════════════════════════════════════════════════ -->
+<div class="pt-32 pb-8 px-6 border-b border-white/5 bg-gradient-to-b from-[#0e1424]/50 to-transparent">
+  <div class="max-w-7xl mx-auto">
+    <nav class="text-xs font-semibold tracking-widest text-gray-500 uppercase flex items-center gap-2 mb-3">
+      <a href="index.html" class="hover:text-brand-accent transition-colors">Home</a>
+      <span>/</span>
+      <a href="cart.html" class="hover:text-brand-accent transition-colors">Cart</a>
+      <span>/</span>
+      <span class="text-white">Checkout</span>
+    </nav>
+    <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tight">
+      SECURE <span class="text-brand-accent">CHECKOUT</span>
+    </h1>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     MAIN CONTENT (Dual Column Layout)
+════════════════════════════════════════════════════════ -->
+<main class="flex-1 max-w-7xl mx-auto w-full px-4 md:px-6 py-12">
+  <div id="checkout-container" class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+    
+    <!-- LEFT: Shipping, Billing and Payment details Form (7 Cols) -->
+    <section class="lg:col-span-7 space-y-8">
+      <form id="checkout-form" onsubmit="submitOrder(event)" class="space-y-8" novalidate>
+        
+        <!-- Customer Info Card -->
+        <div class="bg-brand-card/30 border border-white/5 shadow-2xl rounded-3xl p-6 md:p-8 backdrop-blur-md">
+          <div class="flex items-center gap-3 mb-6 pb-4 border-b border-white/5">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-brand-accent/10 text-brand-accent font-bold text-sm">1</span>
+            <h2 class="text-lg font-black uppercase tracking-wider text-white">Shipping Information</h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-1.5">
+              <label for="first_name" class="text-xs font-bold uppercase tracking-wider text-gray-400">First Name</label>
+              <input type="text" id="first_name" required placeholder="John" class="checkout-input">
+            </div>
+            <div class="space-y-1.5">
+              <label for="last_name" class="text-xs font-bold uppercase tracking-wider text-gray-400">Last Name</label>
+              <input type="text" id="last_name" required placeholder="Doe" class="checkout-input">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <div class="space-y-1.5">
+              <label for="email" class="text-xs font-bold uppercase tracking-wider text-gray-400">Email Address</label>
+              <input type="email" id="email" required placeholder="john.doe@example.com" class="checkout-input font-mono">
+            </div>
+            <div class="space-y-1.5">
+              <label for="phone" class="text-xs font-bold uppercase tracking-wider text-gray-400">Phone Number</label>
+              <input type="tel" id="phone" required placeholder="0612345678" class="checkout-input font-mono">
+            </div>
+          </div>
+
+          <div class="space-y-1.5 mt-4">
+            <label for="address" class="text-xs font-bold uppercase tracking-wider text-gray-400">Shipping Address</label>
+            <textarea id="address" required rows="3" placeholder="Street Name, Building/Apartment Number, Neighborhood" class="checkout-input resize-none"></textarea>
+          </div>
+        </div>
+
+        <!-- Payment Method Card -->
+        <div class="bg-brand-card/30 border border-white/5 shadow-2xl rounded-3xl p-6 md:p-8 backdrop-blur-md">
+          <div class="flex items-center gap-3 mb-6 pb-4 border-b border-white/5">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-brand-accent/10 text-brand-accent font-bold text-sm">2</span>
+            <h2 class="text-lg font-black uppercase tracking-wider text-white">Payment Method</h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- COD Radio Option -->
+            <label id="payment-cod-card" class="payment-option-card relative flex items-center justify-between p-5 rounded-2xl border border-white/10 bg-white/[0.01] cursor-pointer active hover:bg-white/[0.02] focus-within:ring-2 focus-within:ring-brand-accent">
+              <div class="flex items-center gap-4">
+                <div class="radio-dot w-5 h-5 rounded-full border border-white/30 flex items-center justify-center shrink-0 transition-all">
+                  <div class="w-2.5 h-2.5 rounded-full bg-transparent"></div>
+                </div>
+                <div>
+                  <span class="block text-sm font-bold text-white uppercase tracking-wider">Cash On Delivery</span>
+                  <span class="block text-xs text-gray-400 mt-1">Pay with cash upon delivery</span>
+                </div>
+              </div>
+              <svg class="w-6 h-6 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5h16.5A2.25 2.25 0 0 1 22.5 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25F7.49 7.49 0 0 1 12 18a7.49 7.49 0 0 1-8.25 1.5 2.25 2.25 0 0 1-2.25-2.25V6.75A2.25 2.25 0 0 1 3.75 4.5ZM12 11.25a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/>
+              </svg>
+              <input type="radio" name="payment_method" value="COD" checked class="sr-only" onchange="updatePaymentUI()">
+            </label>
+
+            <!-- Card Radio Option -->
+            <label id="payment-card-card" class="payment-option-card relative flex items-center justify-between p-5 rounded-2xl border border-white/10 bg-white/[0.01] cursor-pointer hover:bg-white/[0.02] focus-within:ring-2 focus-within:ring-brand-accent">
+              <div class="flex items-center gap-4">
+                <div class="radio-dot w-5 h-5 rounded-full border border-white/30 flex items-center justify-center shrink-0 transition-all">
+                  <div class="w-2.5 h-2.5 rounded-full bg-transparent"></div>
+                </div>
+                <div>
+                  <span class="block text-sm font-bold text-white uppercase tracking-wider">Credit Card</span>
+                  <span class="block text-xs text-gray-400 mt-1">Visa, Mastercard, Maestro</span>
+                </div>
+              </div>
+              <svg class="w-6 h-6 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-6.188 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 0 1 .75 0z"/>
+              </svg>
+              <input type="radio" name="payment_method" value="Card" class="sr-only" onchange="updatePaymentUI()">
+            </label>
+          </div>
+        </div>
+
+      </form>
+    </section>
+
+    <!-- RIGHT: Sticky Order Summary (5 Cols) -->
+    <aside class="lg:col-span-5 lg:sticky lg:top-28">
+      <div class="bg-brand-card/30 border border-white/5 shadow-2xl rounded-3xl overflow-hidden backdrop-blur-md">
+        <div class="px-7 py-6 border-b border-white/5">
+          <h2 class="text-sm font-black uppercase tracking-widest text-white">Order Summary</h2>
+        </div>
+
+        <!-- Scrollable items list -->
+        <div id="checkout-items" class="px-7 py-6 max-h-[300px] overflow-y-auto space-y-4 custom-scrollbar">
+          <!-- Dynamically populated rows -->
+          <div class="animate-pulse flex space-x-4">
+            <div class="rounded-xl bg-white/5 h-16 w-16"></div>
+            <div class="flex-1 space-y-2 py-1">
+              <div class="h-4 bg-white/5 rounded w-3/4"></div>
+              <div class="h-3 bg-white/5 rounded w-1/2"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary Totals -->
+        <div class="px-7 py-6 border-t border-white/5 space-y-4 bg-white/[0.01]">
+          <div class="flex justify-between text-sm text-gray-400">
+            <span>Subtotal</span>
+            <span id="summary-subtotal" class="font-bold text-white font-mono">0.00 MAD</span>
+          </div>
+          <div class="flex justify-between text-sm text-gray-400">
+            <span>Shipping Cost</span>
+            <span id="summary-shipping" class="font-bold text-white font-mono">40.00 MAD</span>
+          </div>
+          <div class="border-t border-white/5 pt-4 flex justify-between">
+            <span class="text-base font-black text-white uppercase tracking-wider">Grand Total</span>
+            <span id="summary-total" class="text-2xl font-black text-brand-accent font-mono">0.00 MAD</span>
+          </div>
+        </div>
+
+        <div class="px-7 pb-7 pt-2 space-y-4">
+          <button form="checkout-form" type="submit" id="btn-place-order" class="w-full bg-brand-accent hover:bg-brand-accentHover text-white font-black py-4 rounded-2xl text-sm transition-all duration-300 shadow-lg shadow-orange-500/15 btn-lift uppercase tracking-widest flex items-center justify-center gap-2">
+            <!-- Spinner -->
+            <svg id="btn-spinner" class="hidden w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+            <span id="btn-text">Place Order</span>
+          </button>
+          
+          <div class="flex items-center justify-center gap-2 text-[10px] text-gray-500 font-semibold uppercase tracking-wider">
+            <svg class="w-3.5 h-3.5 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            🔒 SSL Encrypted & Secure Checkout
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+<!-- ════════════════════════════════════════════════════════
+     ORDER SUCCESS MODAL / OVERLAY
+════════════════════════════════════════════════════════ -->
+<div id="success-overlay" class="fixed inset-0 bg-brand-dark/95 backdrop-blur-xl z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-500">
+  <div id="success-modal" class="bg-brand-card border border-white/10 shadow-2xl rounded-3xl p-7 max-w-md w-full text-center transform scale-90 transition-all duration-500 relative overflow-hidden">
+    
+    <!-- Decorative background glow inside modal -->
+    <div class="absolute -top-12 -left-12 w-40 h-40 bg-brand-accent/10 rounded-full blur-2xl pointer-events-none"></div>
+
+    <!-- Animated checkmark -->
+    <div class="success-checkmark mb-5">
+      <div class="check-icon">
+        <span class="icon-line line-tip"></span>
+        <span class="icon-line line-long"></span>
+        <div class="icon-circle"></div>
+        <div class="icon-fix"></div>
+      </div>
+    </div>
+
+    <h3 class="text-2xl font-black text-white uppercase tracking-tight">Order Placed Successfully!</h3>
+    <p class="text-sm text-gray-400 mt-2 font-medium">Thank you for shopping with WE//DONE. Your payment details and receipt are listed below.</p>
+    
+    <!-- Order info box -->
+    <div class="my-6 bg-white/[0.02] border border-white/5 rounded-2xl p-5 text-left space-y-3">
+      <div class="flex justify-between text-xs border-b border-white/5 pb-2">
+        <span class="text-gray-400 font-bold uppercase tracking-wider">Order Reference</span>
+        <span id="receipt-ref" class="text-white font-mono font-bold">#WD-1029</span>
+      </div>
+      <div class="flex justify-between text-xs border-b border-white/5 pb-2">
+        <span class="text-gray-400 font-bold uppercase tracking-wider">Customer Name</span>
+        <span id="receipt-name" class="text-white font-bold">John Doe</span>
+      </div>
+      <div class="flex justify-between text-xs border-b border-white/5 pb-2">
+        <span class="text-gray-400 font-bold uppercase tracking-wider">Payment Method</span>
+        <span id="receipt-payment" class="text-white font-bold">Cash on Delivery</span>
+      </div>
+      <div class="flex justify-between text-xs border-b border-white/5 pb-2">
+        <span class="text-gray-400 font-bold uppercase tracking-wider">Shipping Address</span>
+        <span id="receipt-address" class="text-white font-medium text-right max-w-[180px] truncate">123 Street Address</span>
+      </div>
+      <div class="flex justify-between text-xs pt-1">
+        <span class="text-gray-400 font-black uppercase tracking-wider">Amount Paid</span>
+        <span id="receipt-amount" class="text-brand-accent font-black font-mono text-sm">0.00 MAD</span>
+      </div>
+    </div>
+
+    <button onclick="closeSuccessModal()" class="w-full bg-brand-accent hover:bg-brand-accentHover text-white font-black py-4 rounded-2xl text-sm transition-all duration-300 shadow-lg shadow-orange-500/15 btn-lift uppercase tracking-widest">
+      Continue Shopping
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════ -->
+<!-- Footer -->
+    <footer class="bg-[#090D16] text-white pt-20 pb-8 border-t border-white/5 font-sans overflow-hidden select-none">
+  <div class="max-w-7xl mx-auto px-6">
+    
+    <!-- القسم العلوي: تقسيم ذكي بـ 4 أعمدة متناسقة -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 border-b border-white/5">
+      
+      <!-- العمود 1: براند اللوغو والاشتراك ف النيوزليتر -->
+      <div class="lg:col-span-4 flex flex-col space-y-6">
+  <a href="index.html" class="flex items-center shrink-0 -mt-3 ml-24" aria-label="Fitness Premium Home">
+    <img
+      src="images/pok1.png"
+      alt="Fitness Premium"
+      class="h-[98px] w-auto object-contain"
+      style="max-width: 270px;"
+    >
+  </a>
+        <p class="text-gray-400 text-sm max-w-sm leading-relaxed font-light -mt-4">
+          Ignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.
+        </p>
+        
+        <!-- حقل الاشتراك -->
+        <div class="max-w-md w-full pt-2">
+          <form class="relative flex items-center border-b border-white/20 pb-2 focus-within:border-[#FF4C11] transition-colors duration-300">
+            <span class="absolute left-0 text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+              </svg>
+            </span>
+            <input type="email" placeholder="Enter Your Email Address" class="bg-transparent pl-8 pr-12 py-2 w-full text-sm text-white placeholder-gray-500 outline-none focus:ring-0" required />
+            <button type="submit" class="absolute right-0 group flex items-center justify-center w-8 h-8 rounded-full bg-transparent hover:bg-[#FF4C11] text-white transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5l6 6m0 0l-6 6m6-6H3" />
+              </svg>
+            </button>
+          </form>
+          
+          <!-- خانة الموافقة والخصوصية الاحترافية المخصصة (Custom Checkbox) -->
+          <label class="flex items-center gap-3 mt-5 cursor-pointer group select-none">
+  <div class="relative flex items-center justify-center">
+    <input type="checkbox" class="sr-only peer" required />
+    <!-- المربع المخصص مع تأثيرات الانتقال الناعمة -->
+    <div class="w-4 h-4 rounded border border-white/30 bg-[#121212] flex items-center justify-center transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] peer-checked:scale-105 peer-checked:bg-[#FF4C11] peer-checked:border-[#FF4C11] peer-checked:shadow-[0_0_10px_rgba(255,76,17,0.5)] group-hover:border-white/50 active:scale-90">
+      <!-- علامة الصح المتحركة (تترسم عند التحديد) -->
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-2.5 h-2.5 text-white opacity-0 scale-50 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] peer-checked:opacity-100 peer-checked:scale-100 custom-check-svg">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>
+    </div>
+  </div>
+  <span class="text-xs text-gray-400 font-light group-hover:text-gray-300 transition-colors">
+    I agree to the <a href="#privacy" class="underline hover:text-[#FF4C11] transition-colors">Privacy Policy</a>.
+  </span>
+</label>
+        </div>
+      </div>
+
+      <!-- العمود 2: الدعم والمساعدة (عناوين أكبر text-sm) -->
+      <div class="lg:col-span-3 flex flex-col space-y-6 lg:pl-8">
+        <h4 class="text-sm font-black uppercase tracking-wider text-white border-l-2 border-[#FF4C11] pl-3">
+          Support
+        </h4>
+        <ul class="flex flex-col space-y-3 text-sm text-gray-400 font-light">
+          <li><a href="#shipping" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Shipping Policy</a></li>
+          <li><a href="#returns" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Returns & Exchanges</a></li>
+          <li><a href="#faq" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">FAQs</a></li>
+          <li><a href="#privacy" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Privacy Policy</a></li>
+        </ul>
+      </div>
+
+      <!-- العمود 3: الروابط السريعة (عناوين أكبر text-sm) -->
+      <div class="lg:col-span-2 flex flex-col space-y-6">
+        <h4 class="text-sm font-black uppercase tracking-wider text-white border-l-2 border-[#FF4C11] pl-3">
+          Links
+        </h4>
+        <ul class="flex flex-col space-y-3 text-sm text-gray-400 font-light">
+          <li><a href="#home" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Home</a></li>
+          <li><a href="#services" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Services</a></li>
+          <li><a href="#about" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">About Us</a></li>
+          <li><a href="#shop" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Shop</a></li>
+        </ul>
+      </div>
+
+      <!-- العمود 4: مواقع التواصل (عناوين أكبر text-sm) -->
+      <div class="lg:col-span-3 flex flex-col space-y-6">
+        <h4 class="text-sm font-black uppercase tracking-wider text-white border-l-2 border-[#FF4C11] pl-3">
+          Follow Us
+        </h4>
+        <p class="text-gray-500 text-xs font-light max-w-xs">Join our fitness community on social media platforms.</p>
+        
+        <div class="flex flex-row items-center gap-3 pt-1">
+          <a href="#facebook" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#FF4C11] hover:border-[#FF4C11] hover:shadow-[0_0_15px_rgba(255,76,17,0.3)] transition-all duration-300">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+          </a>
+          <a href="#x" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#FF4C11] hover:border-[#FF4C11] hover:shadow-[0_0_15px_rgba(255,76,17,0.3)] transition-all duration-300">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#dribbble" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#FF4C11] hover:border-[#FF4C11] hover:shadow-[0_0_15px_rgba(255,76,17,0.3)] transition-all duration-300">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm6.65 4.81c.44.43.82.92 1.13 1.45-1.11-.29-2.55-.42-4.14-.36-.12-.39-.25-.78-.4-1.16 1.44-.06 2.66.02 3.41.07zm-4.74-.21c.14.36.27.73.38 1.11-1.57.04-3.23-.1-4.79-.43.51-.83 1.18-1.54 1.96-2.08.88.5 1.7 1.01 2.45 1.4zm-6.13.9c1.51.31 3.11.45 4.63.41-.09.28-.2.57-.31.85-1.63-.07-3.41-.33-5.06-.82.21-.29.46-.57.74-.84zm-1.39 2.51c1.68.51 3.5.78 5.16.86-.33.95-.75 1.9-1.26 2.79-1.95-.59-3.95-1.54-5.59-2.81.42-.31.87-.59 1.69-.84zm-.31 4.79c1.55 1.19 3.44 2.08 5.28 2.64-.17.43-.37.84-.58 1.23-1.96-.65-3.66-1.74-4.94-3.14.07-.25.15-.49.24-.73zm6.66 3.65c.19-.36.37-.73.53-1.12 1.49-.39 2.91-.97 4.14-1.71.39.73.66 1.54.78 2.4-1.36.68-2.88 1.05-4.45 1.05-.34 0-.67-.02-1-.04zm5.06-4c-1.15.68-2.48 1.21-3.87 1.57.46-.81.84-1.67 1.13-2.54 1.43-.1 2.64-.26 3.56-.49.03.49-.13.98-.82 1.46z" clip-rule="evenodd"/></svg>
+          </a>
+          <a href="#instagram" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#FF4C11] hover:border-[#FF4C11] hover:shadow-[0_0_15px_rgba(255,76,17,0.3)] transition-all duration-300">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- القسم السفلي: حقوق الملكية + زر الصعود -->
+    <div class="flex flex-col sm:flex-row items-center justify-between pt-8 text-xs text-gray-500 font-light gap-4">
+      <div>
+        AxiomThemes © 2026. All rights reserved.
+      </div>
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="group flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#121212] hover:bg-[#FF4C11] hover:border-[#FF4C11] text-white shadow-md transition-all duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 group-hover:-translate-y-0.5 transition-transform">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+        </svg>
+      </button>
+    </div>
+
+  </div>
+</footer>
+
+<style>
+   /* تأثير رسم علامة الـ Check وتكبيرها الذكي بالـ CSS */
+  .peer:checked + div .custom-check-svg {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+  }
+  
+  /* تأثير النبضة الخفيفة عند الضغط */
+  .peer:active + div {
+    transform: scale(0.85);
+  }
+</style>
+
+<!-- ════════════════════════════════════════════════════════
+     JAVASCRIPT LOGIC
+════════════════════════════════════════════════════════ -->
+<script>
+  const DJANGO_BASE_URL = 'http://127.0.0.1:8000';
+  let cartTotalAmount = 0; // to keep track for receipt display
+
+  // Auth check and helper methods
+  function getToken()    { return localStorage.getItem('bearer_token'); }
+  function authHeaders() { return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${getToken()}` }; }
+
+  // Listen to dynamic auth events on checkout
+  document.addEventListener('auth-state-changed', (e) => {
+    if (e.detail.token) {
+      loadOrderSummary();
+    } else {
+      window.location.href = 'shop.html';
+    }
+  });
+
+  // Guard page load
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!getToken()) {
+      setTimeout(() => {
+        if (typeof showAuthModal === 'function') {
+          showAuthModal();
+          // Bind redirection if they close auth modal without logging in
+          const closeBtn = document.getElementById('modal-close-btn');
+          if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+              if (!getToken()) window.location.href = 'shop.html';
+            });
+          }
+          const overlay = document.getElementById('global-auth-modal-overlay');
+          if (overlay) {
+            overlay.addEventListener('click', (e) => {
+              if (e.target === overlay && !getToken()) window.location.href = 'shop.html';
+            });
+          }
+        } else {
+          window.location.href = 'shop.html';
+        }
+      }, 100);
+    }
+  });
+
+  /* ── Toast System ── */
+  function showToast(title, subtitle, type = 'success') {
+    const icons = {
+      success: '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>',
+      error:   '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>',
+      info:    '<path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zM12 8.25h.008v.008H12V8.25z"/>'
+    };
+    const container = document.getElementById('toast-container');
+    const el = document.createElement('div');
+    el.className = `toast toast-${type}`;
+    el.innerHTML = `
+      <svg class="toast-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">${icons[type] || icons.info}</svg>
+      <div class="toast-body"><strong>${title}</strong>${subtitle ? `<span>${subtitle}</span>` : ''}</div>`;
+    container.appendChild(el);
+    requestAnimationFrame(() => { requestAnimationFrame(() => el.classList.add('show')); });
+    setTimeout(() => {
+      el.classList.remove('show'); el.classList.add('hide');
+      setTimeout(() => el.remove(), 400);
+    }, 3500);
+  }
+
+  /* ── Interactive payment option styling ── */
+  function updatePaymentUI() {
+    const paymentMethods = document.getElementsByName('payment_method');
+    paymentMethods.forEach(radio => {
+      const parentLabel = radio.closest('.payment-option-card');
+      if (radio.checked) {
+        parentLabel.classList.add('active');
+      } else {
+        parentLabel.classList.remove('active');
+      }
+    });
+  }
+
+  // Set initial state of payment options
+  updatePaymentUI();
+
+  /* ── Dynamically load summary and items ── */
+  async function loadOrderSummary() {
+    if (!getToken()) return;
+    const itemsContainer = document.getElementById('checkout-items');
+    try {
+      const res = await fetch(`${DJANGO_BASE_URL}/api/cart/`, { headers: authHeaders() });
+      if (res.status === 401) {
+        localStorage.removeItem('bearer_token');
+        if (typeof showAuthModal === 'function') {
+          showAuthModal();
+        } else {
+          window.location.href = 'shop.html';
+        }
+        return;
+      }
+      
+      const data = await res.json();
+      const items = data.items || [];
+      
+      // Update badge header
+      document.getElementById('cart-count').textContent = items.length;
+
+      if (items.length === 0) {
+        itemsContainer.innerHTML = `
+          <div class="text-center py-8">
+            <p class="text-sm text-gray-400 font-semibold">Your cart is empty.</p>
+            <a href="shop.html" class="inline-block mt-3 text-xs text-brand-accent font-black hover:underline uppercase tracking-wider">Back to Shop</a>
+          </div>`;
+        document.getElementById('summary-subtotal').textContent = '0.00 MAD';
+        document.getElementById('summary-total').textContent = '0.00 MAD';
+        document.getElementById('btn-place-order').disabled = true;
+        document.getElementById('btn-place-order').classList.add('opacity-50', 'cursor-not-allowed');
+        return;
+      }
+
+      itemsContainer.innerHTML = '';
+      let subtotal = 0;
+
+      items.forEach(item => {
+        const p = item.product;
+        const price = parseFloat(p.price);
+        subtotal += price * item.quantity;
+
+        // Image URL prepending
+        const imgUrl = p.image
+          ? (p.image.startsWith('http') ? p.image : `${DJANGO_BASE_URL}${p.image}`)
+          : '';
+
+        const itemEl = document.createElement('div');
+        itemEl.className = 'flex items-center justify-between gap-4 py-2 border-b border-white/5 last:border-0';
+        itemEl.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-14 h-14 bg-white/5 rounded-xl overflow-hidden flex items-center justify-center p-1 shrink-0 border border-white/5">
+              ${imgUrl
+                ? `<img src="${imgUrl}" alt="${p.name}" class="max-w-full max-h-full object-contain">`
+                : `<svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>`
+              }
+            </div>
+            <div>
+              <span class="block text-sm font-bold text-white max-w-[200px] truncate leading-tight">${p.name}</span>
+              <span class="block text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">${p.category_name || ''}</span>
+              <span class="block text-xs text-gray-400 mt-1 font-semibold">Qty: <span class="font-mono text-white">${item.quantity}</span></span>
+            </div>
+          </div>
+          <span class="text-sm font-bold text-white font-mono shrink-0">${(price * item.quantity).toFixed(2)} MAD</span>`;
+        itemsContainer.appendChild(itemEl);
+      });
+
+      const shipping = subtotal > 0 ? 40 : 0;
+      cartTotalAmount = subtotal + shipping;
+
+      document.getElementById('summary-subtotal').textContent = `${subtotal.toFixed(2)} MAD`;
+      document.getElementById('summary-shipping').textContent = `${shipping.toFixed(2)} MAD`;
+      document.getElementById('summary-total').textContent = `${cartTotalAmount.toFixed(2)} MAD`;
+
+    } catch (err) {
+      console.error('Checkout cart loading error:', err);
+      itemsContainer.innerHTML = `
+        <p class="text-xs text-red-500 font-semibold">Failed to fetch cart. Please reload the page.</p>`;
+    }
+  }
+
+  /* ── Submit Order to Backend ── */
+  async function submitOrder(e) {
+    e.preventDefault();
+
+    const form = document.getElementById('checkout-form');
+    const btn = document.getElementById('btn-place-order');
+    const spinner = document.getElementById('btn-spinner');
+    const btnText = document.getElementById('btn-text');
+
+    // Validation
+    const fields = ['first_name', 'last_name', 'email', 'phone', 'address'];
+    let hasErrors = false;
+
+    fields.forEach(fId => {
+      const input = document.getElementById(fId);
+      if (!input.value.trim()) {
+        input.classList.add('error-field');
+        hasErrors = true;
+      } else {
+        input.classList.remove('error-field');
+      }
+    });
+
+    if (hasErrors) {
+      showToast('Validation Error', 'Please fill in all the required shipping fields.', 'error');
+      return;
+    }
+
+    // Lock button and show spinner
+    btn.disabled = true;
+    btn.classList.add('opacity-80', 'cursor-wait');
+    spinner.classList.remove('hidden');
+    btnText.textContent = 'Processing...';
+
+    const first_name = document.getElementById('first_name').value.trim();
+    const last_name = document.getElementById('last_name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const address = document.getElementById('address').value.trim();
+    
+    const paymentMethods = document.getElementsByName('payment_method');
+    let payment_method = 'COD';
+    paymentMethods.forEach(radio => {
+      if (radio.checked) payment_method = radio.value;
+    });
+
+    const payload = {
+      first_name,
+      last_name,
+      email,
+      phone,
+      address,
+      payment_method
+    };
+
+    try {
+      const response = await fetch(`${DJANGO_BASE_URL}/api/orders/`, {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Clear local storage if there is local cart cache keys
+        localStorage.removeItem('cart_data');
+        localStorage.removeItem('cart_count');
+
+        // Show Success Modal
+        showSuccessModal(data.order, payload);
+      } else {
+        showToast('Order Failed', data.error || 'Failed to place order. Please check input values.', 'error');
+      }
+    } catch (err) {
+      console.error('Order submission error:', err);
+      showToast('Error', 'Connection failed. Please make sure the Django server is online.', 'error');
+    } finally {
+      // Re-enable button
+      btn.disabled = false;
+      btn.classList.remove('opacity-80', 'cursor-wait');
+      spinner.classList.add('hidden');
+      btnText.textContent = 'Place Order';
+    }
+  }
+
+  /* ── Success Modal & Confetti Burst ── */
+  function showSuccessModal(order, formDetails) {
+  const overlay = document.getElementById('success-overlay');
+  const modal = document.getElementById('success-modal');
+  const header = document.getElementById('site-header');
+
+  // Fill in receipt details
+  document.getElementById('receipt-ref').textContent = `#WD-${order.id}`;
+  document.getElementById('receipt-name').textContent = `${formDetails.first_name} ${formDetails.last_name}`;
+  document.getElementById('receipt-payment').textContent = formDetails.payment_method === 'COD' ? 'Cash on Delivery (COD)' : 'Credit Card';
+  document.getElementById('receipt-address').textContent = formDetails.address;
+  document.getElementById('receipt-amount').textContent = `${cartTotalAmount.toFixed(2)} MAD`;
+
+  // Hide the header behind the success overlay
+  if (header) header.classList.add('header-hidden');
+
+  // Show modal elements
+  overlay.classList.remove('opacity-0', 'pointer-events-none');
+  overlay.classList.add('opacity-100', 'pointer-events-auto');
+  modal.classList.remove('scale-90');
+  modal.classList.add('scale-100');
+
+  // Trigger premium confetti burst
+  triggerConfetti();
+}
+
+  function triggerConfetti() {
+    const duration = 3 * 1000;
+    const end = Date.now() + duration;
+
+    (function frame() {
+      // Left side burst
+      confetti({
+        particleCount: 4,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+        colors: ['#E63E17', '#ffffff', '#ff7849']
+      });
+      // Right side burst
+      confetti({
+        particleCount: 4,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+        colors: ['#E63E17', '#ffffff', '#ff7849']
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    }());
+  }
+
+  function closeSuccessModal() {
+    // Clear and redirect to shop.html
+    window.location.href = 'shop.html';
+  }
+
+  // Load summary on mount
+  document.addEventListener('DOMContentLoaded', loadOrderSummary);
+</script>
+
+<script>
+  /* ── Mobile menu ── */
+  document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+  });
+
+  /* ── Header scroll ── */
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      header.classList.remove('header-top-dark');
+      header.classList.add('header-sticky-active');
+    } else {
+      header.classList.remove('header-sticky-active');
+      header.classList.add('header-top-dark');
+    }
+  });
+</script>
+
+
+<script src="index.js"></script>
+
+<script src="auth-modal.js"></script>
+<script src="cartDrawer.js"></script>
+</body>
+</html>

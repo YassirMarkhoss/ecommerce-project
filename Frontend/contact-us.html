@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — NoPainNoGain</title>
+  <meta name="description" content="Get in touch with the WE//DONE team. Questions about supplements, orders, or partnerships — we're here to help you reach peak performance.">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#090D16',
+              card: '#0e1424',
+              accent: '#E63E17',
+              accentHover: '#C5310F',
+              slate: '#1E293B',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Poppins', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #090D16; }
+    h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+
+    /* ── Ambient orb glows ── */
+    .contact-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    /* ── Glass info card ── */
+    .info-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 1.5rem;
+      backdrop-filter: blur(10px);
+      transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .info-card:hover {
+      background: rgba(255,255,255,0.055);
+      border-color: rgba(230,62,23,0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    /* ── Contact form field ── */
+    .contact-field {
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 0.85rem;
+      color: #f3f4f6;
+      padding: 0.9rem 1.1rem;
+      font-size: 0.875rem;
+      font-family: 'Inter', sans-serif;
+      width: 100%;
+      outline: none;
+      transition: all 0.25s ease;
+    }
+    .contact-field::placeholder { color: rgba(255,255,255,0.28); }
+    .contact-field:focus {
+      border-color: #E63E17;
+      box-shadow: 0 0 0 3px rgba(230,62,23,0.16);
+      background: rgba(255,255,255,0.08);
+    }
+    .contact-field:-webkit-autofill,
+    .contact-field:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0 1000px #0e1424 inset !important;
+      -webkit-text-fill-color: #f3f4f6 !important;
+    }
+
+    /* ── Section label ── */
+    .section-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #E63E17;
+    }
+
+    /* ── Send btn ── */
+    .send-btn {
+      background: linear-gradient(135deg, #E63E17, #ff5d38);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 1rem 2.5rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(230,62,23,0.3);
+    }
+    .send-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 32px rgba(230,62,23,0.45);
+      background: linear-gradient(135deg, #C5310F, #E63E17);
+    }
+    .send-btn:active { transform: translateY(0); }
+
+    /* ── Hero decorative lines ── */
+    .slash-deco {
+      color: #E63E17;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 900;
+    }
+
+    /* ── Divider with orange pip ── */
+    .orange-pip { display: inline-block; width: 6px; height: 6px; background: #E63E17; border-radius: 50%; }
+
+    /* ── Map placeholder ── */
+    .map-box {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 1.5rem;
+      overflow: hidden;
+      position: relative;
+    }
+    .map-box::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 70%, #090D16);
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .anim-in { animation: fadeSlideUp 0.7s cubic-bezier(0.25,1,0.5,1) both; }
+    .anim-in-2 { animation: fadeSlideUp 0.7s 0.15s cubic-bezier(0.25,1,0.5,1) both; }
+    .anim-in-3 { animation: fadeSlideUp 0.7s 0.28s cubic-bezier(0.25,1,0.5,1) both; }
+  </style>
+</head>
+
+<body class="text-gray-100 min-h-screen relative overflow-x-hidden">
+
+<!-- Toast container -->
+<div id="toast-container" class="z-50"></div>
+
+<!-- ══════════════════════════════════════════════
+     GLOBAL HEADER
+══════════════════════════════════════════════ -->
+<header id="site-header" class="fixed top-0 left-0 w-full z-50 header-top-dark transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href="index.html" class="flex items-center self-stretch shrink-0 ml-4" aria-label="Fitness Premium Home">
+  <img
+    src="images/pok1.png"
+    alt="Fitness Premium"
+    class="h-[72px] w-auto object-contain mt-auto mb-2"
+    style="max-width: 260px;"
+  >
+</a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden md:flex items-center gap-8 text-[13px] font-bold tracking-widest text-white/90">
+      <a href="index.html" class="group relative py-1.5 transition-colors hover:text-white">
+        HOME<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+      </a>
+
+      <!-- SHOP dropdown -->
+      <div class="relative group py-1.5">
+        <a href="shop.html" class="transition-colors cursor-pointer block">SHOP</a>
+        <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+        <div class="absolute top-[100%] left-0 w-60 bg-[#222222] text-white shadow-2xl p-5 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-50 mt-2 flex flex-col gap-5">
+          <a href="shop.html?category=supplements" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Supplements<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          <a href="shop.html?category=gymwear" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Gym Wear<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          <a href="shop.html?category=accessories" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Accessories<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- PAGES dropdown -->
+      <div class="relative group py-1.5">
+        <a href="#" class="transition-colors cursor-pointer block">PAGES</a>
+        <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+        <div class="absolute top-[100%] left-0 w-60 bg-[#222222] text-white shadow-2xl p-5 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-50 mt-2 flex flex-col gap-5">
+          <a href="blog.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Blog Articles<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          <a href="wishlist.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            My Wishlist<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          
+          <a href="cart.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Shopping Cart<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+
+          <a href="about.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            About us<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+        </div>
+      </div>
+
+      <a href="blog.html" class="group relative py-1.5 transition-colors hover:text-white">
+        BLOG<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+      </a>
+      <a href="contact-us.html" class="group relative py-1.5 transition-colors hover:text-white">
+        CONTACT US<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+      </a>
+    </nav>
+
+    <!-- Right Icons -->
+    <div class="hidden md:flex items-center gap-7">
+      <button id="search-btn" class="text-white hover:scale-105 transform transition-all duration-300 ease-out focus:outline-none" aria-label="Search">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </button>
+      <div class="h-6 w-[1px] bg-white/20 mx-1"></div>
+
+      <a href="Auth.html" class="text-white hover:scale-105 transform transition-all duration-300 ease-out" aria-label="Account/Login">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0ZM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+        </svg>
+      </a>
+      <a href="wishlist.html" class="text-white hover:scale-105 transform transition-all duration-300 ease-out" aria-label="Wishlist">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+        </svg>
+      </a>
+
+      <!-- CART BUTTON — opens the slide-in drawer (same as shop.html) -->
+      <button id="cart-icon-btn" onclick="toggleCartDrawer(true)" class="relative text-white hover:scale-105 transform transition-all duration-300 ease-out focus:outline-none" aria-label="Cart">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+        </svg>
+        <span id="cart-count" class="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center rounded-full bg-[#E63E17] text-[9px] font-black text-white leading-none">0</span>
+      </button>
+    </div>
+
+    <!-- Mobile Hamburger -->
+    <button id="mobile-menu-btn" class="md:hidden text-white hover:text-[#E63E17] focus:outline-none" aria-label="Toggle Menu">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-[#090D16]/95 border-b border-white/10 px-6 py-4 flex flex-col gap-4 text-white font-bold tracking-widest text-xs shadow-lg">
+    <a href="index.html"      class="hover:text-[#E63E17] transition-colors py-1">HOME</a>
+    <a href="shop.html"       class="hover:text-[#E63E17] transition-colors py-1">SHOP</a>
+    <a href="blog.html"       class="hover:text-[#E63E17] transition-colors py-1">BLOG</a>
+    <a href="contact-us.html" class="hover:text-[#E63E17] transition-colors py-1">CONTACT US</a>
+    <a href="Auth.html"       class="hover:text-[#E63E17] transition-colors py-1">MY ACCOUNT</a>
+    <button id="mobile-search-btn" class="text-left hover:text-[#E63E17] transition-colors py-1 focus:outline-none">SEARCH</button>
+    <button onclick="toggleCartDrawer(true)" class="text-left hover:text-[#E63E17] transition-colors py-1 focus:outline-none">CART</button>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════
+     SEARCH OVERLAY
+══════════════════════════════════════════════ -->
+
+<!-- الـ Search Overlay المصلح (خلفية عاتمة مغطية كلشي وسطر متموضع صح) -->
+   
+<div id="search-panel" class="fixed inset-x-0 top-0 bg-[#090d16] border-b border-white/10 z-[999] transform -translate-y-full transition-all duration-500 ease-out pointer-events-none opacity-0 flex flex-col pt-6 pb-8">
+  
+  <div class="max-w-7xl mx-auto w-full px-6 flex items-center justify-between">
+    <a href="#" class="flex items-center self-stretch shrink-0 ml-4" aria-label="Fitness Premium Home">
+      <img
+        src="images/pok1.png"
+        alt="Fitness Premium"
+        class="h-[83px] w-auto object-contain mt-auto mb-2"
+        style="max-width: 260px;"
+      >
+    </a>
+    <button id="close-search" class="text-white/70 hover:text-[#E63E17] hover:scale-110 transform transition-all duration-300 focus:outline-none">
+      <svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="max-w-4xl mx-auto w-full px-6 mt-6">
+    <div class="relative flex items-center border-b border-white/20 focus-within:border-[#E63E17] transition-colors duration-300 pb-3">
+      <input 
+        id="search-input"
+        type="text" 
+        autocomplete="off"
+        placeholder="Search for your potential..." 
+        class="bg-transparent text-xl md:text-lg text-white placeholder-white/20 focus:outline-none w-full font-light tracking-wide pr-10"
+      />
+      <svg class="w-5 h-5 text-white/30 absolute right-0 bottom-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+    </div>
+    <div id="suggestions-box" class="hidden mt-3 max-h-[40vh] overflow-y-auto"></div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════
+     CART DRAWER
+══════════════════════════════════════════════ -->
+<div id="cart-drawer-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 opacity-0 pointer-events-none invisible transition-opacity duration-300" onclick="toggleCartDrawer(false)"></div>
+
+<div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white z-50 shadow-2xl translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+  <!-- Drawer header -->
+  <div class="p-6 border-b border-gray-100 flex items-center justify-between shrink-0">
+    <h3 class="text-base font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+      Shopping Cart
+      <span id="drawer-cart-count" class="text-[11px] bg-[#E63E17] text-white px-2 py-0.5 rounded-full font-mono leading-none">0</span>
+    </h3>
+    <button onclick="toggleCartDrawer(false)" class="text-gray-400 hover:text-gray-900 transition-colors p-1 hover:rotate-90 transition-transform duration-200">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <!-- Items list -->
+  <div id="drawer-items-list" class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar"></div>
+
+  <!-- Drawer footer -->
+  <div class="p-6 border-t border-gray-100 bg-gray-50/60 space-y-4 shrink-0">
+    <div class="space-y-2 text-sm text-gray-600">
+      <div class="flex justify-between">
+        <span>Subtotal</span>
+        <span id="drawer-subtotal" class="font-bold text-gray-900 font-mono">0.00 MAD</span>
+      </div>
+      <div class="flex justify-between">
+        <span>Shipping</span>
+        <span id="drawer-shipping" class="font-bold text-gray-900 font-mono">40.00 MAD</span>
+      </div>
+      <div class="border-t border-gray-200 pt-2 flex justify-between text-base font-black text-gray-900">
+        <span>Total</span>
+        <span id="drawer-total" class="text-[#E63E17] font-mono">0.00 MAD</span>
+      </div>
+    </div>
+    <a href="cart.html" class="block w-full text-center border-2 border-gray-200 hover:border-gray-900 text-gray-700 hover:text-gray-900 font-bold py-3 rounded-xl text-sm transition-all duration-200">
+      View Full Cart
+    </a>
+    <button onclick="goToCheckout()" class="w-full bg-[#E63E17] hover:bg-[#C5310F] text-white font-black py-3.5 rounded-xl text-sm transition-all duration-200 shadow-lg shadow-orange-500/15 btn-lift uppercase tracking-widest">
+      Checkout
+    </button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PAGE HERO BANNER
+══════════════════════════════════════════════ -->
+<section class="relative pt-36 pb-20 overflow-hidden">
+  <!-- Orb Glows -->
+  <div class="contact-orb bg-[#E63E17] w-[500px] h-[500px] -top-32 -left-40"></div>
+  <div class="contact-orb bg-blue-700 w-[400px] h-[400px] top-20 -right-32" style="opacity:0.1;"></div>
+
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-gray-500 mb-8">
+      <a href="index.html" class="hover:text-[#E63E17] transition-colors">Home</a>
+      <span>/</span>
+      <span class="text-[#E63E17]">Contact Us</span>
+    </nav>
+
+    <div class="max-w-2xl anim-in">
+      <span class="section-eyebrow block mb-4">Get In Touch</span>
+      <h1 class="text-5xl md:text-7xl font-black uppercase leading-none tracking-tight text-white mb-6">
+        LET'S <br>TALK
+      </h1>
+      <p class="text-gray-400 text-lg leading-relaxed max-w-lg">
+        Have a question about our supplements, your order, or want to explore a partnership? Our team is ready to help you reach peak performance.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     CONTACT INFO CARDS
+══════════════════════════════════════════════ -->
+<section class="max-w-7xl mx-auto px-6 pb-16 relative z-10">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5 anim-in-2">
+
+    <!-- Card 1: Location -->
+    <div class="info-card p-7 flex flex-col gap-4">
+      <div class="w-12 h-12 rounded-2xl bg-[#E63E17]/10 border border-[#E63E17]/20 flex items-center justify-center">
+        <svg class="w-6 h-6 text-[#E63E17]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/>
+        </svg>
+      </div>
+      <div>
+        <span class="section-eyebrow block mb-1">Our Location</span>
+        <p class="text-white font-bold text-base">Marrakech, Morocco</p>
+        <p class="text-gray-500 text-sm mt-1">Quartier des Affaires, Zone Industrielle</p>
+      </div>
+    </div>
+
+    <!-- Card 2: Email -->
+    <div class="info-card p-7 flex flex-col gap-4">
+      <div class="w-12 h-12 rounded-2xl bg-[#E63E17]/10 border border-[#E63E17]/20 flex items-center justify-center">
+        <svg class="w-6 h-6 text-[#E63E17]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
+        </svg>
+      </div>
+      <div>
+        <span class="section-eyebrow block mb-1">Email Us</span>
+        <a href="mailto:support@npng.ma" class="text-white font-bold text-base hover:text-[#E63E17] transition-colors">support@gmail.com</a>
+        <p class="text-gray-500 text-sm mt-1">We reply within 24 hours</p>
+      </div>
+    </div>
+
+    <!-- Card 3: Phone -->
+    <div class="info-card p-7 flex flex-col gap-4">
+      <div class="w-12 h-12 rounded-2xl bg-[#E63E17]/10 border border-[#E63E17]/20 flex items-center justify-center">
+        <svg class="w-6 h-6 text-[#E63E17]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/>
+        </svg>
+      </div>
+      <div>
+        <span class="section-eyebrow block mb-1">Call Us</span>
+        <a href="tel:+212600000000" class="text-white font-bold text-base hover:text-[#E63E17] transition-colors">+212 6 47 68 52 64</a>
+        <p class="text-gray-500 text-sm mt-1">Mon – Fri, 9:00 AM – 6:00 PM</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     MAIN CONTENT — Form + Extra Info
+══════════════════════════════════════════════ -->
+<section class="max-w-7xl mx-auto px-6 pb-28">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+
+    <!-- LEFT: Contact Form -->
+    <div class="lg:col-span-7 anim-in-3">
+      <div class="bg-[rgba(255,255,255,0.03)] border border-white/[0.08] rounded-3xl p-8 md:p-10 backdrop-blur-md">
+        <span class="section-eyebrow block mb-3">Send A Message</span>
+        <h2 class="text-3xl font-black text-white uppercase tracking-tight mb-8">We'd Love To Hear From You</h2>
+
+        <form id="contact-form" class="space-y-5" onsubmit="handleContactSubmit(event)">
+          <!-- Name Row -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="space-y-1.5">
+              <label class="text-[10px] font-black uppercase tracking-widest text-gray-400">Full Name</label>
+              <input type="text" id="contact-name" required placeholder="John Doe" class="contact-field">
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-[10px] font-black uppercase tracking-widest text-gray-400">Email Address</label>
+              <input type="email" id="contact-email" required placeholder="john@example.com" class="contact-field">
+            </div>
+          </div>
+
+          <!-- Subject -->
+          <div class="space-y-1.5">
+            <label class="text-[10px] font-black uppercase tracking-widest text-gray-400">Subject</label>
+            <select id="contact-subject" class="contact-field" style="background: rgba(255,255,255,0.05);">
+              <option value="" disabled selected style="background:#0e1424;">Choose a topic…</option>
+              <option value="order" style="background:#0e1424;">Order &amp; Shipping</option>
+              <option value="product" style="background:#0e1424;">Product Information</option>
+              <option value="return" style="background:#0e1424;">Returns &amp; Refunds</option>
+              <option value="partnership" style="background:#0e1424;">Partnership / Wholesale</option>
+              <option value="other" style="background:#0e1424;">Other</option>
+            </select>
+          </div>
+
+          <!-- Message -->
+          <div class="space-y-1.5">
+            <label class="text-[10px] font-black uppercase tracking-widest text-gray-400">Your Message</label>
+            <textarea id="contact-message" required rows="5" placeholder="Tell us how we can help you reach peak performance…" class="contact-field resize-none"></textarea>
+          </div>
+
+          <!-- Submit -->
+          <div class="flex items-center gap-5 pt-2">
+            <button type="submit" id="contact-submit-btn" class="send-btn flex items-center gap-3">
+              <svg id="contact-spinner" class="hidden w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+              <span id="contact-btn-text">Send Message</span>
+            </button>
+            <p class="text-[11px] text-gray-500 font-medium">We respond within 24 hours</p>
+          </div>
+
+          <!-- Alert -->
+          <div id="contact-alert" class="hidden p-4 rounded-xl text-xs font-semibold border mt-2"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- RIGHT: FAQ + Social -->
+    <div class="lg:col-span-5 flex flex-col gap-6">
+
+      <!-- FAQ block -->
+      <div class="info-card p-8">
+        <span class="section-eyebrow block mb-3">Quick Answers</span>
+        <h3 class="text-xl font-black text-white uppercase mb-6">Common Questions</h3>
+
+        <div class="space-y-5">
+          <div class="border-b border-white/5 pb-5">
+            <p class="text-sm font-bold text-white mb-1">How long does shipping take?</p>
+            <p class="text-xs text-gray-400 leading-relaxed">Standard delivery within Morocco takes 2–5 business days. Express options available at checkout.</p>
+          </div>
+          <div class="border-b border-white/5 pb-5">
+            <p class="text-sm font-bold text-white mb-1">Can I return a product?</p>
+            <p class="text-xs text-gray-400 leading-relaxed">Yes! We accept returns within 14 days of delivery for unopened, undamaged items.</p>
+          </div>
+          <div class="border-b border-white/5 pb-5">
+            <p class="text-sm font-bold text-white mb-1">Are your supplements certified?</p>
+            <p class="text-xs text-gray-400 leading-relaxed">All our products are third-party tested and comply with international health standards.</p>
+          </div>
+          <div>
+            <p class="text-sm font-bold text-white mb-1">Do you offer wholesale pricing?</p>
+            <p class="text-xs text-gray-400 leading-relaxed">Yes, for bulk orders over 50 units. Contact us via the form and select "Partnership / Wholesale".</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Social block -->
+      <div class="info-card p-8">
+        <span class="section-eyebrow block mb-3">Follow Us</span>
+        <h3 class="text-xl font-black text-white uppercase mb-5">Stay Connected</h3>
+        <div class="flex flex-col gap-3">
+          <!-- Instagram -->
+          <a href="#" class="flex items-center gap-4 group">
+            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-[#E63E17]/10 group-hover:border-[#E63E17]/20 transition-all">
+              <svg class="w-5 h-5 text-gray-400 group-hover:text-[#E63E17] transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </div>
+            <div>
+              <span class="block text-sm font-bold text-white group-hover:text-[#E63E17] transition-colors">@NPNG.Official</span>
+              <span class="block text-xs text-gray-500">Follow our fitness journey</span>
+            </div>
+          </a>
+
+          <!-- TikTok -->
+          <a href="#" class="flex items-center gap-4 group">
+            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-[#E63E17]/10 group-hover:border-[#E63E17]/20 transition-all">
+              <svg class="w-5 h-5 text-gray-400 group-hover:text-[#E63E17] transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+              </svg>
+            </div>
+            <div>
+              <span class="block text-sm font-bold text-white group-hover:text-[#E63E17] transition-colors">@NPNG_Fitness</span>
+              <span class="block text-xs text-gray-500">Workout tips &amp; nutrition hacks</span>
+            </div>
+          </a>
+
+          <!-- WhatsApp -->
+          <a href="https://wa.me/212647685264" class="flex items-center gap-4 group">
+            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-[#E63E17]/10 group-hover:border-[#E63E17]/20 transition-all">
+              <svg class="w-5 h-5 text-gray-400 group-hover:text-[#E63E17] transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+            </div>
+            <div>
+              <span class="block text-sm font-bold text-white group-hover:text-[#E63E17] transition-colors">WhatsApp Support</span>
+              <span class="block text-xs text-gray-500">Chat with us directly</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════ -->
+<!-- Footer -->
+    <footer class="bg-[#090D16] text-white pt-20 pb-8 border-t border-white/5 font-sans overflow-hidden select-none">
+  <div class="max-w-7xl mx-auto px-6">
+    
+    <!-- القسم العلوي: تقسيم ذكي بـ 4 أعمدة متناسقة -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 border-b border-white/5">
+      
+      <!-- العمود 1: براند اللوغو والاشتراك ف النيوزليتر -->
+      <div class="lg:col-span-4 flex flex-col space-y-6">
+  <a href="#" class="flex items-center shrink-0 -mt-3 ml-24" aria-label="Fitness Premium Home">
+    <img
+      src="images/pok1.png"
+      alt="Fitness Premium"
+      class="h-[98px] w-auto object-contain"
+      style="max-width: 270px;"
+    >
+  </a>
+        <p class="text-gray-400 text-sm max-w-sm leading-relaxed font-light -mt-4">
+          Ignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.
+        </p>
+        
+        <!-- حقل الاشتراك -->
+        <div class="max-w-md w-full pt-2">
+          <form class="relative flex items-center border-b border-white/20 pb-2 focus-within:border-[#FF4C11] transition-colors duration-300">
+            <span class="absolute left-0 text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+              </svg>
+            </span>
+            <input type="email" placeholder="Enter Your Email Address" class="bg-transparent pl-8 pr-12 py-2 w-full text-sm text-white placeholder-gray-500 outline-none focus:ring-0" required />
+            <button type="submit" class="absolute right-0 group flex items-center justify-center w-8 h-8 rounded-full bg-transparent hover:bg-[#FF4C11] text-white transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5l6 6m0 0l-6 6m6-6H3" />
+              </svg>
+            </button>
+          </form>
+          
+          <!-- خانة الموافقة والخصوصية الاحترافية المخصصة (Custom Checkbox) -->
+          <label class="flex items-center gap-3 mt-5 cursor-pointer group select-none">
+  <div class="relative flex items-center justify-center">
+    <input type="checkbox" class="sr-only peer" required />
+    <!-- المربع المخصص مع تأثيرات الانتقال الناعمة -->
+    <div class="w-4 h-4 rounded border border-white/30 bg-[#121212] flex items-center justify-center transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] peer-checked:scale-105 peer-checked:bg-[#FF4C11] peer-checked:border-[#FF4C11] peer-checked:shadow-[0_0_10px_rgba(255,76,17,0.5)] group-hover:border-white/50 active:scale-90">
+      <!-- علامة الصح المتحركة (تترسم عند التحديد) -->
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-2.5 h-2.5 text-white opacity-0 scale-50 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] peer-checked:opacity-100 peer-checked:scale-100 custom-check-svg">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>
+    </div>
+  </div>
+  <span class="text-xs text-gray-400 font-light group-hover:text-gray-300 transition-colors">
+    I agree to the <a href="#privacy" class="underline hover:text-[#FF4C11] transition-colors">Privacy Policy</a>.
+  </span>
+</label>
+        </div>
+      </div>
+
+      <!-- العمود 2: الدعم والمساعدة (عناوين أكبر text-sm) -->
+      <div class="lg:col-span-3 flex flex-col space-y-6 lg:pl-8">
+        <h4 class="text-sm font-black uppercase tracking-wider text-white border-l-2 border-[#FF4C11] pl-3">
+          Support
+        </h4>
+        <ul class="flex flex-col space-y-3 text-sm text-gray-400 font-light">
+          <li><a href="#shipping" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Shipping Policy</a></li>
+          <li><a href="#returns" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Returns & Exchanges</a></li>
+          <li><a href="#faq" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">FAQs</a></li>
+          <li><a href="#privacy" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Privacy Policy</a></li>
+        </ul>
+      </div>
+
+      <!-- العمود 3: الروابط السريعة (عناوين أكبر text-sm) -->
+      <div class="lg:col-span-2 flex flex-col space-y-6">
+        <h4 class="text-sm font-black uppercase tracking-wider text-white border-l-2 border-[#FF4C11] pl-3">
+          Links
+        </h4>
+        <ul class="flex flex-col space-y-3 text-sm text-gray-400 font-light">
+          <li><a href="#home" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Home</a></li>
+          <li><a href="#services" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Services</a></li>
+          <li><a href="#about" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">About Us</a></li>
+          <li><a href="#shop" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Shop</a></li>
+        </ul>
+      </div>
+
+      <!-- العمود 4: مواقع التواصل (عناوين أكبر text-sm) -->
+      <div class="lg:col-span-3 flex flex-col space-y-6">
+        <h4 class="text-sm font-black uppercase tracking-wider text-white border-l-2 border-[#FF4C11] pl-3">
+          Follow Us
+        </h4>
+        <p class="text-gray-500 text-xs font-light max-w-xs">Join our fitness community on social media platforms.</p>
+        
+        <div class="flex flex-row items-center gap-3 pt-1">
+          <a href="#facebook" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#FF4C11] hover:border-[#FF4C11] hover:shadow-[0_0_15px_rgba(255,76,17,0.3)] transition-all duration-300">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+          </a>
+          <a href="#x" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#FF4C11] hover:border-[#FF4C11] hover:shadow-[0_0_15px_rgba(255,76,17,0.3)] transition-all duration-300">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#dribbble" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#FF4C11] hover:border-[#FF4C11] hover:shadow-[0_0_15px_rgba(255,76,17,0.3)] transition-all duration-300">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm6.65 4.81c.44.43.82.92 1.13 1.45-1.11-.29-2.55-.42-4.14-.36-.12-.39-.25-.78-.4-1.16 1.44-.06 2.66.02 3.41.07zm-4.74-.21c.14.36.27.73.38 1.11-1.57.04-3.23-.1-4.79-.43.51-.83 1.18-1.54 1.96-2.08.88.5 1.7 1.01 2.45 1.4zm-6.13.9c1.51.31 3.11.45 4.63.41-.09.28-.2.57-.31.85-1.63-.07-3.41-.33-5.06-.82.21-.29.46-.57.74-.84zm-1.39 2.51c1.68.51 3.5.78 5.16.86-.33.95-.75 1.9-1.26 2.79-1.95-.59-3.95-1.54-5.59-2.81.42-.31.87-.59 1.69-.84zm-.31 4.79c1.55 1.19 3.44 2.08 5.28 2.64-.17.43-.37.84-.58 1.23-1.96-.65-3.66-1.74-4.94-3.14.07-.25.15-.49.24-.73zm6.66 3.65c.19-.36.37-.73.53-1.12 1.49-.39 2.91-.97 4.14-1.71.39.73.66 1.54.78 2.4-1.36.68-2.88 1.05-4.45 1.05-.34 0-.67-.02-1-.04zm5.06-4c-1.15.68-2.48 1.21-3.87 1.57.46-.81.84-1.67 1.13-2.54 1.43-.1 2.64-.26 3.56-.49.03.49-.13.98-.82 1.46z" clip-rule="evenodd"/></svg>
+          </a>
+          <a href="#instagram" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#FF4C11] hover:border-[#FF4C11] hover:shadow-[0_0_15px_rgba(255,76,17,0.3)] transition-all duration-300">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- القسم السفلي: حقوق الملكية + زر الصعود -->
+    <div class="flex flex-col sm:flex-row items-center justify-between pt-8 text-xs text-gray-500 font-light gap-4">
+      <div>
+        AxiomThemes © 2026. All rights reserved.
+      </div>
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="group flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#121212] hover:bg-[#FF4C11] hover:border-[#FF4C11] text-white shadow-md transition-all duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 group-hover:-translate-y-0.5 transition-transform">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+        </svg>
+      </button>
+    </div>
+
+  </div>
+</footer>
+
+<style>
+   /* تأثير رسم علامة الـ Check وتكبيرها الذكي بالـ CSS */
+  .peer:checked + div .custom-check-svg {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+  }
+  
+  /* تأثير النبضة الخفيفة عند الضغط */
+  .peer:active + div {
+    transform: scale(0.85);
+  }
+</style>
+
+
+<!-- ══════════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════════ -->
+
+<script>
+  /* ── Mobile menu ── */
+  document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+  });
+
+
+  /* ── Header scroll ── */
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      header.classList.remove('header-top-dark');
+      header.classList.add('header-sticky-active');
+    } else {
+      header.classList.remove('header-sticky-active');
+      header.classList.add('header-top-dark');
+    }
+  });
+
+  /* ── Category filter ── */
+  function filterPosts(category, btn) {
+    // Update active tab
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Show/hide cards with smooth animation
+    document.querySelectorAll('#blog-grid .blog-card').forEach(card => {
+      const match = category === 'all' || card.dataset.category === category;
+      if (match) {
+        card.style.display = '';
+        card.style.animation = 'fadeSlideUp 0.4s ease both';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  /* ── Newsletter ── */
+  function handleNewsletter(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.textContent = '✓ Subscribed!';
+    btn.classList.add('opacity-75');
+    btn.disabled = true;
+    e.target.reset();
+    setTimeout(() => {
+      btn.textContent = 'Subscribe';
+      btn.classList.remove('opacity-75');
+      btn.disabled = false;
+    }, 3000);
+  }
+</script>
+
+<!-- Auth Modal (global) -->
+<script src="index.js"></script>
+<script src="auth-modal.js"></script>
+<script src="cartDrawer.js"></script>
+</body>
+</html>

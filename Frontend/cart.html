@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart — WE//DONE</title>
+  <meta name="description" content="Your shopping cart. Review items, update quantities, and proceed to checkout.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>body { font-family: 'Space Grotesk', sans-serif; }</style>
+</head>
+<body class="bg-[#f8f9fa] text-gray-800 min-h-screen flex flex-col">
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<!-- ════════════════════════════════════════════════════════
+     HEADER
+════════════════════════════════════════════════════════ -->
+<header id="site-header" class="fixed top-0 left-0 w-full z-50 header-top-dark transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href="index.html" class="flex items-center self-stretch shrink-0 ml-4" aria-label="Fitness Premium Home">
+  <img
+    src="images/pok1.png"
+    alt="Fitness Premium"
+    class="h-[72px] w-auto object-contain mt-auto mb-2"
+    style="max-width: 260px;"
+  >
+</a>
+
+    <nav class="hidden md:flex items-center gap-8 text-[13px] font-bold tracking-widest text-white/90">
+      <a href="index.html" class="group relative py-1.5 transition-colors hover:text-white">HOME
+        <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+      </a>
+
+      <div class="relative group py-1.5">
+        <a href="shop.html" class="transition-colors cursor-pointer block">SHOP</a>
+        <span class="absolute bottom-0 left-0 w-full h-[2px] bg-[#E63E17]"></span>
+        <div class="absolute top-[100%] left-0 w-60 bg-[#222222] text-white shadow-2xl p-5 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-50 mt-2 flex flex-col gap-5">
+          <a href="shop.html?category=supplements" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Supplements<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          <a href="shop.html?category=gymwear" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Gym Wear<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          <a href="shop.html?category=accessories" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Accessories<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- PAGES dropdown -->
+      <div class="relative group py-1.5">
+        <a href="#" class="transition-colors cursor-pointer block">PAGES</a>
+        <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+        <div class="absolute top-[100%] left-0 w-60 bg-[#222222] text-white shadow-2xl p-5 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-50 mt-2 flex flex-col gap-5">
+          <a href="blog.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Blog Articles<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          <a href="wishlist.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            My Wishlist<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          <a href="Auth.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            My Account<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+          <a href="cart.html" class="inline-block w-fit text-sm font-semibold tracking-wide text-gray-300 hover:text-white transition-all duration-300 transform hover:translate-x-2 relative pb-1 group/item">
+            Shopping Cart<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/item:w-full"></span>
+          </a>
+        </div>
+      </div>
+
+      <a href="blog.html" class="group relative py-1.5 transition-colors hover:text-white">BLOG
+        <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+      </a>
+      <a href="contact-us.html" class="group relative py-1.5 transition-colors hover:text-white">CONTACT US
+        <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+      </a>
+    </nav>
+
+    <div class="hidden md:flex items-center gap-7">
+      <button id="search-btn" class="text-white hover:scale-105 transform transition-all duration-300 ease-out focus:outline-none" aria-label="Search">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </button>
+      <div class="h-6 w-[1px] bg-white/20 mx-1"></div>
+      <a href="Auth.html" id="nav-account-link" class="text-white hover:scale-105 transform transition-all duration-300 ease-out focus:outline-none" aria-label="Account">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0ZM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>
+      </a>
+      <a href="wishlist.html" class="text-white hover:scale-105 transform transition-all duration-300 ease-out focus:outline-none" aria-label="Wishlist">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/></svg>
+      </a>
+      <button id="cart-icon-btn" onclick="toggleCartDrawer(true)" class="relative text-white hover:scale-105 transform transition-all duration-300 ease-out focus:outline-none" aria-label="Cart">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <span id="cart-count" class="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center rounded-full bg-[#E63E17] text-[9px] font-black text-white leading-none">0</span>
+      </button>
+    </div>
+
+    <!-- Mobile toggle -->
+    <button id="mobile-menu-btn" class="md:hidden text-white hover:text-[#E63E17] focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-[#090D16]/95 border-b border-white/10 px-6 py-4 flex flex-col gap-4 text-white font-bold tracking-widest text-xs">
+    <a href="index.html"     class="hover:text-[#E63E17] transition-colors py-1">HOME</a>
+    <a href="shop.html"      class="text-[#E63E17] py-1">SHOP</a>
+    <a href="blog.html"      class="hover:text-[#E63E17] transition-colors py-1">BLOG</a>
+    <a href="contact-us.html"class="hover:text-[#E63E17] transition-colors py-1">CONTACT US</a>
+    <a href="Auth.html"      class="hover:text-[#E63E17] transition-colors py-1">MY ACCOUNT</a>
+    <button id="mobile-search-btn" class="text-left hover:text-[#E63E17] transition-colors py-1 focus:outline-none">SEARCH</button>
+    <a href="cart.html"      class="hover:text-[#E63E17] transition-colors py-1">CART</a>
+  </div>
+</header>
+
+<!-- الـ Search Overlay المصلح (خلفية عاتمة مغطية كلشي وسطر متموضع صح) -->
+
+   
+<div id="search-panel" class="fixed inset-x-0 top-0 bg-[#090d16] border-b border-white/10 z-[999] transform -translate-y-full transition-all duration-500 ease-out pointer-events-none opacity-0 flex flex-col pt-6 pb-8">
+  
+  <div class="max-w-7xl mx-auto w-full px-6 flex items-center justify-between">
+    <a href="#" class="flex items-center self-stretch shrink-0 ml-4" aria-label="Fitness Premium Home">
+      <img
+        src="images/pok1.png"
+        alt="Fitness Premium"
+        class="h-[83px] w-auto object-contain mt-auto mb-2"
+        style="max-width: 260px;"
+      >
+    </a>
+    <button id="close-search" class="text-white/70 hover:text-[#E63E17] hover:scale-110 transform transition-all duration-300 focus:outline-none">
+      <svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="max-w-4xl mx-auto w-full px-6 mt-6">
+    <div class="relative flex items-center border-b border-white/20 focus-within:border-[#E63E17] transition-colors duration-300 pb-3">
+      <input 
+        id="search-input"
+        type="text" 
+        autocomplete="off"
+        placeholder="Search for your potential..." 
+        class="bg-transparent text-xl md:text-lg text-white placeholder-white/20 focus:outline-none w-full font-light tracking-wide pr-10"
+      />
+      <svg class="w-5 h-5 text-white/30 absolute right-0 bottom-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+    </div>
+    <div id="suggestions-box" class="hidden mt-3 max-h-[40vh] overflow-y-auto"></div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CART DRAWER
+════════════════════════════════════════════════════════ -->
+<div id="cart-drawer-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 opacity-0 pointer-events-none invisible transition-opacity duration-300" onclick="toggleCartDrawer(false)"></div>
+
+<div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white z-50 shadow-2xl translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+  <!-- Drawer header -->
+  <div class="p-6 border-b border-gray-100 flex items-center justify-between shrink-0">
+    <h3 class="text-base font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
+      Shopping Cart
+      <span id="drawer-cart-count" class="text-[11px] bg-[#E63E17] text-white px-2 py-0.5 rounded-full font-mono leading-none">0</span>
+    </h3>
+    <button onclick="toggleCartDrawer(false)" class="text-gray-400 hover:text-gray-900 transition-colors p-1 hover:rotate-90 transition-transform duration-200">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <!-- Items list -->
+  <div id="drawer-items-list" class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar"></div>
+
+  <!-- Drawer footer -->
+  <div class="p-6 border-t border-gray-100 bg-gray-50/60 space-y-4 shrink-0">
+    <div class="space-y-2 text-sm text-gray-600">
+      <div class="flex justify-between">
+        <span>Subtotal</span>
+        <span id="drawer-subtotal" class="font-bold text-gray-900 font-mono">0.00 MAD</span>
+      </div>
+      <div class="flex justify-between">
+        <span>Shipping</span>
+        <span id="drawer-shipping" class="font-bold text-gray-900 font-mono">40.00 MAD</span>
+      </div>
+      <div class="border-t border-gray-200 pt-2 flex justify-between text-base font-black text-gray-900">
+        <span>Total</span>
+        <span id="drawer-total" class="text-[#E63E17] font-mono">0.00 MAD</span>
+      </div>
+    </div>
+    <a href="cart.html" class="block w-full text-center border-2 border-gray-200 hover:border-gray-900 text-gray-700 hover:text-gray-900 font-bold py-3 rounded-xl text-sm transition-all duration-200">
+      View Full Cart
+    </a>
+    <button onclick="goToCheckout()" class="w-full bg-[#E63E17] hover:bg-[#C5310F] text-white font-black py-3.5 rounded-xl text-sm transition-all duration-200 shadow-lg shadow-orange-500/15 btn-lift uppercase tracking-widest">
+      Checkout
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     PAGE HERO
+════════════════════════════════════════════════════════ -->
+<div class="bg-[#0b111e] text-white pt-28 pb-10 px-6">
+  <div class="max-w-7xl mx-auto">
+    <nav class="text-xs font-semibold tracking-widest text-gray-500 uppercase flex items-center gap-2 mb-3">
+      <a href="index.html" class="hover:text-[#E63E17] transition-colors">Home</a>
+      <span>/</span>
+      <a href="shop.html" class="hover:text-[#E63E17] transition-colors">Shop</a>
+      <span>/</span>
+      <span class="text-white">Cart</span>
+    </nav>
+    <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tight">
+      Your <span class="text-[#E63E17]">Cart</span>
+    </h1>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CART CONTENT
+════════════════════════════════════════════════════════ -->
+<main class="flex-1 max-w-7xl mx-auto w-full px-4 md:px-6 py-10">
+  <div id="cart-wrapper" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+    <!-- LEFT: Cart Items -->
+    <section class="lg:col-span-2" aria-label="Cart items">
+      <!-- Column headers -->
+      <div class="hidden md:grid grid-cols-12 gap-4 text-[10px] font-black uppercase tracking-widest text-gray-400 pb-3 border-b border-gray-200 mb-2 px-2">
+        <span class="col-span-6">Product</span>
+        <span class="col-span-2 text-center">Price</span>
+        <span class="col-span-2 text-center">Qty</span>
+        <span class="col-span-2 text-right">Subtotal</span>
+      </div>
+
+      <!-- Items rendered here -->
+      <div id="cart-items" class="space-y-4 min-h-[200px]">
+        <!-- Shimmer skeletons while loading -->
+        <div class="skeleton-cart-row">
+          <div class="sk-avatar skeleton-light"></div>
+          <div class="sk-lines"><div class="sk-l1 skeleton-light"></div><div class="sk-l2 skeleton-light"></div><div class="sk-l3 skeleton-light"></div></div>
+        </div>
+        <div class="skeleton-cart-row">
+          <div class="sk-avatar skeleton-light"></div>
+          <div class="sk-lines"><div class="sk-l1 skeleton-light"></div><div class="sk-l2 skeleton-light"></div><div class="sk-l3 skeleton-light"></div></div>
+        </div>
+        <div class="skeleton-cart-row">
+          <div class="sk-avatar skeleton-light"></div>
+          <div class="sk-lines"><div class="sk-l1 skeleton-light"></div><div class="sk-l2 skeleton-light"></div><div class="sk-l3 skeleton-light"></div></div>
+        </div>
+      </div>
+
+      <!-- Continue shopping link -->
+      <div class="mt-8 pt-6 border-t border-gray-200">
+        <a href="shop.html" class="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-gray-500 hover:text-[#E63E17] transition-colors duration-200 group">
+          <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          Continue Shopping
+        </a>
+      </div>
+    </section>
+
+    <!-- RIGHT: Order Summary -->
+    <aside class="self-start" aria-label="Order summary">
+      <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+        <div class="px-7 py-6 border-b border-gray-100">
+          <h2 class="text-sm font-black uppercase tracking-widest text-gray-900">Order Summary</h2>
+        </div>
+
+        <div class="px-7 py-6 space-y-4">
+          <div class="flex justify-between text-sm text-gray-600">
+            <span>Subtotal (<span id="item-count">0</span> items)</span>
+            <span id="cart-subtotal" class="font-bold text-gray-900 font-mono">0.00 MAD</span>
+          </div>
+          <div class="flex justify-between text-sm text-gray-600">
+            <span>Shipping</span>
+            <span id="shipping-cost" class="font-bold text-gray-900 font-mono">40.00 MAD</span>
+          </div>
+
+          <!-- Promo code input -->
+          <div class="pt-2">
+            <div class="flex gap-2">
+              <input type="text" placeholder="Promo code" class="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs font-medium focus:outline-none focus:border-[#E63E17] transition-colors">
+              <button class="bg-gray-900 hover:bg-[#E63E17] text-white text-xs font-black px-4 py-2 rounded-xl transition-all duration-200">Apply</button>
+            </div>
+          </div>
+
+          <div class="border-t border-gray-100 pt-4 flex justify-between">
+            <span class="text-base font-black text-gray-900 uppercase tracking-wide">Total</span>
+            <span id="cart-total" class="text-xl font-black text-[#E63E17] font-mono">0.00 MAD</span>
+          </div>
+        </div>
+
+        <div class="px-7 pb-7 space-y-3">
+          <button id="checkout-btn" onclick="goToCheckout()" class="w-full bg-[#E63E17] hover:bg-[#C5310F] text-white font-black py-4 rounded-2xl text-sm transition-all duration-200 shadow-lg shadow-orange-500/15 btn-lift uppercase tracking-widest flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            Proceed to Checkout
+          </button>
+          <p class="text-center text-[10px] text-gray-400 font-medium">🔒 Secure & encrypted payment</p>
+        </div>
+
+        <!-- Payment icons -->
+        <div class="px-7 pb-6 flex items-center justify-center gap-3 opacity-50">
+          <div class="bg-gray-100 rounded px-2 py-1 text-[9px] font-black text-gray-600 uppercase">Visa</div>
+          <div class="bg-gray-100 rounded px-2 py-1 text-[9px] font-black text-gray-600 uppercase">Mastercard</div>
+          <div class="bg-gray-100 rounded px-2 py-1 text-[9px] font-black text-gray-600 uppercase">Cash</div>
+        </div>
+      </div>
+
+      <!-- Trust badges -->
+      <div class="mt-6 bg-white rounded-2xl border border-gray-100 p-5 space-y-3">
+        <div class="flex items-center gap-3 text-xs text-gray-600">
+          <div class="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center shrink-0">
+            <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/></svg>
+          </div>
+          <span><strong class="font-bold text-gray-900">Free Shipping</strong> on orders over 500 MAD</span>
+        </div>
+        <div class="flex items-center gap-3 text-xs text-gray-600">
+          <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center shrink-0">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <span><strong class="font-bold text-gray-900">30-Day</strong> Return Policy</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<!-- ════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════ -->
+<!-- Footer -->
+    <footer class="bg-[#090D16] text-white pt-20 pb-8 border-t border-white/5 font-sans overflow-hidden select-none">
+  <div class="max-w-7xl mx-auto px-6">
+    
+    <!-- القسم العلوي: تقسيم ذكي بـ 4 أعمدة متناسقة -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 border-b border-white/5">
+      
+      <!-- العمود 1: براند اللوغو والاشتراك ف النيوزليتر -->
+      <div class="lg:col-span-4 flex flex-col space-y-6">
+  <a href="#" class="flex items-center shrink-0 -mt-3 ml-24" aria-label="Fitness Premium Home">
+    <img
+      src="images/pok1.png"
+      alt="Fitness Premium"
+      class="h-[98px] w-auto object-contain"
+      style="max-width: 270px;"
+    >
+  </a>
+        <p class="text-gray-400 text-sm max-w-sm leading-relaxed font-light -mt-4">
+          Ignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.
+        </p>
+        
+        <!-- حقل الاشتراك -->
+        <div class="max-w-md w-full pt-2">
+          <form class="relative flex items-center border-b border-white/20 pb-2 focus-within:border-[#FF4C11] transition-colors duration-300">
+            <span class="absolute left-0 text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+              </svg>
+            </span>
+            <input type="email" placeholder="Enter Your Email Address" class="bg-transparent pl-8 pr-12 py-2 w-full text-sm text-white placeholder-gray-500 outline-none focus:ring-0" required />
+            <button type="submit" class="absolute right-0 group flex items-center justify-center w-8 h-8 rounded-full bg-transparent hover:bg-[#FF4C11] text-white transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5l6 6m0 0l-6 6m6-6H3" />
+              </svg>
+            </button>
+          </form>
+          
+          <!-- خانة الموافقة والخصوصية الاحترافية المخصصة (Custom Checkbox) -->
+          <label class="flex items-center gap-3 mt-5 cursor-pointer group select-none">
+  <div class="relative flex items-center justify-center">
+    <input type="checkbox" class="sr-only peer" required />
+    <!-- المربع المخصص مع تأثيرات الانتقال الناعمة -->
+    <div class="w-4 h-4 rounded border border-white/30 bg-[#121212] flex items-center justify-center transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] peer-checked:scale-105 peer-checked:bg-[#FF4C11] peer-checked:border-[#FF4C11] peer-checked:shadow-[0_0_10px_rgba(255,76,17,0.5)] group-hover:border-white/50 active:scale-90">
+      <!-- علامة الصح المتحركة (تترسم عند التحديد) -->
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-2.5 h-2.5 text-white opacity-0 scale-50 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] peer-checked:opacity-100 peer-checked:scale-100 custom-check-svg">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>
+    </div>
+  </div>
+  <span class="text-xs text-gray-400 font-light group-hover:text-gray-300 transition-colors">
+    I agree to the <a href="#privacy" class="underline hover:text-[#FF4C11] transition-colors">Privacy Policy</a>.
+  </span>
+</label>
+        </div>
+      </div>
+
+      <!-- العمود 2: الدعم والمساعدة (عناوين أكبر text-sm) -->
+      <div class="lg:col-span-3 flex flex-col space-y-6 lg:pl-8">
+        <h4 class="text-sm font-black uppercase tracking-wider text-white border-l-2 border-[#FF4C11] pl-3">
+          Support
+        </h4>
+        <ul class="flex flex-col space-y-3 text-sm text-gray-400 font-light">
+          <li><a href="#shipping" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Shipping Policy</a></li>
+          <li><a href="#returns" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Returns & Exchanges</a></li>
+          <li><a href="#faq" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">FAQs</a></li>
+          <li><a href="#privacy" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Privacy Policy</a></li>
+        </ul>
+      </div>
+
+      <!-- العمود 3: الروابط السريعة (عناوين أكبر text-sm) -->
+      <div class="lg:col-span-2 flex flex-col space-y-6">
+        <h4 class="text-sm font-black uppercase tracking-wider text-white border-l-2 border-[#FF4C11] pl-3">
+          Links
+        </h4>
+        <ul class="flex flex-col space-y-3 text-sm text-gray-400 font-light">
+          <li><a href="#home" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Home</a></li>
+          <li><a href="#services" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Services</a></li>
+          <li><a href="#about" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">About Us</a></li>
+          <li><a href="#shop" class="footer-link hover:text-[#FF4C11] transition-colors duration-300">Shop</a></li>
+        </ul>
+      </div>
+
+      <!-- العمود 4: مواقع التواصل (عناوين أكبر text-sm) -->
+      <div class="lg:col-span-3 flex flex-col space-y-6">
+        <h4 class="text-sm font-black uppercase tracking-wider text-white border-l-2 border-[#FF4C11] pl-3">
+          Follow Us
+        </h4>
+        <p class="text-gray-500 text-xs font-light max-w-xs">Join our fitness community on social media platforms.</p>
+        
+        <div class="flex flex-row items-center gap-3 pt-1">
+          <a href="#facebook" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#FF4C11] hover:border-[#FF4C11] hover:shadow-[0_0_15px_rgba(255,76,17,0.3)] transition-all duration-300">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+          </a>
+          <a href="#x" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#FF4C11] hover:border-[#FF4C11] hover:shadow-[0_0_15px_rgba(255,76,17,0.3)] transition-all duration-300">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#dribbble" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#FF4C11] hover:border-[#FF4C11] hover:shadow-[0_0_15px_rgba(255,76,17,0.3)] transition-all duration-300">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm6.65 4.81c.44.43.82.92 1.13 1.45-1.11-.29-2.55-.42-4.14-.36-.12-.39-.25-.78-.4-1.16 1.44-.06 2.66.02 3.41.07zm-4.74-.21c.14.36.27.73.38 1.11-1.57.04-3.23-.1-4.79-.43.51-.83 1.18-1.54 1.96-2.08.88.5 1.7 1.01 2.45 1.4zm-6.13.9c1.51.31 3.11.45 4.63.41-.09.28-.2.57-.31.85-1.63-.07-3.41-.33-5.06-.82.21-.29.46-.57.74-.84zm-1.39 2.51c1.68.51 3.5.78 5.16.86-.33.95-.75 1.9-1.26 2.79-1.95-.59-3.95-1.54-5.59-2.81.42-.31.87-.59 1.69-.84zm-.31 4.79c1.55 1.19 3.44 2.08 5.28 2.64-.17.43-.37.84-.58 1.23-1.96-.65-3.66-1.74-4.94-3.14.07-.25.15-.49.24-.73zm6.66 3.65c.19-.36.37-.73.53-1.12 1.49-.39 2.91-.97 4.14-1.71.39.73.66 1.54.78 2.4-1.36.68-2.88 1.05-4.45 1.05-.34 0-.67-.02-1-.04zm5.06-4c-1.15.68-2.48 1.21-3.87 1.57.46-.81.84-1.67 1.13-2.54 1.43-.1 2.64-.26 3.56-.49.03.49-.13.98-.82 1.46z" clip-rule="evenodd"/></svg>
+          </a>
+          <a href="#instagram" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#FF4C11] hover:border-[#FF4C11] hover:shadow-[0_0_15px_rgba(255,76,17,0.3)] transition-all duration-300">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- القسم السفلي: حقوق الملكية + زر الصعود -->
+    <div class="flex flex-col sm:flex-row items-center justify-between pt-8 text-xs text-gray-500 font-light gap-4">
+      <div>
+        AxiomThemes © 2026. All rights reserved.
+      </div>
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="group flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[#121212] hover:bg-[#FF4C11] hover:border-[#FF4C11] text-white shadow-md transition-all duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 group-hover:-translate-y-0.5 transition-transform">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+        </svg>
+      </button>
+    </div>
+
+  </div>
+</footer>
+
+<style>
+   /* تأثير رسم علامة الـ Check وتكبيرها الذكي بالـ CSS */
+  .peer:checked + div .custom-check-svg {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+  }
+  
+  /* تأثير النبضة الخفيفة عند الضغط */
+  .peer:active + div {
+    transform: scale(0.85);
+  }
+</style>
+
+
+<!-- ════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════ -->
+<script>
+  /* ── Shared utilities ── */
+  const DJANGO_BASE_URL = 'http://127.0.0.1:8000';
+  function getToken()    { return localStorage.getItem('bearer_token'); }
+  function authHeaders() { return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${getToken()}` }; }
+
+  /* ── Toast System ── */
+  function showToast(title, subtitle, type = 'cart') {
+    const icons = {
+      cart:    '<path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>',
+      success: '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>',
+      error:   '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>',
+      info:    '<path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zM12 8.25h.008v.008H12V8.25z"/>'
+    };
+    const container = document.getElementById('toast-container');
+    const el = document.createElement('div');
+    el.className = `toast toast-${type}`;
+    el.innerHTML = `
+      <svg class="toast-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">${icons[type] || icons.info}</svg>
+      <div class="toast-body"><strong>${title}</strong>${subtitle ? `<span>${subtitle}</span>` : ''}</div>`;
+    container.appendChild(el);
+    requestAnimationFrame(() => { requestAnimationFrame(() => el.classList.add('show')); });
+    setTimeout(() => {
+      el.classList.remove('show'); el.classList.add('hide');
+      setTimeout(() => el.remove(), 400);
+    }, 3500);
+  }
+
+  /* ── Render helpers ── */
+  function updateSummary(items) {
+    const subtotal = items.reduce((acc, item) => acc + parseFloat(item.product.price) * item.quantity, 0);
+    const shipping = subtotal > 0 ? 40 : 0;
+    document.getElementById('item-count').textContent     = items.length;
+    document.getElementById('cart-subtotal').textContent  = `${subtotal.toFixed(2)} MAD`;
+    document.getElementById('shipping-cost').textContent  = `${shipping.toFixed(2)} MAD`;
+    document.getElementById('cart-total').textContent     = `${(subtotal + shipping).toFixed(2)} MAD`;
+    document.getElementById('cart-count').textContent     = items.length;
+  }
+
+  function renderEmptyState() {
+    document.getElementById('cart-items').innerHTML = `
+      <div class="flex flex-col items-center justify-center py-20 gap-5 text-center">
+        <div class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center">
+          <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-lg font-black text-gray-800 uppercase tracking-tight">Your cart is empty</h3>
+          <p class="text-sm text-gray-400 mt-1 font-medium">Add some products to get started.</p>
+        </div>
+        <a href="shop.html" class="inline-flex items-center gap-2 bg-[#E63E17] hover:bg-[#C5310F] text-white font-black text-xs uppercase tracking-widest px-8 py-3.5 rounded-full transition-all duration-200 btn-lift shadow-lg shadow-orange-500/20">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+          Start Shopping
+        </a>
+      </div>`;
+    updateSummary([]);
+  }
+
+  function renderNotLoggedIn() {
+    document.getElementById('cart-items').innerHTML = `
+      <div class="flex flex-col items-center justify-center py-20 gap-5 text-center">
+        <div class="w-24 h-24 rounded-full bg-orange-50 flex items-center justify-center">
+          <svg class="w-12 h-12 text-[#E63E17]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-lg font-black text-gray-800 uppercase tracking-tight">Sign In Required</h3>
+          <p class="text-sm text-gray-400 mt-1 font-medium">Please log in to view your cart items.</p>
+        </div>
+        <a href="Auth.html" class="inline-flex items-center gap-2 bg-[#E63E17] hover:bg-[#C5310F] text-white font-black text-xs uppercase tracking-widest px-8 py-3.5 rounded-full transition-all duration-200 btn-lift shadow-lg shadow-orange-500/20">
+          Sign In to Continue
+        </a>
+      </div>`;
+    updateSummary([]);
+  }
+
+  /* ════════════════════════════════════
+     MAIN renderCart() — FULLY IMPLEMENTED
+  ════════════════════════════════════ */
+  async function renderCart() {
+    const token = getToken();
+    if (!token) { renderNotLoggedIn(); return; }
+
+    const container = document.getElementById('cart-items');
+    // Show skeletons
+    container.innerHTML = `
+      <div class="skeleton-cart-row"><div class="sk-avatar skeleton-light"></div><div class="sk-lines"><div class="sk-l1 skeleton-light"></div><div class="sk-l2 skeleton-light"></div><div class="sk-l3 skeleton-light"></div></div></div>
+      <div class="skeleton-cart-row"><div class="sk-avatar skeleton-light"></div><div class="sk-lines"><div class="sk-l1 skeleton-light"></div><div class="sk-l2 skeleton-light"></div><div class="sk-l3 skeleton-light"></div></div></div>`;
+
+    try {
+      const res  = await fetch(`${DJANGO_BASE_URL}/api/cart/`, { headers: authHeaders() });
+
+      if (res.status === 401) {
+        localStorage.removeItem('bearer_token');
+        renderNotLoggedIn();
+        return;
+      }
+
+      const data  = await res.json();
+      const items = data.items || [];
+
+      if (items.length === 0) { renderEmptyState(); return; }
+
+      updateSummary(items);
+      container.innerHTML = '';
+
+      items.forEach(item => {
+        const p      = item.product;
+        const price  = parseFloat(p.price);
+        const line   = (price * item.quantity).toFixed(2);
+
+        // Build absolute image URL (Django returns relative path like /media/products/img.jpg)
+        const imgUrl = p.image
+          ? (p.image.startsWith('http') ? p.image : `${DJANGO_BASE_URL}${p.image}`)
+          : '';
+
+        const hasOld     = p.old_price && parseFloat(p.old_price) > price;
+        const oldMarkup  = hasOld
+          ? `<span class="text-[10px] text-gray-400 line-through font-mono">${parseFloat(p.old_price).toFixed(2)} MAD</span>`
+          : '';
+        const discount   = hasOld
+          ? Math.round(((parseFloat(p.old_price) - price) / parseFloat(p.old_price)) * 100)
+          : 0;
+        const badgeMarkup = hasOld
+          ? `<span class="text-[9px] font-black text-[#E63E17] bg-orange-50 px-1.5 py-0.5 rounded-full uppercase">-${discount}%</span>`
+          : '';
+
+        const row = document.createElement('div');
+        row.id        = `cart-row-${item.id}`;
+        row.className = 'bg-white border border-gray-100 rounded-2xl p-4 md:p-5 grid grid-cols-12 gap-4 items-center hover:shadow-md hover:border-gray-200 transition-all duration-200 group';
+        row.innerHTML = `
+          <!-- Image -->
+          <div class="col-span-12 md:col-span-2 flex items-center justify-center">
+            <a href="product-detail.html?id=${p.id}" class="block w-20 h-20 md:w-full md:h-24 bg-gray-50 rounded-xl overflow-hidden flex items-center justify-center p-2 hover:scale-105 transition-transform duration-200">
+              ${imgUrl
+                ? `<img src="${imgUrl}" alt="${p.name}" class="max-w-full max-h-full object-contain">`
+                : `<svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>`
+              }
+            </a>
+          </div>
+
+          <!-- Name & Category -->
+          <div class="col-span-10 md:col-span-4 flex flex-col gap-1">
+            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">${p.category_name || ''}</span>
+            <a href="product-detail.html?id=${p.id}" class="text-sm font-black text-gray-900 hover:text-[#E63E17] transition-colors leading-tight line-clamp-2">${p.name}</a>
+            <div class="flex items-center gap-2 mt-0.5">${badgeMarkup}</div>
+          </div>
+
+          <!-- Unit Price -->
+          <div class="col-span-4 md:col-span-2 flex flex-col items-start md:items-center gap-1">
+            <span class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider md:hidden">Price</span>
+            <span class="text-sm font-black text-gray-900 font-mono">${price.toFixed(2)} MAD</span>
+            ${oldMarkup}
+          </div>
+
+          <!-- Qty Stepper -->
+          <div class="col-span-4 md:col-span-2 flex flex-col items-start md:items-center gap-1">
+            <span class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider md:hidden">Qty</span>
+            <div class="flex items-center border border-gray-200 rounded-full overflow-hidden bg-gray-50">
+              <button onclick="updateQty(${p.id}, ${item.quantity - 1}, ${item.id})"
+                      class="qty-btn w-8 h-8 text-sm hover:bg-[#E63E17] hover:text-white transition-all">−</button>
+              <span id="qty-${item.id}" class="qty-val w-8 h-8 flex items-center justify-center text-xs font-black font-mono">${item.quantity}</span>
+              <button onclick="updateQty(${p.id}, ${item.quantity + 1}, ${item.id})"
+                      class="qty-btn w-8 h-8 text-sm hover:bg-[#E63E17] hover:text-white transition-all">+</button>
+            </div>
+          </div>
+
+          <!-- Line Total + Remove -->
+          <div class="col-span-4 md:col-span-2 flex flex-col items-end gap-2">
+            <span class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider md:hidden">Total</span>
+            <span id="line-${item.id}" class="text-sm font-black text-[#E63E17] font-mono">${line} MAD</span>
+            <button onclick="removeItem(${p.id}, ${item.id})"
+                    class="text-gray-300 hover:text-red-500 transition-colors duration-200 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg>
+              Remove
+            </button>
+          </div>`;
+        container.appendChild(row);
+      });
+
+    } catch (err) {
+      console.error('Cart render error:', err);
+      container.innerHTML = `
+        <div class="text-center py-16">
+          <p class="text-sm text-red-400 font-medium">Failed to load cart. Is Django running on port 8000?</p>
+          <button onclick="renderCart()" class="mt-4 text-xs font-black text-[#E63E17] uppercase hover:underline">Try Again</button>
+        </div>`;
+    }
+  }
+
+  /* ── Remove an item ── */
+  async function removeItem(productId, itemId) {
+    const row = document.getElementById(`cart-row-${itemId}`);
+    if (row) { row.style.opacity = '0.4'; row.style.pointerEvents = 'none'; row.style.transform = 'scale(0.98)'; }
+
+    try {
+      const res = await fetch(`${DJANGO_BASE_URL}/api/cart/`, {
+        method: 'DELETE',
+        headers: authHeaders(),
+        body: JSON.stringify({ product_id: productId })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        showToast('Removed', data.message || 'Item removed from cart', 'info');
+        await renderCart();
+      } else {
+        showToast('Error', data.error || 'Could not remove item', 'error');
+        if (row) { row.style.opacity = '1'; row.style.pointerEvents = ''; row.style.transform = ''; }
+      }
+    } catch (err) {
+      console.error('Remove error:', err);
+      showToast('Error', 'Connection failed. Check Django server.', 'error');
+      if (row) { row.style.opacity = '1'; row.style.pointerEvents = ''; row.style.transform = ''; }
+    }
+  }
+
+  /* ── Update quantity ── */
+  async function updateQty(productId, newQty, itemId) {
+    if (newQty <= 0) { return removeItem(productId, itemId); }
+
+    // Optimistic UI: update displayed qty immediately
+    const qtyEl  = document.getElementById(`qty-${itemId}`);
+    const lineEl = document.getElementById(`line-${itemId}`);
+    if (qtyEl) qtyEl.textContent = newQty;
+
+    try {
+      const res = await fetch(`${DJANGO_BASE_URL}/api/cart/`, {
+        method: 'PATCH',
+        headers: authHeaders(),
+        body: JSON.stringify({ product_id: productId, quantity: newQty })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        // Re-render fully to keep totals accurate
+        await renderCart();
+      } else {
+        showToast('Error', data.error || 'Could not update quantity', 'error');
+        await renderCart(); // revert
+      }
+    } catch (err) {
+      console.error('Update qty error:', err);
+      showToast('Error', 'Connection failed', 'error');
+      await renderCart(); // revert
+    }
+  }
+
+  /* ── Go to Checkout ── */
+  function goToCheckout() {
+    const token = getToken();
+    if (!token) {
+      showToast('Sign in required', 'Please log in to proceed to checkout', 'error');
+      setTimeout(() => { window.location.href = 'Auth.html'; }, 1500);
+      return;
+    }
+    window.location.href = 'checkout.html';
+  }
+
+  /* ── Init ── */
+  document.addEventListener('DOMContentLoaded', renderCart);
+  document.addEventListener('auth-state-changed', renderCart);
+</script>
+
+<script src="auth-modal.js"></script>
+</body>
+</html>

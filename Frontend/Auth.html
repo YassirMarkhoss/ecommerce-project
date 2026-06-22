@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — WE//DONE</title>
+  <meta name="description" content="Sign in or create your WE//DONE account to unlock premium deals, track orders, and manage your wishlist.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; }
+
+    /* Animated gradient orb */
+    @keyframes orbFloat {
+      0%,100% { transform: translate(-50%,-50%) scale(1);   opacity: 0.25; }
+      50%      { transform: translate(-50%,-50%) scale(1.2); opacity: 0.35; }
+    }
+    .auth-orb { animation: orbFloat 8s ease-in-out infinite; }
+
+    /* Slide in panel */
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0);    }
+    }
+    .panel-slide { animation: slideIn 0.5s cubic-bezier(0.16,1,0.3,1) both; }
+
+    /* Password toggle */
+    .pw-wrap { position: relative; }
+    .pw-wrap input { padding-right: 2.75rem; }
+    .pw-toggle {
+      position: absolute; right: 0.85rem; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none; cursor: pointer;
+      color: rgba(255,255,255,0.3); transition: color 0.2s;
+      padding: 0;
+    }
+    .pw-toggle:hover { color: rgba(255,255,255,0.7); }
+
+    /* Input premium focus */
+    .auth-field {
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 0.85rem;
+      color: #fff;
+      padding: 0.85rem 1rem;
+      font-size: 0.875rem;
+      width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      outline: none;
+    }
+    .auth-field::placeholder { color: rgba(255,255,255,0.2); }
+    .auth-field:focus {
+      border-color: #E63E17;
+      box-shadow: 0 0 0 3px rgba(230,62,23,0.15);
+      background: rgba(255,255,255,0.08);
+    }
+    .auth-field.error-field {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239,68,68,0.15);
+    }
+
+    /* Tab indicator */
+    .tab-indicator { transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); }
+  </style>
+</head>
+<body class="bg-[#07090f] min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+
+<!-- Ambient background orbs -->
+<div class="pointer-events-none absolute inset-0 overflow-hidden">
+  <div class="auth-orb absolute w-[600px] h-[600px] rounded-full bg-[#E63E17]/20 blur-[140px]" style="top:50%;left:30%;"></div>
+  <div class="auth-orb absolute w-[400px] h-[400px] rounded-full bg-blue-800/15 blur-[120px]" style="top:20%;left:70%;animation-delay:-4s;"></div>
+  <div class="auth-orb absolute w-[300px] h-[300px] rounded-full bg-[#E63E17]/10 blur-[100px]" style="top:80%;left:10%;animation-delay:-7s;"></div>
+</div>
+
+<!-- Grid lines overlay -->
+<div class="pointer-events-none absolute inset-0" style="background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px); background-size: 60px 60px;"></div>
+
+<!-- ════════════════════════════════════════════════════════
+     AUTH CARD
+════════════════════════════════════════════════════════ -->
+<div class="relative z-10 w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 bg-[#0e1117]/90 border border-white/8 rounded-3xl shadow-2xl overflow-hidden backdrop-blur-xl">
+
+  <!-- ── LEFT PANEL (brand / promo) ── -->
+  <div class="hidden md:flex flex-col justify-between p-10 bg-gradient-to-br from-[#E63E17]/20 via-[#1a0a05]/40 to-[#0e1117]/80 border-r border-white/5 relative overflow-hidden">
+    <!-- Decorative circle -->
+    <div class="absolute -bottom-20 -left-20 w-64 h-64 rounded-full border border-[#E63E17]/10"></div>
+    <div class="absolute -bottom-10 -left-10 w-40 h-40 rounded-full border border-[#E63E17]/15"></div>
+
+    <div>
+      <a href="index.html" class="inline-flex items-center" aria-label="Fitness Premium Home">
+        <img src="images/pok1.png" alt="Fitness Premium" class="h-24 w-auto object-contain" style="max-width: 220px;">
+      </a>
+      <p class="text-gray-500 text-xs mt-1 font-medium">Premium Fitness Performance</p>
+    </div>
+
+    <div class="space-y-6">
+      <h2 class="text-3xl font-black text-white leading-tight uppercase tracking-tight">
+        Fuel Your<br><span class="text-[#E63E17]">Ambition.</span>
+      </h2>
+      <p class="text-gray-400 text-sm leading-relaxed">
+        Join thousands of athletes who trust WE//DONE for premium supplements, elite activewear, and performance gear.
+      </p>
+
+      <!-- Feature bullets -->
+      <ul class="space-y-3">
+        <li class="flex items-center gap-3 text-sm text-gray-400">
+          <div class="w-6 h-6 rounded-full bg-[#E63E17]/20 flex items-center justify-center shrink-0">
+            <svg class="w-3 h-3 text-[#E63E17]" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          </div>
+          Exclusive member deals &amp; early access
+        </li>
+        <li class="flex items-center gap-3 text-sm text-gray-400">
+          <div class="w-6 h-6 rounded-full bg-[#E63E17]/20 flex items-center justify-center shrink-0">
+            <svg class="w-3 h-3 text-[#E63E17]" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          </div>
+          Track orders &amp; manage your wishlist
+        </li>
+        <li class="flex items-center gap-3 text-sm text-gray-400">
+          <div class="w-6 h-6 rounded-full bg-[#E63E17]/20 flex items-center justify-center shrink-0">
+            <svg class="w-3 h-3 text-[#E63E17]" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          </div>
+          Free shipping on orders over 500 MAD
+        </li>
+      </ul>
+    </div>
+
+    <div class="text-xs text-gray-600">&copy; 2026 WE//DONE. All rights reserved.</div>
+  </div>
+
+  <!-- ── RIGHT PANEL (form) ── -->
+  <div class="p-8 md:p-10 panel-slide">
+
+    <!-- Mobile logo -->
+    <a href="index.html" class="md:hidden block mb-8" aria-label="Fitness Premium Home">
+      <img src="images/pok1.png" alt="Fitness Premium" class="h-10 w-auto object-contain" style="max-width: 180px;">
+    </a>
+
+    <!-- Tab switcher -->
+    <div class="relative flex border-b border-white/8 pb-0 mb-8">
+      <button id="tab-login" type="button" onclick="switchTab('login')"
+              class="flex-1 pb-3.5 text-sm font-bold tracking-wide text-white transition-colors duration-200 z-10">
+        Sign In
+      </button>
+      <button id="tab-register" type="button" onclick="switchTab('register')"
+              class="flex-1 pb-3.5 text-sm font-bold tracking-wide text-gray-500 hover:text-white transition-colors duration-200 z-10">
+        Create Account
+      </button>
+      <div id="indicator" class="tab-indicator absolute bottom-0 left-0 w-1/2 h-[2.5px] bg-[#E63E17] rounded-full"></div>
+    </div>
+
+    <h2 id="auth-title" class="text-xl font-black text-white mb-1 tracking-tight">Welcome Back</h2>
+    <p id="auth-subtitle" class="text-xs text-gray-500 mb-6">Sign in to your WE//DONE account to continue.</p>
+
+    <!-- Alert box -->
+    <div id="alert-box" class="hidden p-4 rounded-xl text-sm font-medium mb-5 border"></div>
+
+    <!-- Form -->
+    <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4" novalidate>
+
+      <!-- First + Last Name (register only) -->
+      <div id="name-row" class="hidden grid grid-cols-2 gap-3">
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-black uppercase tracking-widest text-gray-400">First Name</label>
+          <input type="text" id="input-firstname" placeholder="Yassine" class="auth-field">
+        </div>
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-black uppercase tracking-widest text-gray-400">Last Name</label>
+          <input type="text" id="input-lastname" placeholder="El Ansari" class="auth-field">
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="space-y-1.5">
+        <label class="text-[10px] font-black uppercase tracking-widest text-gray-400">Email Address</label>
+        <input type="email" id="input-email" required placeholder="your@email.com" autocomplete="email" class="auth-field font-mono">
+      </div>
+
+      <!-- Password -->
+      <div class="space-y-1.5">
+        <label class="text-[10px] font-black uppercase tracking-widest text-gray-400">Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="input-password" required placeholder="••••••••" autocomplete="current-password" class="auth-field">
+          <button type="button" class="pw-toggle" onclick="togglePassword()" aria-label="Toggle password visibility">
+            <svg id="eye-icon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Forgot password (login only) -->
+      <div id="forgot-row" class="flex justify-end">
+        <a href="#" class="text-xs text-gray-500 hover:text-[#E63E17] transition-colors font-medium">Forgot password?</a>
+      </div>
+
+      <!-- Submit button -->
+      <button type="submit" id="btn-submit"
+              class="w-full bg-[#E63E17] hover:bg-[#C5310F] text-white font-black py-3.5 rounded-xl text-sm transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-[#E63E17]/20 btn-lift mt-2">
+        <svg id="loading-spinner" class="hidden w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        <span id="btn-text">Sign In</span>
+      </button>
+
+      <!-- Divider -->
+      <div class="relative flex items-center gap-3 py-1">
+        <div class="flex-1 h-px bg-white/8"></div>
+        <span class="text-[10px] text-gray-600 font-bold uppercase tracking-widest">or</span>
+        <div class="flex-1 h-px bg-white/8"></div>
+      </div>
+
+      <!-- Switch mode link -->
+      <p id="switch-text" class="text-center text-xs text-gray-500">
+        Don't have an account?
+        <button type="button" onclick="switchTab('register')" class="text-[#E63E17] font-bold hover:underline ml-1">Create one for free →</button>
+      </p>
+
+    </form>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════ -->
+<script>
+  const API_BASE_URL = 'http://127.0.0.1:8000/api/';
+  let currentMode = 'login';
+
+  /* ── Redirect if already logged in ── */
+  if (localStorage.getItem('bearer_token')) {
+    const returnTo = new URLSearchParams(window.location.search).get('next') || 'shop.html';
+    window.location.href = returnTo;
+  }
+
+  /* ── Tab switching ── */
+  function switchTab(mode) {
+    currentMode = mode;
+    const isLogin = mode === 'login';
+
+    document.getElementById('indicator').style.transform = isLogin ? 'translateX(0%)' : 'translateX(100%)';
+
+    const tabLogin    = document.getElementById('tab-login');
+    const tabRegister = document.getElementById('tab-register');
+    tabLogin.classList.toggle('text-white',    isLogin);
+    tabLogin.classList.toggle('text-gray-500', !isLogin);
+    tabRegister.classList.toggle('text-white',    !isLogin);
+    tabRegister.classList.toggle('text-gray-500', isLogin);
+
+    document.getElementById('name-row').classList.toggle('hidden', isLogin);
+    document.getElementById('forgot-row').classList.toggle('hidden', !isLogin);
+
+    document.getElementById('auth-title').textContent    = isLogin ? 'Welcome Back'       : 'Create Account';
+    document.getElementById('auth-subtitle').textContent = isLogin ? 'Sign in to your WE//DONE account to continue.' : 'Join the WE//DONE community today — it\'s free.';
+    document.getElementById('btn-text').textContent      = isLogin ? 'Sign In'             : 'Create Account';
+    document.getElementById('switch-text').innerHTML     = isLogin
+      ? `Don't have an account? <button type="button" onclick="switchTab('register')" class="text-[#E63E17] font-bold hover:underline ml-1">Create one for free →</button>`
+      : `Already have an account? <button type="button" onclick="switchTab('login')" class="text-[#E63E17] font-bold hover:underline ml-1">Sign In →</button>`;
+
+    hideAlert();
+    clearErrors();
+  }
+
+  /* ── Password visibility toggle ── */
+  function togglePassword() {
+    const inp  = document.getElementById('input-password');
+    const icon = document.getElementById('eye-icon');
+    const show = inp.type === 'password';
+    inp.type = show ? 'text' : 'password';
+    icon.innerHTML = show
+      ? `<path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"/>`
+      : `<path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>`;
+  }
+
+  /* ── Alert / Error helpers ── */
+  function showAlert(msg, type) {
+    const box = document.getElementById('alert-box');
+    box.className = 'p-4 rounded-xl text-sm font-medium mb-5 border';
+    if (type === 'error') {
+      box.classList.add('bg-red-500/10', 'text-red-400', 'border-red-500/20');
+    } else {
+      box.classList.add('bg-green-500/10', 'text-green-400', 'border-green-500/20');
+    }
+    box.textContent = msg;
+    box.classList.remove('hidden');
+  }
+  function hideAlert() {
+    document.getElementById('alert-box').classList.add('hidden');
+  }
+  function clearErrors() {
+    document.querySelectorAll('.auth-field').forEach(f => f.classList.remove('error-field'));
+  }
+  function markError(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('error-field');
+  }
+
+  /* ── Main auth handler ── */
+  async function handleAuth(event) {
+    event.preventDefault();
+    clearErrors();
+    hideAlert();
+
+    const email    = document.getElementById('input-email').value.trim();
+    const password = document.getElementById('input-password').value;
+    const spinner  = document.getElementById('loading-spinner');
+    const btn      = document.getElementById('btn-submit');
+
+    // Basic validation
+    if (!email) { markError('input-email'); showAlert('Please enter your email address.', 'error'); return; }
+    if (!password) { markError('input-password'); showAlert('Please enter your password.', 'error'); return; }
+
+    spinner.classList.remove('hidden');
+    btn.disabled = true;
+
+    let endpoint = '';
+    let payload  = {};
+
+    if (currentMode === 'login') {
+      endpoint = 'token/';
+      payload  = { username: email, email, password };
+    } else {
+      const firstName = document.getElementById('input-firstname').value.trim();
+      const lastName  = document.getElementById('input-lastname').value.trim();
+      if (!firstName) { markError('input-firstname'); showAlert('Please enter your first name.', 'error'); spinner.classList.add('hidden'); btn.disabled = false; return; }
+      if (!lastName)  { markError('input-lastname');  showAlert('Please enter your last name.',  'error'); spinner.classList.add('hidden'); btn.disabled = false; return; }
+      const username = (firstName + lastName).replace(/\s+/g, '').toLowerCase();
+      endpoint = 'register/';
+      payload  = { username, first_name: firstName, last_name: lastName, email, password };
+    }
+
+    try {
+      const res  = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        if (currentMode === 'login') {
+          localStorage.setItem('bearer_token', data.access);
+          showAlert('✓ Login successful! Redirecting to shop…', 'success');
+          setTimeout(() => { window.location.href = 'shop.html'; }, 1200);
+        } else {
+          showAlert('✓ Account created! Please sign in.', 'success');
+          setTimeout(() => {
+            switchTab('login');
+            document.getElementById('input-email').value = email;
+          }, 1500);
+        }
+      } else {
+        let msg = '';
+        if (data.email)    msg += data.email.join(' ')    + ' ';
+        if (data.username) msg += data.username.join(' ') + ' ';
+        if (data.password) msg += data.password.join(' ') + ' ';
+        if (data.detail)   msg += data.detail;
+        if (data.non_field_errors) msg += data.non_field_errors.join(' ');
+        if (!msg) msg = 'Something went wrong. Please try again.';
+        showAlert(msg.trim(), 'error');
+      }
+    } catch (err) {
+      showAlert('Network error. Make sure Django is running on port 8000.', 'error');
+    } finally {
+      spinner.classList.add('hidden');
+      btn.disabled = false;
+    }
+  }
+</script>
+
+</body>
+</html>
