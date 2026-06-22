@@ -780,6 +780,53 @@
   }
 </script>
 
+<script>
+  async function handleContactSubmit(event) {
+    event.preventDefault();
+
+    const btn = document.getElementById('contact-submit-btn');
+    const btnText = document.getElementById('contact-btn-text');
+    const spinner = document.getElementById('contact-spinner');
+    const alert = document.getElementById('contact-alert');
+
+    // Show loading state
+    spinner.classList.remove('hidden');
+    btnText.textContent = 'Sending...';
+    btn.disabled = true;
+
+    const data = {
+    full_name: document.getElementById('contact-name').value,  // ← changed
+    email: document.getElementById('contact-email').value,
+    subject: document.getElementById('contact-subject').value,
+    message: document.getElementById('contact-message').value,
+    };
+
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/contact/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        alert.className = 'p-4 rounded-xl text-xs font-semibold border mt-2 border-green-500/30 bg-green-500/10 text-green-400';
+        alert.textContent = '✓ Message sent successfully! We\'ll get back to you within 24 hours.';
+        document.getElementById('contact-form').reset();
+      } else {
+        throw new Error('Server error');
+      }
+    } catch (error) {
+      alert.className = 'p-4 rounded-xl text-xs font-semibold border mt-2 border-red-500/30 bg-red-500/10 text-red-400';
+      alert.textContent = '✗ Something went wrong. Please try again or email us directly.';
+    } finally {
+      alert.classList.remove('hidden');
+      spinner.classList.add('hidden');
+      btnText.textContent = 'Send Message';
+      btn.disabled = false;
+    }
+  }
+</script>
+
 <!-- Auth Modal (global) -->
 <script src="index.js"></script>
 <script src="auth-modal.js"></script>
