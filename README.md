@@ -1,4 +1,4 @@
-# WE//DONE — Fitness Premium Web Application
+# No Pain No Gain — Fitness Premium Web Application
 
 Welcome to the **WE//DONE Fitness Premium** codebase. This repository contains the complete frontend client and backend API architecture for our premium gym supplements, activewear, and fitness accessories web application.
 
